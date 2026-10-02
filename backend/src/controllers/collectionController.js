@@ -54,14 +54,16 @@ const getCollectionProducts = async (req, res, next) => {
       // First, get the collection by slug
       const { data: collection, error: collError } = await supabase
         .from('collections')
-        .select('id, name, description, slug, is_visible')
+        .select('id, name, description, slug, is_active')
         .eq('slug', slug.toLowerCase())
-        .eq('is_visible', true)
+        .eq('is_active', true)
         .single();
 
       if (collError || !collection) {
         return { collection: null, products: [], total: 0 };
       }
+      
+      collection.is_visible = collection.is_active;
 
       // Then get products for this collection
       let query = supabase
@@ -116,12 +118,16 @@ const getCollections = async (req, res, next) => {
     const data = await remember(cacheKey, async () => {
       const { data: collections, error } = await supabase
         .from('collections')
-        .select('id, name, description, slug, is_visible, created_at')
-        .eq('is_visible', true)
+        .select('id, name, description, slug, is_active, created_at')
+        .eq('is_active', true)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      return collections;
+      
+      return (collections || []).map(c => ({
+        ...c,
+        is_visible: c.is_active
+      }));
     }, 1800); // 30 min cache
 
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
@@ -143,12 +149,13 @@ const getCollectionBySlug = async (req, res, next) => {
         .from('collections')
         .select('*')
         .eq('slug', slug.toLowerCase())
-        .eq('is_visible', true)
+        .eq('is_active', true)
         .single();
 
       if (error || !collection) {
         return null;
       }
+      collection.is_visible = collection.is_active;
       return collection;
     }, 1800); // 30 min cache
 

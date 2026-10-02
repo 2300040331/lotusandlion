@@ -22,11 +22,22 @@ export const productsService = {
         if (isUuid) {
           query = query.eq('collection_id', collectionIdentifier);
         } else {
-          // Fetch the collection ID by slug first
+          // Fetch the collection ID by equivalent slug first
+          const womenSlugs = ['lotus', 'women', 'womens'];
+          const menSlugs = ['lion', 'men', 'mens'];
+          
+          let targetSlugs = [collectionIdentifier.toLowerCase()];
+          if (womenSlugs.includes(collectionIdentifier.toLowerCase())) {
+            targetSlugs = womenSlugs;
+          } else if (menSlugs.includes(collectionIdentifier.toLowerCase())) {
+            targetSlugs = menSlugs;
+          }
+
           const { data: collectionData, error: collError } = await supabase
             .from('collections')
             .select('id')
-            .eq('slug', collectionIdentifier)
+            .in('slug', targetSlugs)
+            .eq('is_active', true)
             .maybeSingle();
           
           if (collError || !collectionData) {
@@ -69,8 +80,10 @@ export const productsService = {
 
       if (error) throw error;
       return data;
-    } catch (error) {
-      console.error('Error fetching product:', error);
+    } catch (error: any) {
+      if (error?.code !== 'PGRST116') {
+        console.error('Error fetching product:', error);
+      }
       return null;
     }
   },

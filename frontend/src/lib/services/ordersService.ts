@@ -119,6 +119,29 @@ export const ordersService = {
       return null;
     }
   },
+
+  async updateOrderToPaid(orderId: string, paymentId: string, signature: string) {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .update({ 
+          is_paid: true,
+          paid_at: new Date().toISOString(),
+          payment_result: { id: paymentId, signature, status: 'success' },
+          status: 'confirmed',
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', orderId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error updating order to paid:', error);
+      return null;
+    }
+  },
 };
 
 export const authService = {

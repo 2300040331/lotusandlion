@@ -18,7 +18,7 @@ const {
 } = require('../controllers/admin/contentController');
 const { getSettings, updateSetting, updateSettings } = require('../controllers/admin/settingsController');
 const {
-  listCollections, getCollection, updateCollection,
+  listCollections, getCollection, updateCollection, upsertCollection, deleteCollection,
   listBlogs, upsertBlog, deleteBlog,
   listSections, upsertSection, deleteSection,
   listAnnouncements, upsertAnnouncement,
@@ -41,8 +41,10 @@ router.patch('/products/:id/visibility', protect, admin, toggleVisibility);
 router.post('/products/bulk-discount', protect, superAdmin, applyBulkDiscount);
 
 router.get('/collections', protect, admin, listCollections);
+router.post('/collections', protect, admin, upsertCollection);
 router.get('/collections/:key', protect, admin, getCollection);
 router.put('/collections/:key', protect, admin, updateCollection);
+router.delete('/collections/:id', protect, superAdmin, deleteCollection);
 
 router.get('/blogs', protect, admin, listBlogs);
 router.post('/blogs', protect, admin, upsertBlog);

@@ -53,14 +53,42 @@ const addOrderItems = async (req, res, next) => {
         throw new Error(`${item.name} is no longer available. Please remove it from your cart.`);
       }
       
-      if (product.stock_quantity <= 0) {
-        res.status(400);
-        throw new Error(`${product.name} is out of stock. Please remove it from your cart.`);
-      }
+      // If variant has size or color, check variant stock
+      if (item.size || (item.color && item.color !== 'Default')) {
+        let vQuery = supabase
+          .from('product_variants')
+          .select('quantity')
+          .eq('product_id', item.product);
+        
+        if (item.size) vQuery = vQuery.eq('size', item.size);
+        if (item.color) {
+          vQuery = vQuery.eq('color', item.color);
+        } else {
+          vQuery = vQuery.or('color.eq.Default,color.is.null');
+        }
+        
+        const { data: variant } = await vQuery.maybeSingle();
+        const vQty = variant ? Number(variant.quantity) : 0;
+        
+        if (vQty <= 0) {
+          res.status(400);
+          throw new Error(`${product.name} (${item.size || ''}${item.size && item.color ? ' / ' : ''}${item.color || ''}) is out of stock. Please remove it from your cart.`);
+        }
+        
+        if (vQty < item.qty) {
+          res.status(400);
+          throw new Error(`Insufficient stock for ${product.name} (${item.size || ''}${item.size && item.color ? ' / ' : ''}${item.color || ''}). Available: ${vQty}`);
+        }
+      } else {
+        if (product.stock_quantity <= 0) {
+          res.status(400);
+          throw new Error(`${product.name} is out of stock. Please remove it from your cart.`);
+        }
 
-      if (product.stock_quantity < item.qty) {
-        res.status(400);
-        throw new Error(`Insufficient stock for ${product.name}. Available: ${product.stock_quantity}`);
+        if (product.stock_quantity < item.qty) {
+          res.status(400);
+          throw new Error(`Insufficient stock for ${product.name}. Available: ${product.stock_quantity}`);
+        }
       }
     }
 
@@ -85,9 +113,33 @@ const addOrderItems = async (req, res, next) => {
     // 3. Deduct stock
     for (const item of orderItems) {
       const { data: p } = await supabase.from('products').select('stock_quantity').eq('id', item.product).single();
+      
+      // Deduct variant stock if size or color is present
+      if (item.size || (item.color && item.color !== 'Default')) {
+        let vQuery = supabase
+          .from('product_variants')
+          .select('id, quantity')
+          .eq('product_id', item.product);
+        
+        if (item.size) vQuery = vQuery.eq('size', item.size);
+        if (item.color) {
+          vQuery = vQuery.eq('color', item.color);
+        } else {
+          vQuery = vQuery.or('color.eq.Default,color.is.null');
+        }
+        
+        const { data: variant } = await vQuery.maybeSingle();
+        if (variant) {
+          await supabase
+            .from('product_variants')
+            .update({ quantity: Math.max(0, variant.quantity - item.qty) })
+            .eq('id', variant.id);
+        }
+      }
+
       await supabase
         .from('products')
-        .update({ stock_quantity: p.stock_quantity - item.qty })
+        .update({ stock_quantity: Math.max(0, p.stock_quantity - item.qty) })
         .eq('id', item.product);
     }
 

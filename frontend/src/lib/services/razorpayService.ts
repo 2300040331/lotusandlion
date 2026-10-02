@@ -46,12 +46,20 @@ export const razorpayService = {
         body: JSON.stringify({ amount }),
       });
 
-      if (!response.ok) throw new Error('Failed to create order');
+      if (!response.ok) {
+        let errData;
+        try {
+          errData = await response.json();
+        } catch {
+          errData = null;
+        }
+        throw new Error(errData?.error || `Failed to create order: ${response.statusText}`);
+      }
       const data = await response.json();
       return data;
     } catch (error) {
       console.error('Error creating Razorpay order:', error);
-      return null;
+      throw error;
     }
   },
 

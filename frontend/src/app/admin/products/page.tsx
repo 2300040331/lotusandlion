@@ -4,18 +4,20 @@ import { useState } from 'react';
 import { useProducts } from '@/hooks/useAdminData';
 import AdminHeader from '@/components/admin/AdminHeader';
 import DataTable from '@/components/admin/DataTable';
-import { Plus, Search, Edit2, Trash2, Star, Eye, EyeOff, Filter } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, Star, Eye, EyeOff, Filter, Upload } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
 import Link from 'next/link';
 import { formatINR } from '@/lib/currency';
+import BulkImportModal from '@/components/admin/BulkImportModal';
 
 export default function AdminProducts() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const { data, loading, refresh } = useProducts(`?search=${search}&category=${category}`);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
 
   const handleDelete = async () => {
     if (!isDeleting) return;
@@ -139,13 +141,22 @@ export default function AdminProducts() {
     <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <AdminHeader title="Inventory" subtitle="Manage your luxury product catalog." />
-        <Link 
-          href="/admin/products/new"
-            className="bg-primary text-black px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary-hover transition-all h-fit"
-        >
-          <Plus size={16} />
-          New Product
-        </Link>
+        <div className="flex gap-3 h-fit">
+          <button 
+            onClick={() => setIsBulkImportOpen(true)}
+            className="border border-[#c8a45d]/40 text-[#c8a45d] hover:bg-[#c8a45d]/10 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all cursor-pointer animate-none"
+          >
+            <Upload size={16} />
+            Bulk Import
+          </button>
+          <Link 
+            href="/admin/products/new"
+            className="bg-[#c8a45d] text-black px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#b08e4d] transition-all h-fit"
+          >
+            <Plus size={16} />
+            New Product
+          </Link>
+        </div>
       </div>
 
       {/* Filters Bar */}
@@ -191,6 +202,12 @@ export default function AdminProducts() {
         onConfirm={handleDelete}
         title="Burn from Vault?"
         message="Are you sure you want to delete this product? This action is permanent and cannot be undone."
+      />
+
+      <BulkImportModal 
+        isOpen={isBulkImportOpen}
+        onClose={() => setIsBulkImportOpen(false)}
+        onSuccess={refresh}
       />
     </div>
   );

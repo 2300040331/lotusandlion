@@ -27,6 +27,8 @@ const allowedOrigins = [
   process.env.CLIENT_URL || 'http://localhost:3000',
   'https://frontend-beta-pink-8l4h9umjb7.vercel.app',
   'https://frontend-fujd6aa09-mk0081709-6527s-projects.vercel.app',
+  'https://lotusandlion.in',
+  'https://www.lotusandlion.in',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'http://localhost:3001',

@@ -2,19 +2,17 @@ require('dotenv').config();
 const supabase = require('./src/config/supabase');
 
 async function checkProductImages() {
-  const { data: product, error: pError } = await supabase.from('products').select('*').eq('slug', 'lotus-wrap').single();
-  if (pError) {
-    console.error('Error fetching product:', pError);
-    return;
-  }
-  console.log('Product Found:', product.id, product.name);
-  
-  const { data: images, error: iError } = await supabase.from('product_images').select('*').eq('product_id', product.id);
+  const { data: images, error: iError } = await supabase.from('product_images').select('*').limit(1);
   if (iError) {
     console.error('Error fetching images:', iError);
     return;
   }
-  console.log('Images Found:', JSON.stringify(images, null, 2));
+  if (images && images[0]) {
+    console.log('Columns in product_images:', Object.keys(images[0]));
+    console.log('Sample image:', images[0]);
+  } else {
+    console.log('product_images table is empty');
+  }
 }
 
 checkProductImages();

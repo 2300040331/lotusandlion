@@ -23,12 +23,35 @@ const Navbar = () => {
   const [announcement, setAnnouncement] = useState<any>(null);
 
   useEffect(() => {
-    // Force use of the requested navLinks
+    // Start with default navLinks
     setNavItems(navLinks);
     
     api.get('/cms/site').then(({ data }) => {
       const topBar = data.announcements?.find?.((item: any) => item.placement === 'top-bar') || data.announcements?.[0];
       setAnnouncement(topBar || null);
+
+      if (data.collections?.length) {
+        const womenSlugs = ['lotus', 'women', 'womens'];
+        const menSlugs = ['lion', 'men', 'mens'];
+        
+        const womenColl = data.collections.find((c: any) => 
+          womenSlugs.includes(c.slug?.toLowerCase()) || c.hero?.gender === 'women'
+        );
+        const menColl = data.collections.find((c: any) => 
+          menSlugs.includes(c.slug?.toLowerCase()) || c.hero?.gender === 'men'
+        );
+        
+        const updatedLinks = navLinks.map(link => {
+          if (link.label === 'WOMEN' && womenColl) {
+            return { ...link, href: `/collections/${womenColl.slug}` };
+          }
+          if (link.label === 'MEN' && menColl) {
+            return { ...link, href: `/collections/${menColl.slug}` };
+          }
+          return link;
+        });
+        setNavItems(updatedLinks);
+      }
     }).catch(() => undefined);
   }, []);
 
@@ -56,9 +79,9 @@ const Navbar = () => {
       )}
       <div className="border-b border-[#dddddd]">
         <div className="mx-auto max-w-[1440px] px-3 sm:px-8">
-          <div className="flex h-20 items-center justify-between md:h-20">
-            {/* Left Section: Logo & Mobile Menu */}
-            <div className="flex flex-1 items-center gap-4 justify-start">
+          <div className="flex h-20 items-center justify-between md:h-20 relative">
+            {/* Left Section: Desktop Logo & Mobile Menu */}
+            <div className="flex flex-1 items-center justify-start">
               <button
                 onClick={() => setIsOpen(true)}
                 className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] md:hidden"
@@ -67,10 +90,15 @@ const Navbar = () => {
                 <Menu size={31} strokeWidth={1.8} /> <span className="hidden">Menu</span>
               </button>
 
+              <Link href="/" className="hidden md:flex items-center gap-2 sm:gap-3">
+                <span className="brand-heading block whitespace-nowrap text-[22px] uppercase sm:text-2xl text-[#B87333]">Lotus & Lion</span>
+              </Link>
+            </div>
+
+            {/* Center Logo for Mobile */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:hidden">
               <Link href="/" className="flex items-center gap-2 sm:gap-3">
-                <span className="lotus-symbol hidden md:inline-grid" aria-hidden="true"><Flower2 /></span>
-                <span className="brand-heading block whitespace-nowrap text-[22px] uppercase sm:text-2xl">Lotus & Lion</span>
-                <span className="lion-symbol hidden md:inline-grid" aria-hidden="true"><Crown /></span>
+                <span className="brand-heading block whitespace-nowrap text-[22px] uppercase sm:text-2xl text-[#B87333]">Lotus & Lion</span>
               </Link>
             </div>
 

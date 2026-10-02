@@ -53,8 +53,10 @@ export const blogsService = {
 
       if (error) throw error;
       return data;
-    } catch (error) {
-      console.error('Error fetching blog:', error);
+    } catch (error: any) {
+      if (error?.code !== 'PGRST116') {
+        console.error('Error fetching blog:', error);
+      }
       return null;
     }
   },

@@ -19,7 +19,8 @@ import {
   Flower2,
   PenLine,
   Layers3,
-  Megaphone
+  Megaphone,
+  FolderTree
 } from 'lucide-react';
 import { useStore } from '@/store/useStore';
 import toast from 'react-hot-toast';
@@ -30,8 +31,7 @@ const navItems = [
   { name: 'Control Center', href: '/admin/control-center', icon: Monitor },
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Homepage Builder', href: '/admin/homepage', icon: Layers3 },
-  { name: 'Lotus Collection', href: '/admin/collections/lotus', icon: Flower2 },
-  { name: 'Lion Collection', href: '/admin/collections/lion', icon: Crown },
+  { name: 'Collections Manager', href: '/admin/collections', icon: FolderTree },
   { name: 'Products', href: '/admin/products', icon: Package },
   { name: 'Blog Studio', href: '/admin/blogs', icon: PenLine },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingBag },

@@ -31,9 +31,11 @@ const ProductCard = ({ product }: { product: Product }) => {
   const touchStartX = useRef<number | null>(null);
   const images = useMemo(() => {
     const gallery = product.images && product.images.length > 0 ? product.images : [product.image];
-    return gallery
+    const validImages = gallery
       .map((img) => (typeof img === 'string' ? img : img?.image_url))
-      .filter(Boolean);
+      .filter(img => typeof img === 'string' && img.trim().length > 0 && img !== 'null' && img !== 'undefined');
+      
+    return validImages.length > 0 ? validImages : ['https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1000'];
   }, [product.image, product.images]);
 
   useEffect(() => {
@@ -100,7 +102,10 @@ const ProductCard = ({ product }: { product: Product }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.45 }}
-            className="h-full w-full object-contain transition-transform duration-500 md:group-hover:scale-[1.02]"
+            className="h-full w-full object-contain object-top transition-transform duration-500 md:group-hover:scale-[1.02]"
+            onError={(e) => {
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1000';
+            }}
           />
         </AnimatePresence>
 

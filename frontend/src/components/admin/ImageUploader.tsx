@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { uploadSingleImage, uploadMultipleImages } from '@/lib/services/uploadService';
 
 interface ImageUploaderProps {
   onUpload: (urls: string[]) => void;
@@ -28,32 +29,32 @@ export default function ImageUploader({ onUpload, existingImages = [], multiple 
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setUploading(true);
-    const formData = new FormData();
-    
-    if (multiple) {
-      acceptedFiles.forEach((file) => formData.append('images', file));
-    } else {
-      formData.append('image', acceptedFiles[0]);
-    }
-
     try {
-      const endpoint = `${multiple ? '/admin/upload/multiple' : '/admin/upload/single'}${folder ? `?folder=${encodeURIComponent(folder)}` : ''}`;
-      const { data } = await api.post(endpoint, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const targetFolder = folder || 'lotus-lion/products';
+      let newUrls: string[] = [];
 
-      const newUrls = multiple ? data.images.map((img: any) => img.url) : [data.url];
+      if (multiple) {
+        const results = await uploadMultipleImages(acceptedFiles, targetFolder);
+        newUrls = results.map((r) => r.url);
+      } else {
+        if (acceptedFiles.length > 0) {
+          const result = await uploadSingleImage(acceptedFiles[0], targetFolder);
+          newUrls = [result.url];
+        }
+      }
+
       const updatedImages = multiple ? [...images, ...newUrls] : newUrls;
       
       setImages(updatedImages);
       onUpload(updatedImages);
       toast.success('Uploaded successfully');
     } catch (error: any) {
+      console.error('Upload error:', error);
       toast.error('Upload failed');
     } finally {
       setUploading(false);
     }
-  }, [images, multiple, onUpload]);
+  }, [images, multiple, onUpload, folder]);
 
   const removeImage = (url: string) => {
     const updated = images.filter((img) => img !== url);

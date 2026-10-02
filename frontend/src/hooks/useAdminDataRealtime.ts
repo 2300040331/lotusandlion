@@ -40,14 +40,11 @@ export const useAdminDataRealtime = (endpoint: string) => {
       setError(null);
     } catch (err: any) {
       setError(err);
-      // Don't show error toast for initial load
-      if (data !== null) {
-        toast.error(err.response?.data?.message || 'Error fetching data');
-      }
+      toast.error(err.response?.data?.message || 'Error fetching data');
     } finally {
       setLoading(false);
     }
-  }, [endpoint, data]);
+  }, [endpoint]);
 
   // Initial fetch
   useEffect(() => {

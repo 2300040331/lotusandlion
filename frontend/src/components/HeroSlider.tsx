@@ -75,6 +75,15 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
 
   if (!slide) return null;
 
+  const isFlyer = !!(
+    slide.mobileImage?.includes('flyer') ||
+    slide.mobileImage?.includes('1781967736031') ||
+    slide.mobileImage?.includes('1781971916536') ||
+    slide.image?.includes('flyer') ||
+    slide.image?.includes('1781967736031') ||
+    slide.image?.includes('1781971916536')
+  );
+
   return (
     <section className="relative h-[72vh] min-h-[620px] overflow-hidden border-b border-[#dddddd] bg-[#f7f7f7] sm:h-[72vh] sm:min-h-[560px]">
       <AnimatePresence initial={false} custom={direction}>
@@ -90,28 +99,37 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
             opacity: { duration: 0.5 },
           }}
           className="absolute inset-0"
+          style={{
+            backgroundColor: isFlyer ? '#f5c5cc' : undefined
+          }}
         >
           {slide.image ? (
             <>
               <img
                 src={slide.image}
                 alt={slide.title}
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80';
+                }}
                 style={{ objectPosition: slide.desktopObjectPosition || 'center center' }}
                 className="absolute inset-0 hidden h-full w-full object-cover sm:block"
               />
               <img
                 src={slide.mobileImage || slide.image}
                 alt={slide.title}
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=80';
+                }}
                 style={{ objectPosition: slide.mobileObjectPosition || 'center center' }}
-                className="absolute inset-0 h-full w-full object-cover sm:hidden"
+                className={`absolute inset-0 h-full w-full sm:hidden ${isFlyer ? 'object-contain' : 'object-cover'}`}
               />
             </>
           ) : (
             <div className="hero-editorial absolute inset-0" />
           )}
-          <div className="absolute inset-0 bg-[#1c1c1c]/25" />
+          <div className={`absolute inset-0 bg-[#1c1c1c]/25 ${isFlyer ? 'hidden sm:block' : ''}`} />
           
-          <div className="absolute inset-0 z-10 flex items-center justify-center px-8 text-center text-white sm:px-12">
+          <div className={`absolute inset-0 z-10 flex items-center justify-center px-8 text-center text-white sm:px-12 ${isFlyer ? 'hidden sm:flex' : ''}`}>
             <div className="max-w-4xl">
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -144,7 +162,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
               >
                 <Link
                   href={slide.ctaLink || '/products'}
-                  className="mt-8 inline-flex rounded-full bg-black px-10 py-4 text-[13px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#1c1c1c] sm:px-12 sm:text-[12px] sm:tracking-[0.18em]"
+                  className="mt-8 inline-flex rounded-full bg-[#B87333] px-10 py-4 text-[13px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#B87333] sm:px-12 sm:text-[12px] sm:tracking-[0.18em]"
                 >
                   {slide.ctaText || 'Shop Now'}
                 </Link>

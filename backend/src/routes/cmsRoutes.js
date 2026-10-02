@@ -43,7 +43,7 @@ router.get('/site', async (req, res, next) => {
         { data: announcements }
       ] = await Promise.all([
         supabase.from('homepage_sections').select('*').order('display_order'),
-        supabase.from('collections').select('*'),
+        supabase.from('collections').select('*').order('display_order'),
         supabase.from('content').select('*'),
         supabase.from('announcements').select('*').limit(5)
       ]);
@@ -60,9 +60,9 @@ router.get('/site', async (req, res, next) => {
         { data: lotusProducts },
         { data: lionProducts }
       ] = await Promise.all([
-        supabase.from('products').select(productSelect).eq('is_featured', true).limit(12),
-        lotusId ? supabase.from('products').select(productSelect).eq('collection_id', lotusId).limit(8) : { data: [] },
-        lionId ? supabase.from('products').select(productSelect).eq('collection_id', lionId).limit(8) : { data: [] }
+        supabase.from('products').select(productSelect).eq('is_featured', true).eq('is_visible', true).limit(12),
+        lotusId ? supabase.from('products').select(productSelect).eq('collection_id', lotusId).eq('is_visible', true).eq('is_featured', true).limit(8) : { data: [] },
+        lionId ? supabase.from('products').select(productSelect).eq('collection_id', lionId).eq('is_visible', true).eq('is_featured', true).limit(8) : { data: [] }
       ]);
 
       const findContent = (key) => contentItems?.find(c => c.key === key)?.data || (key === 'navbar' || key === 'footer' ? [] : {});
@@ -71,8 +71,11 @@ router.get('/site', async (req, res, next) => {
         home: findContent('home'),
         navbar: findContent('navbar'),
         footer: findContent('footer'),
-        pages: contentItems?.filter(c => c.type === 'page').map(p => ({ ...p, ...p.data })) || [],
-        collections: collections || [],
+        collections: (collections || []).map(c => ({
+          ...c,
+          categories: c.hero?.categories || [],
+          dropSchedules: c.hero?.dropSchedules || []
+        })),
         sections: sections || [],
         announcements: announcements || [],
         theme: findContent('theme'),
@@ -126,6 +129,8 @@ router.get('/collections/:id', async (req, res, next) => {
 
     res.json({
       ...collection,
+      categories: collection.hero?.categories || [],
+      dropSchedules: collection.hero?.dropSchedules || [],
       products: (products || []).map(mapProduct)
     });
   } catch (error) {

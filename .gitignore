@@ -1,5 +1,6 @@
-# Node modules
+# Dependencies
 node_modules/
+*/node_modules/
 
 # Next.js build output
 .next/
@@ -8,18 +9,23 @@ out/
 # Logs
 *.log
 
-# Environment files
+# Environment & secret files
+.env*
 .env
 .env.local
 .env.development
 .env.production
+push-env.js
 
 # OS files
 .DS_Store
 
 # Vercel
 .vercel/
-
-# Archives
-*.zip
 .vercel
+
+# Archives & Personal/Unrelated
+*.zip
+*.tex
+Ltspice heart rate/
+

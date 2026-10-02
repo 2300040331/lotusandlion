@@ -46,50 +46,50 @@ function RegisterContent() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-white dark:bg-black px-4 py-12">
+    <div className="min-h-[80vh] flex items-center justify-center bg-white dark:bg-black text-black dark:text-white px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-4">Register</h1>
-          <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em]">Join the Lotus & Lion community</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">Join the Lotus & Lion community</p>
         </div>
 
         <form onSubmit={submitHandler} className="space-y-6">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Full Name</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Full Name</label>
             <input
               type="text"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Email Address</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Email Address</label>
             <input
               type="email"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Password</label>
             <input
               type="password"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Confirm Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Confirm Password</label>
             <input
               type="password"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -105,11 +105,11 @@ function RegisterContent() {
           </button>
         </form>
 
-        <div className="mt-8 text-center pt-8 border-t border-border">
-          <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-4">Already have an account?</p>
+        <div className="mt-8 text-center pt-8 border-t border-border dark:border-white/10">
+          <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Already have an account?</p>
           <Link
             href={`/login?redirect=${redirect}`}
-            className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-black dark:hover:text-white transition-colors border-b border-primary pb-1"
+            className="text-[10px] font-bold uppercase tracking-widest text-primary dark:text-[#c8a45d] hover:text-black dark:hover:text-white transition-colors border-b border-primary dark:border-[#c8a45d] pb-1"
           >
             Sign In
           </Link>

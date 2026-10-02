@@ -43,7 +43,14 @@ async function seed() {
     const coll = colls.find(c => c.slug === collection_slug);
     const { data: product } = await supabase.from('products').upsert({ ...pData, collection_id: coll?.id }, { onConflict: 'slug' }).select().single();
     if (product) {
-       await supabase.from('product_images').upsert({ product_id: product.id, image_url: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80', is_main: true }, { onConflict: 'product_id, image_url' });
+       await supabase.from('product_images').delete().eq('product_id', product.id);
+       await supabase.from('product_images').insert({
+         product_id: product.id,
+         image_url: p.slug === 'lotus-wrap'
+           ? 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80'
+           : 'https://images.unsplash.com/photo-1507679722338-958cf635959e?auto=format&fit=crop&w=800&q=80',
+         is_main: true
+       });
     }
   }
 
@@ -60,7 +67,7 @@ async function seed() {
           subtitle: 'Original artist-led outfits for everyday and occasion wear.',
           eyebrow: 'Online Exclusive',
           ctaText: 'Shop Now',
-          ctaLink: '/products',
+          ctaLink: '/collections/lotus',
           image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80'
         },
         {

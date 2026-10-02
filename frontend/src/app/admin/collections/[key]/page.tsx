@@ -1,19 +1,37 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
-import { Crown, Flower2, Plus, Save } from 'lucide-react';
+import { Crown, Flower2, Plus, Save, Upload } from 'lucide-react';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import AdminHeader from '@/components/admin/AdminHeader';
 import ImageUploader from '@/components/admin/ImageUploader';
 import { formatINR } from '@/lib/currency';
+import { useDropzone } from 'react-dropzone';
+import BulkImportModal from '@/components/admin/BulkImportModal';
 
 export default function CollectionControlPage({ params }: { params: Promise<{ key: string }> }) {
   const { key: rawKey } = use(params);
-  const key = rawKey as 'lotus' | 'lion';
+  const key = rawKey;
   const [collection, setCollection] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
-  const Icon = key === 'lotus' ? Flower2 : Crown;
+  const Icon = key === 'lotus' ? Flower2 : key === 'lion' ? Crown : Crown;
+
+  const [droppedFiles, setDroppedFiles] = useState<File[]>([]);
+  const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
+
+  const refreshProducts = () => {
+    api.get(`/admin/collections/${key}`).then(({ data }) => {
+      setProducts(data.products || []);
+    }).catch(() => undefined);
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setDroppedFiles(acceptedFiles);
+      setIsBulkImportOpen(true);
+    },
+  });
 
   useEffect(() => {
     api.get(`/admin/collections/${key}`).then(({ data }) => {
@@ -43,7 +61,7 @@ export default function CollectionControlPage({ params }: { params: Promise<{ ke
     try {
       const { data } = await api.put(`/admin/collections/${key}`, collection);
       setCollection(data);
-      toast.success(`${key === 'lotus' ? 'Lotus' : 'Lion'} collection saved`);
+      toast.success(`${collection?.name || 'Collection'} saved`);
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Save failed');
     }
@@ -121,18 +139,48 @@ export default function CollectionControlPage({ params }: { params: Promise<{ ke
           </div>
         </div>
 
-        <div className="border border-white/10 bg-[#111] p-6">
-          <h2 className="mb-5 text-[12px] font-bold uppercase tracking-[0.2em] text-[#c8a45d]">Products In This Collection</h2>
-          <div className="max-h-[360px] space-y-3 overflow-y-auto pr-2">
-            {products.map((product) => (
-              <div key={product.id} className="flex items-center justify-between border border-white/10 bg-white/5 p-3">
-                <div>
-                  <p className="text-sm text-white">{product.name}</p>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-[#777]">{product.category} / stock {product.countInStock} / {formatINR(product.discountPrice || product.price)}</p>
+        <div className="border border-white/10 bg-[#111] p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#c8a45d]">Products In This Collection</h2>
+              <button 
+                onClick={() => {
+                  setDroppedFiles([]);
+                  setIsBulkImportOpen(true);
+                }}
+                className="text-[10px] font-bold uppercase tracking-[0.18em] border border-[#c8a45d]/40 text-[#c8a45d] px-3 py-1.5 hover:bg-[#c8a45d]/10 transition-all cursor-pointer flex items-center gap-1.5 animate-none"
+              >
+                <Upload size={12} /> Add Products
+              </button>
+            </div>
+            <div className="max-h-[260px] space-y-3 overflow-y-auto pr-2">
+              {products.map((product) => (
+                <div key={product.id} className="flex items-center justify-between border border-white/10 bg-white/5 p-3">
+                  <div>
+                    <p className="text-sm text-white">{product.name}</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-[#777]">{product.category} / stock {product.countInStock} / {formatINR(product.discountPrice || product.price)}</p>
+                  </div>
+                  <span className={product.isVisible ? 'text-[#c8a45d]' : 'text-[#777]'}>{product.isVisible ? 'Visible' : 'Hidden'}</span>
                 </div>
-                <span className={product.isVisible ? 'text-[#c8a45d]' : 'text-[#777]'}>{product.isVisible ? 'Visible' : 'Hidden'}</span>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Drag & Drop Area */}
+          <div
+            {...getRootProps()}
+            className={`mt-4 border border-dashed rounded-xl p-5 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
+              isDragActive ? 'border-[#c8a45d] bg-[#c8a45d]/5' : 'border-white/10 hover:border-[#c8a45d]/30 bg-white/5'
+            }`}
+          >
+            <input {...getInputProps()} />
+            <Upload size={16} className="text-[#c8a45d]" />
+            <span className="text-[9px] uppercase font-bold tracking-wider text-white">
+              {isDragActive ? 'Drop here to add products' : 'Drag & drop images/csv here'}
+            </span>
+            <span className="text-[7px] uppercase tracking-wider text-gray-500">
+              to import products directly to this collection
+            </span>
           </div>
         </div>
       </section>
@@ -140,6 +188,17 @@ export default function CollectionControlPage({ params }: { params: Promise<{ ke
       <button onClick={save} className="fixed bottom-8 right-8 inline-flex items-center gap-2 bg-[#c8a45d] px-8 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-black shadow-2xl">
         <Save size={16} /> Save Collection
       </button>
+
+      <BulkImportModal
+        isOpen={isBulkImportOpen}
+        onClose={() => {
+          setIsBulkImportOpen(false);
+          setDroppedFiles([]);
+        }}
+        onSuccess={refreshProducts}
+        lockCollection={key}
+        initialFiles={droppedFiles}
+      />
     </div>
   );
 }

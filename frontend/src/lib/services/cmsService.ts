@@ -30,8 +30,10 @@ export const homepageService = {
 
       if (error) throw error;
       return data;
-    } catch (error) {
-      console.error('Error fetching section:', error);
+    } catch (error: any) {
+      if (error?.code !== 'PGRST116') {
+        console.error('Error fetching section:', error);
+      }
       return null;
     }
   },

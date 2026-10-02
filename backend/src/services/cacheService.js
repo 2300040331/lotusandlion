@@ -68,6 +68,9 @@ const flush = async (pattern) => {
   if (pattern.includes('*')) {
     memoryCache.clear();
     memoryExpiry.clear();
+  } else {
+    memoryCache.delete(pattern);
+    memoryExpiry.delete(pattern);
   }
   
   if (!getIsRedisConnected()) return;

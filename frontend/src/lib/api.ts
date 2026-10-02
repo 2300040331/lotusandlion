@@ -1,5 +1,6 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useStore } from '@/store/useStore';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
@@ -30,14 +31,19 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('lotus-lion-storage');
-        const isAdminRoute = window.location.pathname.startsWith('/admin');
-        if (!sessionStorage.getItem('lotus-lion-auth-expired')) {
-          sessionStorage.setItem('lotus-lion-auth-expired', 'true');
-          toast.error('Session expired. Please sign in again.');
-        }
-        if (isAdminRoute) {
-          window.location.href = '/login?redirect=/admin';
+        const isLoginRequest = error.config && error.config.url && error.config.url.includes('/auth/login');
+        if (!isLoginRequest) {
+          // Clear only user session, preserving cart items
+          useStore.getState().setUserInfo(null);
+          
+          const isAdminRoute = window.location.pathname.startsWith('/admin');
+          if (!sessionStorage.getItem('lotus-lion-auth-expired')) {
+            sessionStorage.setItem('lotus-lion-auth-expired', 'true');
+            toast.error('Session expired. Please sign in again.');
+          }
+          if (isAdminRoute) {
+            window.location.href = '/login?redirect=/admin';
+          }
         }
       }
     }
@@ -46,3 +52,4 @@ api.interceptors.response.use(
 );
 
 export default api;
+

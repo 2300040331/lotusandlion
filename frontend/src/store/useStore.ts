@@ -17,6 +17,8 @@ interface CartItem {
   price: number;
   countInStock: number;
   qty: number;
+  size?: string;
+  color?: string;
 }
 
 interface StoreState {
@@ -24,7 +26,7 @@ interface StoreState {
   setUserInfo: (info: UserInfo | null) => void;
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: string) => void;
+  removeFromCart: (id: string, size?: string, color?: string) => void;
   clearCart: () => void;
 }
 
@@ -37,22 +39,38 @@ export const useStore = create<StoreState>()(
       addToCart: (item) =>
         set((state) => {
           const cartItems = Array.isArray(state.cartItems) ? state.cartItems : [];
-          const existItem = cartItems.find((x) => x.product === item.product);
+          const existItem = cartItems.find(
+            (x) =>
+              x.product === item.product &&
+              x.size === item.size &&
+              x.color === item.color
+          );
           if (existItem) {
             return {
               cartItems: cartItems.map((x) =>
-                x.product === existItem.product ? item : x
+                x.product === existItem.product &&
+                x.size === existItem.size &&
+                x.color === existItem.color
+                  ? item
+                  : x
               ),
             };
           } else {
             return { cartItems: [...cartItems, item] };
           }
         }),
-      removeFromCart: (id) =>
+      removeFromCart: (id, size, color) =>
         set((state) => {
           const cartItems = Array.isArray(state.cartItems) ? state.cartItems : [];
           return {
-            cartItems: cartItems.filter((x) => x.product !== id),
+            cartItems: cartItems.filter(
+              (x) =>
+                !(
+                  x.product === id &&
+                  x.size === size &&
+                  x.color === color
+                )
+            ),
           };
         }),
       clearCart: () => set({ cartItems: [] }),

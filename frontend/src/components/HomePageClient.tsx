@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Crown, Flower2, Headphones, RefreshCcw, ShieldCheck, Truck } from 'lucide-react';
 import HeroSlider from '@/components/HeroSlider';
@@ -12,14 +12,14 @@ const fallbackCollections = [
     subtitle: 'Women',
     icon: Flower2,
     body: 'Fluid dresses, co-ords, and occasion-ready pieces shaped around hand-drawn lines, soft contrast, and gallery-day comfort.',
-    href: '/products?category=Womens',
+    href: '/collections/lotus',
   },
   {
     title: 'Lion Collections',
     subtitle: 'Men',
     icon: Crown,
     body: 'Crisp shirts, relaxed tailoring, and structured layers for men who like clean proportions and quiet detail.',
-    href: '/products?category=Mens',
+    href: '/collections/lion',
   },
   {
     title: 'Artist Outfits',
@@ -162,13 +162,71 @@ function ArtPanel({ index = 0, label }: { index?: number; label: string }) {
   );
 }
 
-
+function getDefaultCollectionImage(key: string) {
+  if (key === 'lotus') return 'https://mxwmpivtusrpktzptmqt.supabase.co/storage/v1/object/public/lotus-lion/products/1781967877380-media__1781967736031.jpg';
+  if (key === 'lion') return 'https://images.unsplash.com/photo-1507679722338-958cf635959e?auto=format&fit=crop&w=800&q=80';
+  if (key === 'artist') return 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80';
+  return '';
+}
 
 export default function HomePageClient({ initialData }: { initialData: HomeCms | null }) {
-  const [siteCms] = useState<HomeCms>(initialData || {});
-  
+  const [siteCms, setSiteCms] = useState<HomeCms>(initialData || {});
+
+  // Client-side fallback: if SSR didn't populate data, fetch it now
+  useEffect(() => {
+    if (siteCms?.lotusProducts?.length || siteCms?.lionProducts?.length) return;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
+    fetch(`${apiUrl}/cms/site`)
+      .then(res => res.ok ? res.json() : null)
+      .then(data => { if (data) setSiteCms(data); })
+      .catch(() => {});
+  }, []);
+
+  const defaultSlides = [
+    {
+      title: 'Lotus & Lion',
+      subtitle: 'Original artist-led outfits for everyday and occasion wear.',
+      eyebrow: 'ONLINE EXCLUSIVE',
+      ctaText: 'Shop Now',
+      ctaLink: '/collections/lotus',
+    },
+    {
+      title: 'The Lion Tailoring',
+      subtitle: 'Structured layers and quiet detail for the modern man.',
+      eyebrow: 'NEW SEASON',
+      ctaText: 'Explore Collection',
+      ctaLink: '/collections/lion',
+    }
+  ];
+
+  // Prioritize user-uploaded slides. If empty, check homepage_sections. If still empty, use defaultSlides.
+  const sliderSource = (siteCms?.home?.slides?.length)
+    ? siteCms.home.slides
+    : (siteCms?.sections?.find((s: any) => s.section_key === 'hero-slider')?.content?.slides || defaultSlides);
+
+  const filteredSlides = (sliderSource || []).filter((slide: any) => {
+    const hasImage = typeof slide?.image === 'string' && slide.image.trim().length > 0;
+    const hasTitle = typeof slide?.title === 'string' && slide.title.trim().length > 0;
+    const hasMobileImage = typeof slide?.mobileImage === 'string' && slide.mobileImage.trim().length > 0;
+    return hasImage || hasTitle || hasMobileImage;
+  });
+
+  const finalSlidesSource = filteredSlides.length > 0 ? filteredSlides : defaultSlides;
+
+  const processedSlides = finalSlidesSource.map((slide: any, index: number) => {
+    const defaultSlide = defaultSlides[index] || defaultSlides[0];
+    return {
+      ...slide,
+      title: slide.title?.trim() ? slide.title : defaultSlide.title,
+      subtitle: slide.subtitle?.trim() ? slide.subtitle : defaultSlide.subtitle,
+      eyebrow: slide.eyebrow?.trim() ? slide.eyebrow : defaultSlide.eyebrow,
+      ctaText: slide.ctaText?.trim() ? slide.ctaText : defaultSlide.ctaText,
+      ctaLink: slide.ctaLink?.trim() ? slide.ctaLink : defaultSlide.ctaLink,
+    };
+  });
+
   const homeContent = {
-    slides: siteCms?.home?.slides || [{ title: 'Lotus & Lion', subtitle: 'Modern luxury clothing.', eyebrow: 'Online Exclusive' }],
+    slides: processedSlides,
     lotusProducts: siteCms?.lotusProducts || [],
     lionProducts: siteCms?.lionProducts || [],
     collections: siteCms?.collections || []
@@ -177,7 +235,21 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
   const lotusRail = homeContent.lotusProducts || [];
   const lionRail = homeContent.lionProducts || [];
 
-  const liveCollections = siteCms.collections?.length ? siteCms.collections : null;
+  const collectionsToDisplay: HomeCollection[] = [];
+  if (siteCms?.collections?.length) {
+    // Only show Lotus and Lion collections on the homepage
+    const mainColls = siteCms.collections
+      .filter(c => c.slug === 'lotus' || c.slug === 'lion')
+      .sort((a, b) => {
+        if (a.slug === 'lotus') return -1;
+        if (b.slug === 'lotus') return 1;
+        return 0;
+      });
+    collectionsToDisplay.push(...mainColls);
+  } else {
+    // Fallback only to Lotus and Lion
+    collectionsToDisplay.push(fallbackCollections[0], fallbackCollections[1]);
+  }
 
   return (
     <div className="bg-white text-[#1c1c1c]">
@@ -186,24 +258,36 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
       <ProductRail title="Lotus Collections" href="/collections/lotus" products={lotusRail.slice(0, 8)} />
 
       <section className="mx-auto max-w-[1440px] space-y-10 px-4 py-8 sm:px-8">
-        {(liveCollections || fallbackCollections).map((collection: HomeCollection, index: number) => {
+        {collectionsToDisplay.map((collection: HomeCollection, index: number) => {
           const collectionKey = getCollectionKey(collection);
           const collectionHref = getCollectionHref(collection);
-          const collectionImage = collection.hero?.image || collection.banner_url;
+          const collectionImage = siteCms.home?.collections?.[collectionKey]?.image || collection.hero?.image || collection.banner_url || getDefaultCollectionImage(collectionKey);
+          
+          const collectionName = collection.name || collection.title || (collectionKey === 'lotus' ? 'Lotus Collections' : collectionKey === 'lion' ? 'Lion Collections' : 'Artist Outfits');
+          const fallbackDesc = collectionKey === 'lotus' ? fallbackCollections[0].body : collectionKey === 'lion' ? fallbackCollections[1].body : fallbackCollections[2].body;
+          const collectionDesc = collection.description || collection.body || collection.hero?.subtitle || fallbackDesc;
+          
           return (
             <div key={index} className={`grid items-center gap-8 border-y border-[#dddddd] py-10 md:grid-cols-2 ${index % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
               <Link href={collectionHref} className="block">
                 {collectionImage ? (
-                  <img src={collectionImage} alt="" className="aspect-[3/4] w-full object-cover" />
+                  <img 
+                    src={collectionImage} 
+                    alt="" 
+                    onError={(e) => {
+                      e.currentTarget.src = getDefaultCollectionImage(collectionKey);
+                    }}
+                    className="aspect-[3/4] w-full object-cover" 
+                  />
                 ) : (
-                  <ArtPanel index={index} label={collection.name || collection.title} />
+                  <ArtPanel index={index} label={collectionName} />
                 )}
               </Link>
               <div className="mx-auto max-w-xl text-center md:text-left">
                 {(collectionKey === 'lotus' ? <Flower2 className="mb-5 inline-block" size={28} /> : <Crown className="mb-5 inline-block" size={28} />)}
-                <h2 className="brand-heading text-3xl uppercase">{collection.name || collection.title || collection.hero?.title}</h2>
-                <p className="mt-5 text-[15px] leading-8 text-[#555]">{collection.description || collection.body || collection.hero?.subtitle}</p>
-                <Link href={collectionHref} className="mt-7 inline-block border-b border-[#1c1c1c] pb-1 text-[12px] uppercase tracking-[0.18em]">
+                <h2 className="brand-heading text-3xl uppercase">{collectionName}</h2>
+                <p className="mt-5 text-[15px] leading-8 text-[#555]">{collectionDesc}</p>
+                <Link href={collectionHref} className="mt-7 inline-block border-b border-[#B87333] pb-1 text-[12px] uppercase tracking-[0.18em] text-[#B87333]">
                   View collection
                 </Link>
               </div>

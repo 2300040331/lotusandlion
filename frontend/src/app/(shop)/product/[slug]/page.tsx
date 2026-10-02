@@ -59,16 +59,126 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
     fetchProduct();
   }, [slug]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-xl text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-xl text-gray-600">Product not found</div>
+      </div>
+    );
+  }
+
+  const sizes = [...new Set(product.variants?.map((v) => v.size) || [])];
+  const colors = [...new Set(product.variants?.map((v) => v.color) || [])];
+
+  const getSizeStock = (size: string) => {
+    if (!product || !product.variants) return 0;
+    if (selectedColor) {
+      const variant = product.variants.find(
+        (v) => v.size === size && v.color === selectedColor
+      );
+      return variant ? variant.quantity : 0;
+    }
+    return product.variants
+      .filter((v) => v.size === size)
+      .reduce((sum, v) => sum + (v.quantity || 0), 0);
+  };
+
+  const getColorStock = (color: string) => {
+    if (!product || !product.variants) return 0;
+    if (selectedSize) {
+      const variant = product.variants.find(
+        (v) => v.color === color && v.size === selectedSize
+      );
+      return variant ? variant.quantity : 0;
+    }
+    return product.variants
+      .filter((v) => v.color === color)
+      .reduce((sum, v) => sum + (v.quantity || 0), 0);
+  };
+
+  const getSelectedVariantStock = () => {
+    if (!product) return 0;
+    const hasColors = colors.length > 0 && !(colors.length === 1 && colors[0] === 'Default');
+    const hasSizes = sizes.length > 0;
+
+    if (hasSizes && hasColors) {
+      if (selectedSize && selectedColor) {
+        const variant = product.variants?.find(
+          (v) => v.size === selectedSize && v.color === selectedColor
+        );
+        return variant ? variant.quantity : 0;
+      }
+      return product.stock_quantity;
+    } else if (hasSizes) {
+      if (selectedSize) {
+        const variant = product.variants?.find(
+          (v) => v.size === selectedSize && (v.color === 'Default' || !v.color)
+        );
+        return variant ? variant.quantity : 0;
+      }
+      return product.stock_quantity;
+    } else if (hasColors) {
+      if (selectedColor) {
+        const variant = product.variants?.find(
+          (v) => v.color === selectedColor && (v.size === 'Default' || !v.size)
+        );
+        return variant ? variant.quantity : 0;
+      }
+      return product.stock_quantity;
+    }
+    return product.stock_quantity;
+  };
+
+  const hasColors = colors.length > 0 && !(colors.length === 1 && colors[0] === 'Default');
+  const hasSizes = sizes.length > 0;
+  const selectedVariantStock = getSelectedVariantStock();
+  const isOutOfStock = selectedVariantStock <= 0;
+  const isSelectionMissing = (hasSizes && !selectedSize) || (hasColors && !selectedColor);
+
+  let buttonText = 'Add to Cart';
+  if (hasSizes && !selectedSize) {
+    buttonText = 'Select Size';
+  } else if (hasColors && !selectedColor) {
+    buttonText = 'Select Color';
+  } else if (isOutOfStock) {
+    buttonText = 'Out of Stock';
+  }
+
   const handleAddToCart = () => {
     if (!product) return;
+
+    if (hasSizes && !selectedSize) {
+      toast.error('Please select a size');
+      return;
+    }
+    if (hasColors && !selectedColor) {
+      toast.error('Please select a color');
+      return;
+    }
+
+    const maxStock = getSelectedVariantStock();
+    if (maxStock <= 0) {
+      toast.error('This combination is out of stock');
+      return;
+    }
 
     addToCart({
       product: product.id,
       name: product.name,
       image: product.images?.[0]?.image_url || '',
       price: product.discount_price || product.price,
-      countInStock: product.stock_quantity,
+      countInStock: maxStock,
       qty: quantity,
+      size: hasSizes ? selectedSize : undefined,
+      color: hasColors ? selectedColor : undefined,
     });
 
     toast.success('Added to cart!');
@@ -92,27 +202,9 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
     });
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Product not found</div>
-      </div>
-    );
-  }
-
-  const sizes = [...new Set(product.variants?.map((v) => v.size) || [])];
-  const colors = [...new Set(product.variants?.map((v) => v.color) || [])];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white text-black">
       <div className="mx-auto px-0 py-0">
         <div className="grid grid-cols-1 lg:grid-cols-[75%_25%] gap-0 lg:min-h-screen">
           {/* Images */}
@@ -213,19 +305,29 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               <div className="mb-8">
                 <label className="block text-base font-bold mb-3">Size</label>
                 <div className="flex gap-3 flex-wrap">
-                  {sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-6 py-3 border-2 rounded-lg transition text-base font-medium ${
-                        selectedSize === size
-                          ? 'border-black bg-black text-white'
-                          : 'border-gray-300 text-black hover:border-black'
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+                  {sizes.map((size) => {
+                    const stock = getSizeStock(size);
+                    const isSizeOutOfStock = stock <= 0;
+                    return (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(selectedSize === size ? '' : size)}
+                        disabled={isSizeOutOfStock && selectedColor !== ''}
+                        className={`px-5 py-2.5 border-2 rounded-lg transition text-base font-medium flex flex-col items-center min-w-[70px] cursor-pointer ${
+                          selectedSize === size
+                            ? 'border-black bg-black text-white'
+                            : isSizeOutOfStock
+                            ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed opacity-60'
+                            : 'border-gray-300 text-black hover:border-black'
+                        }`}
+                      >
+                        <span className="font-bold text-sm">{size}</span>
+                        <span className="text-[9px] font-normal opacity-80 mt-0.5">
+                          {stock > 0 ? `${stock} left` : 'Sold out'}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -235,19 +337,29 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               <div className="mb-8">
                 <label className="block text-base font-bold mb-3">Color</label>
                 <div className="flex gap-3 flex-wrap">
-                  {colors.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`px-6 py-3 border-2 rounded-lg transition text-base font-medium ${
-                        selectedColor === color
-                          ? 'border-black bg-black text-white'
-                          : 'border-gray-300 text-black hover:border-black'
-                      }`}
-                    >
-                      {color}
-                    </button>
-                  ))}
+                  {colors.map((color) => {
+                    const stock = getColorStock(color);
+                    const isColorOutOfStock = stock <= 0;
+                    return (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(selectedColor === color ? '' : color)}
+                        disabled={isColorOutOfStock && selectedSize !== ''}
+                        className={`px-5 py-2.5 border-2 rounded-lg transition text-base font-medium flex flex-col items-center min-w-[80px] cursor-pointer ${
+                          selectedColor === color
+                            ? 'border-black bg-black text-white'
+                            : isColorOutOfStock
+                            ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed opacity-60'
+                            : 'border-gray-300 text-black hover:border-black'
+                        }`}
+                      >
+                        <span className="font-bold text-sm">{color}</span>
+                        <span className="text-[9px] font-normal opacity-80 mt-0.5">
+                          {stock > 0 ? `${stock} left` : 'Sold out'}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -257,7 +369,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
               <label className="block text-[10px] uppercase font-bold tracking-widest text-gray-500 mb-2">Quantity</label>
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setQuantity(Math.max(product.stock_quantity > 0 ? 1 : 0, quantity - 1))}
+                  onClick={() => setQuantity(Math.max(selectedVariantStock > 0 ? 1 : 0, quantity - 1))}
                   className="w-9 h-9 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center justify-center text-sm font-medium transition cursor-pointer"
                   type="button"
                 >
@@ -267,7 +379,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                 <button
                   onClick={() =>
                     setQuantity(
-                      Math.min(product.stock_quantity, quantity + 1)
+                      Math.min(selectedVariantStock, quantity + 1)
                     )
                   }
                   className="w-9 h-9 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center justify-center text-sm font-medium transition cursor-pointer"
@@ -280,20 +392,24 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
             {/* Stock */}
             <div className="mb-6">
-              {product.stock_quantity > 0 ? (
-                <p className="text-sm text-green-600 font-semibold">✓ In Stock</p>
+              {!isSelectionMissing ? (
+                selectedVariantStock > 0 ? (
+                  <p className="text-sm text-green-600 font-semibold">✓ {selectedVariantStock} available in stock</p>
+                ) : (
+                  <p className="text-sm text-red-600 font-semibold">Out of Stock</p>
+                )
               ) : (
-                <p className="text-sm text-red-600 font-semibold">Out of Stock</p>
+                <p className="text-sm text-gray-500 font-medium">Please select size and color to view availability</p>
               )}
             </div>
 
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              disabled={product.stock_quantity === 0}
+              disabled={isSelectionMissing || isOutOfStock}
               className="w-full bg-black text-white py-3 rounded-lg text-xs uppercase font-bold tracking-widest hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-              Add to Cart
+              {buttonText}
             </button>
 
             {/* Collapsible Description Accordion */}
@@ -363,8 +479,12 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                           src={imgUrl}
                           alt={item.name}
                           fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-contain object-top transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          onError={(e) => {
+                            e.currentTarget.srcset = '';
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1000';
+                          }}
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-gray-300 text-xs">No Image</div>

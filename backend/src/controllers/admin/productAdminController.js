@@ -33,7 +33,7 @@ const mapToCamelCase = (p) => {
     sizes: (p.variants || []).reduce((acc, v) => {
       acc[v.size] = (acc[v.size] || 0) + (v.quantity || 0);
       return acc;
-    }, { S: 0, M: 0, L: 0, XL: 0 })
+    }, { XS: 0, S: 0, M: 0, L: 0, XL: 0, XXL: 0 })
   };
 };
 
@@ -113,7 +113,18 @@ const createProduct = async (req, res, next) => {
     } = req.body;
 
     const resolvedCollectionId = await resolveCollectionId(collectionType);
-    const productSlug = slugify(slug || name || `product-${Date.now()}`);
+    let productSlug = slugify(slug || name || `product-${Date.now()}`);
+
+    // Resolve slug conflicts
+    const { data: slugCheck } = await supabase
+      .from('products')
+      .select('id')
+      .eq('slug', productSlug)
+      .maybeSingle();
+
+    if (slugCheck) {
+      productSlug = `${productSlug}-${Math.random().toString(36).substring(2, 6)}`;
+    }
 
     const { data: product, error: pError } = await supabase
       .from('products')

@@ -50,32 +50,32 @@ function LoginContent() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-white dark:bg-black px-4">
+    <div className="min-h-[80vh] flex items-center justify-center bg-white dark:bg-black text-black dark:text-white px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-4">Sign In</h1>
-          <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em]">Return to your Lotus & Lion account</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">Return to your Lotus & Lion account</p>
         </div>
 
         <form onSubmit={submitHandler} className="space-y-6">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Email Address</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Email Address</label>
             <input
               type="text"
               inputMode="email"
               autoComplete="username"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2">Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Password</label>
             <input
               type="password"
               required
-              className="w-full bg-transparent border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors tracking-wide"
+              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -92,14 +92,14 @@ function LoginContent() {
         </form>
 
         <div className="mt-8 text-center space-y-4">
-          <Link href="/forgot-password" className="block text-[10px] text-gray-500 uppercase tracking-widest hover:text-primary transition-colors">
+          <Link href="/forgot-password" className="block text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest hover:text-primary dark:hover:text-[#c8a45d] transition-colors">
             Forgotten your password?
           </Link>
-          <div className="pt-8 border-t border-border">
-            <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-4">Don't have an account?</p>
+          <div className="pt-8 border-t border-border dark:border-white/10">
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Don't have an account?</p>
             <Link
               href={`/register?redirect=${redirect}`}
-              className="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-black dark:hover:text-white transition-colors border-b border-primary pb-1"
+              className="text-[10px] font-bold uppercase tracking-widest text-primary dark:text-[#c8a45d] hover:text-black dark:hover:text-white transition-colors border-b border-primary dark:border-[#c8a45d] pb-1"
             >
               Create an account
             </Link>

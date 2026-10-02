@@ -21,17 +21,29 @@ export const collectionsService = {
   // Fetch single collection by slug
   async getCollectionBySlug(slug: string) {
     try {
+      const womenSlugs = ['lotus', 'women', 'womens'];
+      const menSlugs = ['lion', 'men', 'mens'];
+      
+      let targetSlugs = [slug.toLowerCase()];
+      if (womenSlugs.includes(slug.toLowerCase())) {
+        targetSlugs = womenSlugs;
+      } else if (menSlugs.includes(slug.toLowerCase())) {
+        targetSlugs = menSlugs;
+      }
+
       const { data, error } = await supabase
         .from('collections')
         .select('*')
-        .eq('slug', slug)
+        .in('slug', targetSlugs)
         .eq('is_active', true)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
-    } catch (error) {
-      console.error('Error fetching collection:', error);
+    } catch (error: any) {
+      if (error?.code !== 'PGRST116') {
+        console.error('Error fetching collection:', error);
+      }
       return null;
     }
   },
@@ -39,6 +51,16 @@ export const collectionsService = {
   // Fetch collection with products
   async getCollectionWithProducts(slug: string) {
     try {
+      const womenSlugs = ['lotus', 'women', 'womens'];
+      const menSlugs = ['lion', 'men', 'mens'];
+      
+      let targetSlugs = [slug.toLowerCase()];
+      if (womenSlugs.includes(slug.toLowerCase())) {
+        targetSlugs = womenSlugs;
+      } else if (menSlugs.includes(slug.toLowerCase())) {
+        targetSlugs = menSlugs;
+      }
+
       const { data, error } = await supabase
         .from('collections')
         .select(`
@@ -48,14 +70,22 @@ export const collectionsService = {
             images:product_images(id, image_url, alt_text)
           )
         `)
-        .eq('slug', slug)
+        .in('slug', targetSlugs)
         .eq('is_active', true)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
-    } catch (error) {
-      console.error('Error fetching collection with products:', error);
+    } catch (error: any) {
+      if (error?.code !== 'PGRST116') {
+        console.error('Error fetching collection with products:', {
+          message: error?.message,
+          details: error?.details,
+          hint: error?.hint,
+          code: error?.code,
+          error
+        });
+      }
       return null;
     }
   },
