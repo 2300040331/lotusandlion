@@ -1,6 +1,4 @@
 import HomePageClient from '@/components/HomePageClient';
-import ComingSoon from '@/components/ComingSoon';
-import { SITE_MODE } from '@/config/siteMode';
 
 function getServerApiUrl() {
   // On Vercel, VERCEL_URL is auto-set (e.g. "my-app.vercel.app")
@@ -15,11 +13,6 @@ function getServerApiUrl() {
 }
 
 export default async function Home() {
-  // When in COMING_SOON mode, server-render the Coming Soon experience directly
-  if (SITE_MODE === 'COMING_SOON') {
-    return <ComingSoon />;
-  }
-
   const apiUrl = getServerApiUrl();
 
   let initialData = null;
