@@ -191,20 +191,20 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[#111] border border-[#c8a45d]/20 rounded-2xl w-full max-w-4xl max-h-[80vh] flex flex-col text-white shadow-2xl overflow-hidden animate-none">
+      <div className="bg-[#FEFFEF] border border-[#573B2D]/20 rounded-2xl w-full max-w-4xl max-h-[85vh] flex flex-col text-[#573B2D] shadow-2xl overflow-hidden animate-none">
         
         {/* Header */}
-        <div className="border-b border-white/5 p-6 flex justify-between items-center bg-[#181818]">
+        <div className="border-b border-[#573B2D]/15 p-6 flex justify-between items-center bg-white">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8a45d]">Bulk Collections Import</h2>
-            <p className="text-[10px] uppercase text-gray-500 tracking-wider mt-1">
+            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#573B2D]">Bulk Collections Import</h2>
+            <p className="text-[10px] uppercase text-[#573B2D]/70 tracking-wider mt-1">
               Import multiple collections in bulk using a CSV or JSON file.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowHelp(!showHelp)}
-              className="text-gray-400 hover:text-white transition-colors p-1 cursor-pointer animate-none"
+              className="text-[#573B2D] hover:bg-[#573B2D]/10 transition-colors p-1.5 rounded-lg cursor-pointer animate-none"
               title="Show Schema Guidelines"
             >
               <HelpCircle size={18} />
@@ -212,7 +212,7 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
             <button
               onClick={onClose}
               disabled={isPublishingAll}
-              className="p-1 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-all disabled:opacity-50 cursor-pointer animate-none"
+              className="p-1.5 rounded-lg text-[#573B2D] hover:bg-[#573B2D]/10 transition-all disabled:opacity-50 cursor-pointer animate-none"
             >
               <X size={18} />
             </button>
@@ -221,21 +221,21 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
 
         {/* Guidelines / Help */}
         {showHelp && (
-          <div className="bg-[#1a1a1a] border-b border-white/5 p-6 text-xs text-gray-400 space-y-3">
-            <p className="font-bold text-[#c8a45d] uppercase tracking-wider">Spreadsheet Schema Guidelines</p>
+          <div className="bg-white border-b border-[#573B2D]/15 p-6 text-xs text-[#573B2D] space-y-3">
+            <p className="font-bold text-[#573B2D] uppercase tracking-wider">Spreadsheet Schema Guidelines</p>
             <p>Upload a `.csv` or `.json` containing the list of collections to create. The following column names are supported:</p>
-            <div className="grid grid-cols-3 gap-4 bg-black/30 p-4 rounded-xl border border-white/5">
+            <div className="grid grid-cols-3 gap-4 bg-[#FEFFEF] p-4 rounded-xl border border-[#573B2D]/20">
               <div>
-                <p className="font-bold text-white uppercase text-[10px]">name *</p>
-                <p className="text-[9px] text-gray-500">e.g. Summer Essentials</p>
+                <p className="font-bold text-[#573B2D] uppercase text-[10px]">name *</p>
+                <p className="text-[9px] text-[#573B2D]/70">e.g. Summer Essentials</p>
               </div>
               <div>
-                <p className="font-bold text-white uppercase text-[10px]">slug</p>
-                <p className="text-[9px] text-gray-500">e.g. summer-essentials</p>
+                <p className="font-bold text-[#573B2D] uppercase text-[10px]">slug</p>
+                <p className="text-[9px] text-[#573B2D]/70">e.g. summer-essentials</p>
               </div>
               <div>
-                <p className="font-bold text-white uppercase text-[10px]">gender</p>
-                <p className="text-[9px] text-gray-500">women / men / unisex</p>
+                <p className="font-bold text-[#573B2D] uppercase text-[10px]">gender</p>
+                <p className="text-[9px] text-[#573B2D]/70">women / men / unisex</p>
               </div>
             </div>
           </div>
@@ -248,19 +248,19 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
             {...getRootProps()}
             className={`border-2 border-dashed rounded-2xl p-8 transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-4 ${
               isDragActive
-                ? 'border-[#c8a45d] bg-[#c8a45d]/5'
-                : 'border-white/10 hover:border-[#c8a45d]/30 bg-white/5'
+                ? 'border-[#573B2D] bg-[#573B2D]/5'
+                : 'border-[#573B2D]/30 hover:border-[#573B2D] bg-white'
             }`}
           >
             <input {...getInputProps()} />
-            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-[#c8a45d]">
+            <div className="w-12 h-12 rounded-full bg-[#573B2D]/10 flex items-center justify-center text-[#573B2D]">
               <Upload size={24} />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-white">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#573B2D]">
                 {isDragActive ? 'Drop file here' : 'Drop CSV or JSON file'}
               </p>
-              <p className="text-[9px] uppercase text-gray-500 tracking-widest mt-1">
+              <p className="text-[9px] uppercase text-[#573B2D]/70 tracking-widest mt-1">
                 CSV or JSON spreadsheets of collections data
               </p>
             </div>
@@ -270,35 +270,35 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
           {drafts.length > 0 && (
             <div className="flex-1 flex flex-col overflow-hidden min-h-[20vh]">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#c8a45d]">Collections Queue ({drafts.length})</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#573B2D]">Collections Queue ({drafts.length})</h3>
                 <button
                   onClick={() => setDrafts([])}
                   disabled={isPublishingAll}
-                  className="text-[10px] uppercase font-bold tracking-wider text-red-500 hover:text-red-400 disabled:opacity-50 transition-colors cursor-pointer animate-none"
+                  className="text-[10px] uppercase font-bold tracking-wider text-red-600 hover:text-red-700 disabled:opacity-50 transition-colors cursor-pointer animate-none"
                 >
                   Clear All
                 </button>
               </div>
 
-              <div className="flex-1 overflow-auto border border-white/5 rounded-xl bg-black/40">
+              <div className="flex-1 overflow-auto border border-[#573B2D]/15 rounded-xl bg-white">
                 <table className="w-full text-left border-collapse text-xs">
-                  <thead className="bg-[#181818] text-gray-300 uppercase tracking-widest text-[9px] font-bold sticky top-0 z-10 border-b border-white/5">
+                  <thead className="bg-[#FEFFEF] text-[#573B2D] uppercase tracking-widest text-[9px] font-bold sticky top-0 z-10 border-b border-[#573B2D]/15">
                     <tr>
-                      <th className="p-4 font-bold" style={{ color: '#d1d5db' }}>Collection Name</th>
-                      <th className="p-4 font-bold" style={{ color: '#d1d5db' }}>Slug</th>
-                      <th className="p-4 w-40 font-bold" style={{ color: '#d1d5db' }}>Target Gender</th>
-                      <th className="p-4 w-28 text-center font-bold" style={{ color: '#d1d5db' }}>Status</th>
-                      <th className="p-4 w-12 text-center font-bold" style={{ color: '#d1d5db' }}>Delete</th>
+                      <th className="p-4 font-bold text-[#573B2D]">Collection Name</th>
+                      <th className="p-4 font-bold text-[#573B2D]">Slug</th>
+                      <th className="p-4 w-40 font-bold text-[#573B2D]">Target Gender</th>
+                      <th className="p-4 w-28 text-center font-bold text-[#573B2D]">Status</th>
+                      <th className="p-4 w-12 text-center font-bold text-[#573B2D]">Delete</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-[#573B2D]/10">
                     {drafts.map((draft) => {
                       const isPublishing = draft.status === 'publishing';
                       const isSuccess = draft.status === 'success';
                       const isError = draft.status === 'error';
 
                       return (
-                        <tr key={draft.id} className="hover:bg-white/[0.02] transition-colors">
+                        <tr key={draft.id} className="hover:bg-[#573B2D]/[0.02] transition-colors">
                           {/* Name */}
                           <td className="p-3">
                             <input
@@ -306,7 +306,7 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
                               value={draft.name}
                               disabled={isSuccess || isPublishing}
                               onChange={(e) => updateDraftField(draft.id, 'name', e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-white font-bold disabled:opacity-50 focus:border-[#c8a45d]/50 outline-none"
+                              className="w-full bg-[#FEFFEF] border border-[#573B2D]/20 rounded-lg p-2 text-[#573B2D] font-bold disabled:opacity-50 focus:border-[#573B2D] outline-none"
                               placeholder="Collection Name"
                             />
                           </td>
@@ -318,7 +318,7 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
                               value={draft.slug}
                               disabled={isSuccess || isPublishing}
                               onChange={(e) => updateDraftField(draft.id, 'slug', e.target.value)}
-                              className="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-white font-mono disabled:opacity-50 focus:border-[#c8a45d]/50 outline-none text-xs"
+                              className="w-full bg-[#FEFFEF] border border-[#573B2D]/20 rounded-lg p-2 text-[#573B2D] font-mono disabled:opacity-50 focus:border-[#573B2D] outline-none text-xs"
                               placeholder="Auto-generated if empty"
                             />
                           </td>
@@ -329,7 +329,7 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
                               value={draft.gender}
                               disabled={isSuccess || isPublishing}
                               onChange={(e) => updateDraftField(draft.id, 'gender', e.target.value)}
-                              className="w-full bg-[#111] border border-white/10 rounded-lg p-2 text-white disabled:opacity-50 focus:border-[#c8a45d]/50 outline-none"
+                              className="w-full bg-white border border-[#573B2D]/20 rounded-lg p-2 text-[#573B2D] disabled:opacity-50 focus:border-[#573B2D] outline-none"
                             >
                               <option value="women">Women</option>
                               <option value="men">Men</option>
@@ -342,24 +342,24 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
                             <div className="flex items-center justify-center gap-1.5 font-bold uppercase tracking-wider text-[9px]">
                               {isPublishing && (
                                 <>
-                                  <Loader2 size={12} className="animate-spin text-blue-400" />
-                                  <span className="text-blue-400">Saving</span>
+                                  <Loader2 size={12} className="animate-spin text-[#573B2D]" />
+                                  <span className="text-[#573B2D]">Saving</span>
                                 </>
                               )}
                               {isSuccess && (
                                 <>
-                                  <Check size={12} className="text-green-500" />
-                                  <span className="text-green-500">Success</span>
+                                  <Check size={12} className="text-green-600" />
+                                  <span className="text-green-600">Success</span>
                                 </>
                               )}
                               {isError && (
-                                <div className="flex items-center gap-1 cursor-help text-red-500" title={draft.errorMessage}>
+                                <div className="flex items-center gap-1 cursor-help text-red-600" title={draft.errorMessage}>
                                   <AlertCircle size={12} />
                                   <span>Failed</span>
                                 </div>
                               )}
                               {draft.status === 'pending' && (
-                                <span className="text-gray-500">Ready</span>
+                                <span className="text-[#573B2D]/70">Ready</span>
                               )}
                             </div>
                           </td>
@@ -369,7 +369,7 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
                             <button
                               onClick={() => removeDraft(draft.id)}
                               disabled={isSuccess || isPublishing}
-                              className="text-gray-500 hover:text-red-500 disabled:opacity-30 transition-colors p-1 cursor-pointer animate-none"
+                              className="text-[#573B2D]/60 hover:text-red-600 disabled:opacity-30 transition-colors p-1 cursor-pointer animate-none"
                             >
                               <Trash2 size={14} />
                             </button>
@@ -385,8 +385,8 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
         </div>
 
         {/* Footer */}
-        <div className="border-t border-white/5 p-6 bg-[#181818] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">
+        <div className="border-t border-[#573B2D]/15 p-6 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-[10px] uppercase tracking-wider text-[#573B2D] font-bold">
             {drafts.length > 0 ? (
               <>{drafts.filter(d => d.status === 'success').length} of {drafts.length} Created</>
             ) : (
@@ -398,16 +398,16 @@ export default function BulkImportCollectionsModal({ isOpen, onClose, onSuccess 
             <button
               onClick={onClose}
               disabled={isPublishingAll}
-              className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:bg-white/5 transition-all cursor-pointer animate-none"
+              className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-[#573B2D]/30 text-[#573B2D] hover:bg-[#573B2D]/10 transition-all cursor-pointer animate-none"
             >
               Cancel
             </button>
             <button
               onClick={handlePublishAll}
               disabled={drafts.length === 0 || isPublishingAll}
-              className="bg-[#c8a45d] text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#b08e4d] transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
+              className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
             >
-              {isPublishingAll ? <Loader2 className="animate-spin" size={16} /> : <Check size={16} />}
+              {isPublishingAll ? <Loader2 className="animate-spin text-[#FEFFEF]" size={16} /> : <Check className="text-[#FEFFEF]" size={16} />}
               Import Collections
             </button>
           </div>

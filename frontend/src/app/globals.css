@@ -365,6 +365,23 @@ textarea {
   font-weight: 700 !important;
 }
 
+/* White / Light Surface Buttons & Outlines (Cancel, Bulk Import, Filters, Modals): MUST have visible deep brown text & icons */
+.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]),
+.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) {
+  color: #573B2D !important;
+}
+
+.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) svg,
+.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) svg {
+  color: #573B2D !important;
+  stroke: #573B2D !important;
+}
+
+.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) span,
+.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) span {
+  color: #573B2D !important;
+}
+
 /* Inputs & Form Controls */
 .admin-panel input,
 .admin-panel select,
