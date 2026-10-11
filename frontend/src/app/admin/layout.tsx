@@ -118,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         <nav className="flex-grow py-8 px-4 space-y-2 overflow-y-auto custom-scrollbar">
           {!isSidebarCollapsed && (
-            <p className="px-4 text-[8px] font-bold uppercase tracking-[0.3em] text-[#573B2D]/70 mb-4">Website Control</p>
+            <p className="px-4 text-[9px] font-extrabold uppercase tracking-[0.3em] text-[#573B2D] mb-4">Website Control</p>
           )}
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
@@ -128,13 +128,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={item.href}
                 className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group relative ${
                   isActive 
-                    ? 'bg-[#573B2D] text-[#FEFFEF]' 
-                    : 'text-[#573B2D]/70 hover:bg-[#573B2D]/10 hover:text-[#573B2D]'
+                    ? 'bg-[#573B2D] text-[#FEFFEF] font-bold shadow-sm' 
+                    : 'text-[#573B2D] font-bold hover:bg-[#573B2D]/10'
                 }`}
               >
-                <item.icon size={20} className={isActive ? 'text-[#FEFFEF]' : 'group-hover:text-[#573B2D] transition-colors'} />
+                <item.icon size={20} className={isActive ? 'text-[#FEFFEF]' : 'text-[#573B2D]'} />
                 {!isSidebarCollapsed && (
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{item.name}</span>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{item.name}</span>
                 )}
                 {isActive && (
                   <motion.div 
@@ -147,25 +147,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div className="p-4 border-t border-[#573B2D]/15 space-y-2">
+        <div className="p-4 border-t border-[#573B2D]/20 space-y-2">
           {!isSidebarCollapsed && (
-             <div className="px-4 py-3 bg-[#FEFFEF] flex items-center gap-3 mb-4 border border-[#573B2D]/15">
+             <div className="px-4 py-3 bg-white flex items-center gap-3 mb-4 border border-[#573B2D]/20 shadow-sm">
                 <div className="w-8 h-8 border border-[#573B2D] flex items-center justify-center text-[#573B2D] text-xs font-bold uppercase">
                    {userInfo.name.charAt(0)}
                 </div>
                 <div className="flex-grow overflow-hidden">
-                   <p className="text-[10px] font-bold uppercase text-[#573B2D] truncate">{userInfo.name}</p>
-                   <span className="text-[8px] font-bold uppercase text-[#573B2D]/70 tracking-widest">{userInfo.role}</span>
+                   <p className="text-[11px] font-bold uppercase text-[#573B2D] truncate">{userInfo.name}</p>
+                   <span className="text-[9px] font-bold uppercase text-[#573B2D] tracking-widest">{userInfo.role}</span>
                 </div>
              </div>
           )}
           <button 
             onClick={logoutHandler}
-            className="w-full flex items-center gap-4 px-4 py-3.5 text-[#573B2D]/80 hover:bg-[#573B2D]/10 transition-all group"
+            className="w-full flex items-center gap-4 px-4 py-3.5 text-[#573B2D] font-bold hover:bg-[#573B2D]/10 transition-all group"
           >
-            <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
+            <LogOut size={20} className="text-[#573B2D] group-hover:translate-x-1 transition-transform" />
             {!isSidebarCollapsed && (
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Logout</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Logout</span>
             )}
           </button>
         </div>

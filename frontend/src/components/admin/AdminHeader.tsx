@@ -14,9 +14,9 @@ export default function AdminHeader({ title, subtitle }: AdminHeaderProps) {
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div>
-        <h1 className="brand-heading text-3xl uppercase mb-1 text-[#1c1c1c]">{title}</h1>
+        <h1 className="brand-heading text-3xl md:text-4xl uppercase mb-1.5 text-[#573B2D] font-bold">{title}</h1>
         {subtitle && (
-          <p className="text-[#666] text-[10px] uppercase tracking-[0.2em] font-bold">
+          <p className="text-[#573B2D] text-[11px] uppercase tracking-[0.2em] font-bold">
             {subtitle}
           </p>
         )}
@@ -24,25 +24,25 @@ export default function AdminHeader({ title, subtitle }: AdminHeaderProps) {
 
       <div className="flex items-center gap-4">
         <div className="relative hidden lg:block">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666]" size={16} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#573B2D]" size={16} />
           <input 
             type="text" 
             placeholder="Search everything..." 
-            className="bg-white border border-[#dddddd] py-2 pl-10 pr-4 text-xs focus:outline-none focus:border-[#1c1c1c] transition-colors w-64"
+            className="bg-white border border-[#573B2D]/30 py-2.5 pl-10 pr-4 text-xs text-[#573B2D] placeholder-[#573B2D]/60 focus:outline-none focus:border-[#573B2D] transition-colors w-64 font-medium rounded-lg"
           />
         </div>
 
-        <button className="p-2 bg-white border border-[#dddddd] text-[#666] hover:text-[#1c1c1c] transition-colors relative">
+        <button className="p-2.5 bg-white border border-[#573B2D]/30 text-[#573B2D] hover:bg-[#573B2D]/10 transition-colors relative rounded-lg" aria-label="Notifications">
           <Bell size={18} />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-[#df0029] border-2 border-white"></span>
+          <span className="absolute top-2 right-2 w-2 h-2 bg-[#573B2D] rounded-full border border-white"></span>
         </button>
 
-        <div className="flex items-center gap-3 pl-4 border-l border-[#dddddd]">
+        <div className="flex items-center gap-3 pl-4 border-l border-[#573B2D]/30">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-bold uppercase text-[#1c1c1c] leading-tight">{userInfo?.name}</p>
-            <p className="text-[10px] uppercase text-[#df0029] font-bold tracking-widest">{userInfo?.role}</p>
+            <p className="text-xs font-bold uppercase text-[#573B2D] leading-tight">{userInfo?.name}</p>
+            <p className="text-[10px] uppercase text-[#573B2D] font-extrabold tracking-widest">{userInfo?.role}</p>
           </div>
-          <div className="w-10 h-10 border border-[#1c1c1c] flex items-center justify-center text-[#1c1c1c] font-bold overflow-hidden">
+          <div className="w-10 h-10 border border-[#573B2D] bg-white rounded-lg flex items-center justify-center text-[#573B2D] font-bold overflow-hidden shadow-sm">
              <User size={20} />
           </div>
         </div>

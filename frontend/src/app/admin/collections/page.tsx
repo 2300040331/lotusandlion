@@ -80,21 +80,21 @@ export default function CollectionsManagerPage() {
         subtitle="Create and manage distinct collections for your store." 
       />
 
-      <div className="flex justify-between items-center bg-[#111] border border-white/5 p-6 rounded-2xl">
+      <div className="flex justify-between items-center bg-white border border-[#573B2D]/20 p-6 rounded-2xl shadow-sm">
         <div className="flex items-center gap-3">
-          <FolderTree size={20} className="text-[#c8a45d]" />
-          <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-white">Collections Manager</h2>
+          <FolderTree size={20} className="text-[#573B2D]" />
+          <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#573B2D]">Collections Manager</h2>
         </div>
         <div className="flex gap-3 h-fit">
           <button 
             onClick={() => setIsBulkCollectionsOpen(true)}
-            className="border border-[#c8a45d]/40 text-[#c8a45d] hover:bg-[#c8a45d]/10 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 transition-colors rounded-xl cursor-pointer animate-none"
+            className="border border-[#573B2D] text-[#573B2D] hover:bg-[#573B2D]/10 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 transition-colors rounded-xl cursor-pointer"
           >
             <Upload size={14} /> Bulk Import
           </button>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#c8a45d] text-black px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 hover:bg-[#b08e4d] transition-colors rounded-xl"
+            className="bg-[#573B2D] text-[#FEFFEF] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 hover:bg-[#573B2D]/90 transition-colors rounded-xl shadow-sm"
           >
             <Plus size={14} /> Add Collection
           </button>
@@ -113,32 +113,32 @@ export default function CollectionsManagerPage() {
           items: collections.filter(c => c.hero?.gender !== 'women' && c.hero?.gender !== 'men' && c.slug !== 'lotus' && c.slug !== 'lion')
         }].map((group, idx) => group.items.length > 0 && (
           <div key={idx} className="space-y-4">
-            <h3 className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#c8a45d] pb-2 border-b border-white/10">{group.title}</h3>
+            <h3 className="text-[13px] font-bold uppercase tracking-[0.2em] text-[#573B2D] pb-2 border-b border-[#573B2D]/20">{group.title}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {group.items.map(collection => (
-                <div key={collection.id} className="border border-white/10 bg-[#111] p-6 rounded-2xl hover:border-[#c8a45d]/50 transition-colors group relative">
+                <div key={collection.id} className="border border-[#573B2D]/20 bg-white p-6 rounded-2xl hover:border-[#573B2D] transition-all group relative shadow-sm">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-bold text-white mb-1">{collection.name || collection.title}</h3>
-                      <p className="text-[10px] text-gray-500 font-mono">/{collection.slug}</p>
+                      <h3 className="text-lg font-bold text-[#573B2D] mb-1">{collection.name || collection.title}</h3>
+                      <p className="text-[11px] text-[#573B2D]/80 font-mono font-medium">/{collection.slug}</p>
                     </div>
                     <div className="flex gap-2">
                       <button 
                         onClick={() => setCollectionToDelete(collection)}
-                        className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                        className="p-2 text-[#573B2D]/60 hover:text-red-600 hover:bg-red-500/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
                   
-                  <div className="mt-6 pt-6 border-t border-white/5 flex justify-between items-center">
-                    <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
+                  <div className="mt-6 pt-6 border-t border-[#573B2D]/15 flex justify-between items-center">
+                    <span className="text-[11px] text-[#573B2D] uppercase tracking-widest font-bold">
                       {collection.categories?.length || 0} Categories
                     </span>
                     <Link 
                       href={`/admin/collections/${collection.slug}`}
-                      className="text-[#c8a45d] hover:text-white transition-colors text-[10px] font-bold uppercase tracking-[0.1em] flex items-center gap-1"
+                      className="text-[#573B2D] hover:underline transition-colors text-[11px] font-bold uppercase tracking-[0.1em] flex items-center gap-1"
                     >
                       Manage <Edit2 size={12} />
                     </Link>
