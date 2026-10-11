@@ -82,7 +82,7 @@ const Navbar = () => {
         <div className="mx-auto max-w-[1440px] px-3 sm:px-8">
           <div className="flex h-20 items-center justify-between md:h-20 relative">
             {/* Left Section: Desktop Logo & Mobile Menu */}
-            <div className="flex flex-1 items-center justify-start">
+            <div className="flex flex-1 items-center justify-start pr-4">
               <button
                 onClick={() => setIsOpen(true)}
                 className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] md:hidden text-[#573B2D]"
@@ -95,10 +95,10 @@ const Navbar = () => {
                 <Image
                   src="/lotus-and-lion-wordmark.png"
                   alt="Lotus & Lion"
-                  width={220}
-                  height={21}
+                  width={180}
+                  height={17}
                   priority
-                  className="h-6 sm:h-7 md:h-8 w-auto object-contain"
+                  className="h-4 sm:h-4.5 md:h-[19px] w-auto max-w-[160px] md:max-w-[175px] object-contain"
                 />
               </Link>
             </div>
@@ -109,16 +109,16 @@ const Navbar = () => {
                 <Image
                   src="/lotus-and-lion-wordmark.png"
                   alt="Lotus & Lion"
-                  width={180}
-                  height={17}
+                  width={150}
+                  height={14}
                   priority
-                  className="h-5 sm:h-6 w-auto object-contain"
+                  className="h-4 sm:h-[18px] w-auto max-w-[140px] object-contain"
                 />
               </Link>
             </div>
 
             {/* Center Section: Navigation Options (Desktop only) */}
-            <nav className="hidden items-center justify-center gap-4 md:flex lg:gap-8">
+            <nav className="hidden items-center justify-center gap-5 md:flex lg:gap-8 px-2">
               {navItems.map((item) => (
                 <Link 
                   key={`primary-${item.label}`} 
@@ -178,7 +178,7 @@ const Navbar = () => {
               alt="Lotus & Lion"
               width={160}
               height={15}
-              className="h-5 w-auto object-contain"
+              className="h-4 sm:h-4.5 w-auto max-w-[150px] object-contain"
             />
             <button onClick={() => setIsOpen(false)} aria-label="Close menu" className="text-[#573B2D]">
               <X size={22} />
