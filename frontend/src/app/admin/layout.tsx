@@ -134,7 +134,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 <item.icon size={20} className={isActive ? 'text-[#FEFFEF]' : 'text-[#573B2D]'} />
                 {!isSidebarCollapsed && (
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em]">{item.name}</span>
+                  <span className={`text-[11px] font-bold uppercase tracking-[0.2em] ${isActive ? 'text-[#FEFFEF]' : 'text-[#573B2D]'}`}>
+                    {item.name}
+                  </span>
                 )}
                 {isActive && (
                   <motion.div 

@@ -220,7 +220,7 @@ textarea {
 
 /* High-Contrast Clear Visibility for Admin Panel */
 .admin-panel {
-  color: #573B2D !important;
+  color: #573B2D;
 }
 
 .admin-panel h1,
@@ -229,22 +229,15 @@ textarea {
 .admin-panel h4,
 .admin-panel h5,
 .admin-panel h6 {
-  color: #573B2D !important;
-  font-weight: 700 !important;
-}
-
-.admin-panel p,
-.admin-panel label,
-.admin-panel span,
-.admin-panel small {
-  color: #573B2D !important;
+  color: #573B2D;
+  font-weight: 700;
 }
 
 .admin-panel table,
 .admin-panel th,
 .admin-panel td {
-  color: #573B2D !important;
-  font-weight: 600 !important;
+  color: #573B2D;
+  font-weight: 600;
 }
 
 .admin-panel [class*="bg-[#111]"],
@@ -265,38 +258,50 @@ textarea {
   background: #f7f3e8 !important;
 }
 
-.admin-panel [class*="text-white"] {
+/* Transform light gold and faded accents to sharp, readable dark brown on light surfaces */
+.admin-panel [class*="text-[#c8a45d]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#b87333]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#b08e4d]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#df0029]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-primary"]:not([class*="bg-[#573B2D]"] *) {
   color: #573B2D !important;
   font-weight: 700 !important;
 }
 
-/* Transform light gold and faded accents to sharp, readable dark brown */
-.admin-panel [class*="text-[#c8a45d]"],
-.admin-panel [class*="text-[#b87333]"],
-.admin-panel [class*="text-[#b08e4d]"],
-.admin-panel [class*="text-[#df0029]"],
-.admin-panel [class*="text-primary"] {
-  color: #573B2D !important;
-  font-weight: 700 !important;
-}
-
-.admin-panel svg[class*="text-[#c8a45d]"],
-.admin-panel svg[class*="text-[#b87333]"],
-.admin-panel svg[class*="text-primary"] {
+.admin-panel svg[class*="text-[#c8a45d]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel svg[class*="text-[#b87333]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel svg[class*="text-primary"]:not([class*="bg-[#573B2D]"] *) {
   color: #573B2D !important;
 }
 
-/* Transform light gray and muted texts to high-contrast readable dark brown */
-.admin-panel [class*="text-gray-400"],
-.admin-panel [class*="text-gray-500"],
-.admin-panel [class*="text-gray-600"],
-.admin-panel [class*="text-[#666]"],
-.admin-panel [class*="text-[#777]"],
-.admin-panel [class*="text-[#555]"],
-.admin-panel [class*="text-[#888]"],
-.admin-panel [class*="text-[#999]"] {
+/* Transform light gray and muted texts to high-contrast readable dark brown on light surfaces */
+.admin-panel [class*="text-gray-400"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-gray-500"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-gray-600"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#666]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#777]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#555]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#888]"]:not([class*="bg-[#573B2D]"] *),
+.admin-panel [class*="text-[#999]"]:not([class*="bg-[#573B2D]"] *) {
   color: #573B2D !important;
   font-weight: 600 !important;
+}
+
+/* CRITICAL: Active tabs, pills and buttons with dark brown background MUST ALWAYS have clear, bright ivory text & icons */
+.admin-panel [class*="bg-[#573B2D]"],
+.admin-panel [class*="bg-[#573B2D]"] span,
+.admin-panel [class*="bg-[#573B2D]"] p,
+.admin-panel [class*="bg-[#573B2D]"] h1,
+.admin-panel [class*="bg-[#573B2D]"] h2,
+.admin-panel [class*="bg-[#573B2D]"] h3,
+.admin-panel [class*="bg-[#573B2D]"] a,
+.admin-panel [class*="bg-[#573B2D]"] * {
+  color: #FEFFEF !important;
+}
+
+.admin-panel [class*="bg-[#573B2D]"] svg {
+  color: #FEFFEF !important;
+  stroke: #FEFFEF !important;
 }
 
 /* Buttons in Admin */
