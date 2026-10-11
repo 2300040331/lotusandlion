@@ -46,19 +46,19 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className={`relative w-full ${sizes[size]} bg-[#111] border border-white/10 rounded-2xl shadow-2xl overflow-hidden`}
+            className={`relative w-full ${sizes[size]} bg-[#FEFFEF] border border-[#573B2D]/20 rounded-2xl shadow-2xl overflow-hidden text-[#573B2D]`}
           >
-            <div className="flex items-center justify-between p-6 border-b border-white/5">
-              <h2 className="text-xl font-bold uppercase tracking-tight text-white">{title}</h2>
+            <div className="flex items-center justify-between p-6 border-b border-[#573B2D]/15 bg-white">
+              <h2 className="text-xl font-bold uppercase tracking-tight text-[#573B2D]">{title}</h2>
               <button 
                 onClick={onClose}
-                className="p-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-white transition-colors"
+                className="p-2 hover:bg-[#573B2D]/10 rounded-full text-[#573B2D] transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
             
-            <div className="p-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+            <div className="p-6 max-h-[80vh] overflow-y-auto custom-scrollbar text-[#573B2D]">
               {children}
             </div>
           </motion.div>

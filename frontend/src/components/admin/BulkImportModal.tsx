@@ -426,20 +426,20 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
         className="hidden"
       />
 
-      <div className="bg-[#111] border border-[#c8a45d]/20 rounded-2xl w-full max-w-6xl max-h-[85vh] flex flex-col text-white shadow-2xl overflow-hidden animate-none">
+      <div className="bg-[#FEFFEF] border border-[#573B2D]/20 rounded-2xl w-full max-w-6xl max-h-[85vh] flex flex-col text-[#573B2D] shadow-2xl overflow-hidden animate-none">
         
         {/* Header */}
-        <div className="border-b border-white/5 p-6 flex justify-between items-center bg-[#181818]">
+        <div className="border-b border-[#573B2D]/15 p-6 flex justify-between items-center bg-white">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#c8a45d]">Bulk Vault Import</h2>
-            <p className="text-[10px] uppercase text-gray-500 tracking-wider mt-1">
+            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#573B2D]">Bulk Vault Import</h2>
+            <p className="text-[10px] uppercase text-[#573B2D]/70 tracking-wider mt-1">
               Drag & Drop product media or spreadsheet data directly to catalog.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowHelp(!showHelp)}
-              className="text-gray-400 hover:text-white transition-colors p-1 animate-none cursor-pointer"
+              className="text-[#573B2D] hover:bg-[#573B2D]/10 transition-colors p-1.5 rounded-lg animate-none cursor-pointer"
               title="Show Import Format Guidelines"
             >
               <HelpCircle size={18} />
@@ -447,7 +447,7 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
             <button
               onClick={onClose}
               disabled={isPublishingAll}
-              className="p-1 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-all disabled:opacity-50 animate-none cursor-pointer"
+              className="p-1.5 rounded-lg text-[#573B2D] hover:bg-[#573B2D]/10 transition-all disabled:opacity-50 animate-none cursor-pointer"
             >
               <X size={18} />
             </button>
@@ -456,8 +456,8 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
 
         {/* Guidelines / Help Accordion */}
         {showHelp && (
-          <div className="bg-[#1a1a1a] border-b border-white/5 p-6 text-xs text-gray-400 space-y-3 overflow-y-auto max-h-[25vh]">
-            <p className="font-bold text-[#c8a45d] uppercase tracking-wider">Spreadsheet Schema Guidelines</p>
+          <div className="bg-white border-b border-[#573B2D]/15 p-6 text-xs text-[#573B2D] space-y-3 overflow-y-auto max-h-[25vh]">
+            <p className="font-bold text-[#573B2D] uppercase tracking-wider">Spreadsheet Schema Guidelines</p>
             <p>You can drag and drop a `.csv` or `.json` file to auto-populate products. The following column/key headers are recognized:</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-black/30 p-4 rounded-xl border border-white/5">
               <div>
@@ -504,19 +504,19 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
             {...getRootProps()}
             className={`border-2 border-dashed rounded-2xl p-8 transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-4 ${
               isDragActive
-                ? 'border-[#c8a45d] bg-[#c8a45d]/5'
-                : 'border-white/10 hover:border-[#c8a45d]/30 bg-white/5'
+                ? 'border-[#573B2D] bg-[#573B2D]/5'
+                : 'border-[#573B2D]/30 hover:border-[#573B2D] bg-white'
             }`}
           >
             <input {...getInputProps()} />
-            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-[#c8a45d]">
+            <div className="w-12 h-12 rounded-full bg-[#573B2D]/10 flex items-center justify-center text-[#573B2D]">
               <Upload size={24} />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-white">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#573B2D]">
                 {isDragActive ? 'Drop files here' : 'Drop CSV, JSON, or Product Images'}
               </p>
-              <p className="text-[9px] uppercase text-gray-500 tracking-widest mt-1">
+              <p className="text-[10px] uppercase text-[#573B2D]/70 tracking-widest mt-1">
                 CSV/JSON spreadsheets or bulk PNG, JPG, WEBP product pictures
               </p>
             </div>
@@ -526,33 +526,33 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
           {drafts.length > 0 && (
             <div className="flex-1 flex flex-col overflow-hidden min-h-[30vh]">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#c8a45d]">Drafts in Queue ({drafts.length})</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#573B2D]">Drafts in Queue ({drafts.length})</h3>
                 <button
                   onClick={() => setDrafts([])}
                   disabled={hasUploading}
-                  className="text-[10px] uppercase font-bold tracking-wider text-red-500 hover:text-red-400 disabled:opacity-50 transition-colors animate-none cursor-pointer"
+                  className="text-[10px] uppercase font-bold tracking-wider text-red-600 hover:text-red-700 disabled:opacity-50 transition-colors animate-none cursor-pointer"
                 >
                   Clear All
                 </button>
               </div>
 
-              <div className="flex-1 overflow-auto border border-white/5 rounded-xl bg-black/40">
+              <div className="flex-1 overflow-auto border border-[#573B2D]/20 rounded-xl bg-white shadow-sm">
                 <table className="w-full text-left border-collapse text-xs">
-                  <thead className="bg-[#181818] text-gray-300 uppercase tracking-widest text-[9px] font-bold sticky top-0 z-10 border-b border-white/5">
+                  <thead className="bg-[#FEFFEF] text-[#573B2D] uppercase tracking-widest text-[10px] font-extrabold sticky top-0 z-10 border-b border-[#573B2D]/20">
                     <tr>
-                      <th className="p-4 w-32 font-bold" style={{ color: '#d1d5db' }}>Images</th>
-                      <th className="p-4 font-bold" style={{ color: '#d1d5db' }}>Product Name</th>
-                      <th className="p-4 w-40 font-bold" style={{ color: '#d1d5db' }}>Collection</th>
-                      <th className="p-4 w-32 font-bold" style={{ color: '#d1d5db' }}>Category</th>
-                      <th className="p-4 w-40 font-bold" style={{ color: '#d1d5db' }}>Color(s)</th>
-                      <th className="p-4 w-28 font-bold" style={{ color: '#d1d5db' }}>Price (₹)</th>
-                      <th className="p-4 w-28 font-bold" style={{ color: '#d1d5db' }}>Discount (₹)</th>
-                      <th className="p-4 w-64 font-bold text-center" style={{ color: '#d1d5db' }}>Sizes Stock</th>
-                      <th className="p-4 w-24 font-bold" style={{ color: '#d1d5db' }}>Status</th>
-                      <th className="p-4 w-12 text-center font-bold" style={{ color: '#d1d5db' }}>Delete</th>
+                      <th className="p-4 w-32 font-extrabold text-[#573B2D]">Images</th>
+                      <th className="p-4 font-extrabold text-[#573B2D]">Product Name</th>
+                      <th className="p-4 w-40 font-extrabold text-[#573B2D]">Collection</th>
+                      <th className="p-4 w-32 font-extrabold text-[#573B2D]">Category</th>
+                      <th className="p-4 w-40 font-extrabold text-[#573B2D]">Color(s)</th>
+                      <th className="p-4 w-28 font-extrabold text-[#573B2D]">Price (₹)</th>
+                      <th className="p-4 w-28 font-extrabold text-[#573B2D]">Discount (₹)</th>
+                      <th className="p-4 w-64 font-extrabold text-center text-[#573B2D]">Sizes Stock</th>
+                      <th className="p-4 w-24 font-extrabold text-[#573B2D]">Status</th>
+                      <th className="p-4 w-12 text-center font-extrabold text-[#573B2D]">Delete</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
+                  <tbody className="divide-y divide-[#573B2D]/10 bg-white">
                     {drafts.map((draft) => {
                       const isUploading = draft.status === 'uploading';
                       const isPublishing = draft.status === 'publishing';
@@ -805,8 +805,8 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
         </div>
 
         {/* Footer */}
-        <div className="border-t border-white/5 p-6 bg-[#181818] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-[10px] uppercase tracking-wider text-gray-500 font-bold">
+        <div className="border-t border-[#573B2D]/15 p-6 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-[10px] uppercase tracking-wider text-[#573B2D] font-bold">
             {drafts.length > 0 ? (
               <>
                 {drafts.filter(d => d.status === 'success').length} of {drafts.length} Published
@@ -821,16 +821,16 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
             <button
               onClick={onClose}
               disabled={isPublishingAll}
-              className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:bg-white/5 transition-all cursor-pointer animate-none"
+              className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-[#573B2D]/30 text-[#573B2D] hover:bg-[#573B2D]/10 transition-all cursor-pointer animate-none"
             >
               Cancel
             </button>
             <button
               onClick={handlePublishAll}
               disabled={drafts.length === 0 || hasUploading}
-              className="bg-[#c8a45d] text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#b08e4d] transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
+              className="bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
             >
-              {isPublishingAll ? <Loader2 className="animate-spin" size={16} /> : <Check size={16} />}
+              {isPublishingAll ? <Loader2 className="animate-spin text-[#FEFFEF]" size={16} /> : <Check size={16} className="text-[#FEFFEF]" />}
               Publish to Vault
             </button>
           </div>

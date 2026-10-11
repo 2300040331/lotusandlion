@@ -228,9 +228,10 @@ textarea {
 .admin-panel h3,
 .admin-panel h4,
 .admin-panel h5,
-.admin-panel h6 {
-  color: #573B2D;
-  font-weight: 700;
+.admin-panel h6,
+.admin-panel .brand-heading {
+  color: #573B2D !important;
+  font-weight: 700 !important;
 }
 
 .admin-panel table,
@@ -241,16 +242,21 @@ textarea {
 }
 
 .admin-panel [class*="bg-[#111]"],
-.admin-panel [class*="bg-[#0d0d0d]"] {
+.admin-panel [class*="bg-[#0d0d0d]"],
+.admin-panel [class*="bg-[#181818]"],
+.admin-panel [class*="bg-[#1a1a1a]"],
+.admin-panel [class*="bg-[#141414]"],
+.admin-panel [class*="bg-black/30"],
+.admin-panel [class*="bg-black/40"] {
   background: #ffffff !important;
-  border-color: rgba(87, 59, 45, 0.25) !important;
-  box-shadow: 0 2px 10px rgba(87, 59, 45, 0.05) !important;
+  border-color: rgba(87, 59, 45, 0.2) !important;
+  box-shadow: 0 2px 10px rgba(87, 59, 45, 0.04) !important;
 }
 
 .admin-panel [class*="border-white/5"],
 .admin-panel [class*="border-white/10"],
 .admin-panel [class*="border-white/20"] {
-  border-color: rgba(87, 59, 45, 0.25) !important;
+  border-color: rgba(87, 59, 45, 0.2) !important;
 }
 
 .admin-panel [class*="bg-white/5"],
@@ -305,9 +311,14 @@ textarea {
 }
 
 /* Buttons in Admin */
-.admin-panel [class*="bg-[#c8a45d]"] {
+.admin-panel [class*="bg-[#c8a45d]"],
+.admin-panel [class*="bg-[#c8a45d]"] *,
+.admin-panel [class*="bg-[#c8a45d]"] span,
+.admin-panel [class*="bg-[#c8a45d]"] svg {
   background-color: #573B2D !important;
   color: #FEFFEF !important;
+  fill: #FEFFEF;
+  stroke: #FEFFEF;
   font-weight: 700 !important;
 }
 

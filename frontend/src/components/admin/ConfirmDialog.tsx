@@ -44,21 +44,21 @@ export default function ConfirmDialog({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="relative w-full max-w-md bg-[#111] border border-white/10 rounded-2xl p-6 shadow-2xl"
+            className="relative w-full max-w-md bg-white border border-[#573B2D]/20 rounded-2xl p-6 shadow-2xl text-[#573B2D]"
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className={`p-3 rounded-full ${type === 'danger' ? 'bg-red-500/10 text-red-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
+              <div className={`p-3 rounded-full ${type === 'danger' ? 'bg-red-50 text-red-600' : 'bg-yellow-50 text-yellow-600'}`}>
                 <AlertTriangle size={24} />
               </div>
-              <h2 className="text-xl font-bold text-white uppercase tracking-tight">{title}</h2>
+              <h2 className="text-xl font-bold text-[#573B2D] uppercase tracking-tight">{title}</h2>
             </div>
 
-            <p className="text-gray-400 text-sm mb-8">{message}</p>
+            <p className="text-[#573B2D]/80 text-sm mb-8">{message}</p>
 
             <div className="flex gap-3">
               <button
                 onClick={onClose}
-                className="flex-grow py-3 px-4 rounded-xl bg-white/5 text-gray-300 font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all"
+                className="flex-grow py-3 px-4 rounded-xl border border-[#573B2D]/30 text-[#573B2D] font-bold uppercase tracking-widest text-[10px] hover:bg-[#573B2D]/10 transition-all"
               >
                 Cancel
               </button>

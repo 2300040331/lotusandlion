@@ -25,8 +25,8 @@ export default function DataTable<T extends { _id: string }>({
 }: DataTableProps<T>) {
   if (loading) {
     return (
-      <div className="w-full h-64 flex items-center justify-center bg-[#111] border border-white/5 rounded-xl">
-        <div className="text-primary text-xs font-bold uppercase tracking-[0.3em] animate-pulse">
+      <div className="w-full h-64 flex items-center justify-center bg-white border border-[#573B2D]/20 rounded-xl shadow-sm">
+        <div className="text-[#573B2D] text-xs font-bold uppercase tracking-[0.3em] animate-pulse">
           Loading Data...
         </div>
       </div>
@@ -35,37 +35,37 @@ export default function DataTable<T extends { _id: string }>({
 
   if (data.length === 0) {
     return (
-      <div className="w-full h-64 flex flex-col items-center justify-center bg-[#111] border border-white/5 rounded-xl text-gray-500">
+      <div className="w-full h-64 flex flex-col items-center justify-center bg-white border border-[#573B2D]/20 rounded-xl text-[#573B2D]/70 shadow-sm">
         <p className="text-xs uppercase tracking-widest font-bold">{emptyMessage}</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#111] border border-white/5 rounded-xl overflow-hidden">
+    <div className="bg-white border border-[#573B2D]/20 rounded-xl overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-white/5 border-b border-white/5">
+          <thead className="bg-[#FEFFEF] border-b border-[#573B2D]/20">
             <tr>
               {columns.map((col, idx) => (
                 <th 
                   key={idx} 
-                  className={`px-6 py-4 text-[10px] uppercase tracking-widest text-gray-500 font-bold ${col.className || ''}`}
+                  className={`px-6 py-4 text-[11px] uppercase tracking-widest text-[#573B2D] font-extrabold ${col.className || ''}`}
                 >
                   {col.header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-[#573B2D]/10 bg-white">
             {data.map((item) => (
               <tr 
                 key={item.id} 
                 onClick={() => onRowClick?.(item)}
-                className={`transition-colors ${onRowClick ? 'cursor-pointer hover:bg-white/5' : ''}`}
+                className={`transition-colors hover:bg-[#FEFFEF]/60 ${onRowClick ? 'cursor-pointer' : ''}`}
               >
                 {columns.map((col, idx) => (
-                  <td key={idx} className={`px-6 py-4 ${col.className || ''}`}>
+                  <td key={idx} className={`px-6 py-4 text-[#573B2D] ${col.className || ''}`}>
                     {typeof col.accessor === 'function' 
                       ? col.accessor(item) 
                       : (col.accessor ? (item[col.accessor] as ReactNode) : null)}

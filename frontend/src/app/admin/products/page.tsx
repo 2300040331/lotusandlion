@@ -139,53 +139,52 @@ export default function AdminProducts() {
 
   return (
     <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <AdminHeader title="Inventory" subtitle="Manage your luxury product catalog." />
-        <div className="flex gap-3 h-fit">
+      <AdminHeader title="Inventory" subtitle="Manage your luxury product catalog." />
+
+      {/* Toolbar & Filters Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="flex flex-col sm:flex-row gap-4 flex-grow w-full md:w-auto">
+          <div className="relative flex-grow">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#573B2D]" size={16} />
+            <input 
+              type="text" 
+              placeholder="Search products by name or category..." 
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-white border border-[#573B2D]/25 rounded-xl py-3 pl-12 pr-4 text-xs text-[#573B2D] placeholder-[#573B2D]/60 focus:outline-none focus:border-[#573B2D] shadow-sm font-medium"
+            />
+          </div>
+          <div className="relative shrink-0">
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-[#573B2D]" size={14} />
+            <select 
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="bg-white border border-[#573B2D]/25 rounded-xl py-3 pl-10 pr-10 text-[10px] uppercase font-bold tracking-widest focus:outline-none focus:border-[#573B2D] appearance-none text-[#573B2D] shadow-sm cursor-pointer"
+            >
+              <option value="">All Categories</option>
+              <option value="Essentials">Essentials</option>
+              <option value="T-Shirts">T-Shirts</option>
+              <option value="Hoodies">Hoodies</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="flex gap-3 h-fit shrink-0 w-full md:w-auto justify-end">
           <button 
             onClick={() => setIsBulkImportOpen(true)}
-            className="border border-[#c8a45d]/40 text-[#c8a45d] hover:bg-[#c8a45d]/10 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all cursor-pointer animate-none"
+            className="border border-[#573B2D] text-[#573B2D] bg-white hover:bg-[#573B2D]/10 px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all cursor-pointer shadow-sm"
           >
             <Upload size={16} />
             Bulk Import
           </button>
           <Link 
             href="/admin/products/new"
-            className="bg-[#c8a45d] text-black px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#b08e4d] transition-all h-fit"
+            className="bg-[#573B2D] text-[#FEFFEF] px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 transition-all h-fit shadow-sm"
           >
             <Plus size={16} />
             New Product
           </Link>
-        </div>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="relative flex-grow">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
-          <input 
-            type="text" 
-            placeholder="Search products by name or category..." 
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#111] border border-white/5 rounded-xl py-3 pl-12 pr-4 text-xs focus:outline-none focus:border-primary/50 transition-colors"
-          />
-        </div>
-        <div className="flex gap-2">
-           <div className="relative">
-              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={14} />
-              <select 
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="bg-[#111] border border-white/5 rounded-xl py-3 pl-10 pr-10 text-[10px] uppercase font-bold tracking-widest focus:outline-none focus:border-primary/50 appearance-none text-gray-400"
-              >
-                <option value="">All Categories</option>
-                <option value="Essentials">Essentials</option>
-                <option value="T-Shirts">T-Shirts</option>
-                <option value="Hoodies">Hoodies</option>
-                <option value="Accessories">Accessories</option>
-              </select>
-           </div>
         </div>
       </div>
 
