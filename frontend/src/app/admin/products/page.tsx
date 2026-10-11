@@ -180,7 +180,7 @@ export default function AdminProducts() {
           </button>
           <Link 
             href="/admin/products/new"
-            className="bg-[#573B2D] text-[#FEFFEF] px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 transition-all h-fit shadow-sm"
+            className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 transition-all h-fit shadow-sm"
           >
             <Plus size={16} />
             New Product

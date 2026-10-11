@@ -126,9 +126,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group relative ${
+                className={`admin-nav-item flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all group relative ${
                   isActive 
-                    ? 'bg-[#573B2D] text-[#FEFFEF] font-bold shadow-sm' 
+                    ? 'admin-nav-active bg-[#573B2D] text-[#FEFFEF] font-bold shadow-sm' 
                     : 'text-[#573B2D] font-bold hover:bg-[#573B2D]/10'
                 }`}
               >
@@ -163,11 +163,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
           <button 
             onClick={logoutHandler}
-            className="w-full flex items-center gap-4 px-4 py-3.5 text-[#573B2D] font-bold hover:bg-[#573B2D]/10 transition-all group"
+            className="w-full flex items-center gap-4 px-4 py-3.5 text-[#573B2D] font-bold hover:bg-[#573B2D]/10 transition-all group cursor-pointer"
           >
             <LogOut size={20} className="text-[#573B2D] group-hover:translate-x-1 transition-transform" />
             {!isSidebarCollapsed && (
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Logout</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#573B2D]">Logout</span>
             )}
           </button>
         </div>

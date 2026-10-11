@@ -828,7 +828,7 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
             <button
               onClick={handlePublishAll}
               disabled={drafts.length === 0 || hasUploading}
-              className="bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
+              className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none animate-none"
             >
               {isPublishingAll ? <Loader2 className="animate-spin text-[#FEFFEF]" size={16} /> : <Check size={16} className="text-[#FEFFEF]" />}
               Publish to Vault

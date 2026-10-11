@@ -94,7 +94,7 @@ export default function CollectionsManagerPage() {
           </button>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#573B2D] text-[#FEFFEF] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 hover:bg-[#573B2D]/90 transition-colors rounded-xl shadow-sm"
+            className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-6 py-3 text-[10px] font-bold uppercase tracking-[0.18em] flex items-center gap-2 hover:bg-[#573B2D]/90 transition-colors rounded-xl shadow-sm"
           >
             <Plus size={14} /> Add Collection
           </button>
