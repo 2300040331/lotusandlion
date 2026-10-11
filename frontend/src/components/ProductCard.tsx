@@ -87,9 +87,9 @@ const ProductCard = ({ product }: { product: Product }) => {
   };
 
   return (
-    <Link href={productHref} className="group block bg-white text-[#1c1c1c]">
+    <Link href={productHref} className="group block bg-[#FEFFEF] text-[#573B2D]">
       <div
-        className="group/card relative aspect-[9/16] overflow-hidden bg-white"
+        className="group/card relative aspect-[9/16] overflow-hidden bg-[#FEFFEF]"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -119,7 +119,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                   setCurrentImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
                 }}
                 aria-label="Previous product image"
-                className="grid h-10 w-10 place-items-center rounded-full bg-white/90 shadow-sm transition hover:bg-white"
+                className="grid h-10 w-10 place-items-center rounded-full bg-[#FEFFEF]/90 text-[#573B2D] shadow-sm transition hover:bg-[#FEFFEF]"
               >
                 <ChevronLeft size={18} />
               </button>
@@ -130,7 +130,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                   setCurrentImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
                 }}
                 aria-label="Next product image"
-                className="grid h-10 w-10 place-items-center rounded-full bg-white/90 shadow-sm transition hover:bg-white"
+                className="grid h-10 w-10 place-items-center rounded-full bg-[#FEFFEF]/90 text-[#573B2D] shadow-sm transition hover:bg-[#FEFFEF]"
               >
                 <ChevronRight size={18} />
               </button>
@@ -140,7 +140,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 <div
                   key={idx}
                   className={`h-1.5 w-1.5 rounded-full transition-all ${
-                    activeImageIndex === idx ? 'bg-primary w-3' : 'bg-white/50'
+                    activeImageIndex === idx ? 'bg-[#573B2D] w-3' : 'bg-[#573B2D]/30'
                   }`}
                 />
               ))}
@@ -148,22 +148,22 @@ const ProductCard = ({ product }: { product: Product }) => {
           </>
         )}
         {product.countInStock === 0 ? (
-          <span className="absolute left-3 top-3 bg-[#efefef] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-[#1c1c1c]">
+          <span className="absolute left-3 top-3 bg-[#f0ece1] px-2 py-1 text-[11px] uppercase tracking-[0.08em] text-[#573B2D]">
             Out of Stock
           </span>
         ) : product.countInStock <= 5 ? (
-          <span className="absolute left-3 top-3 bg-[#ff9900] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-white">
+          <span className="absolute left-3 top-3 bg-[#573B2D] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-[#FEFFEF]">
             Only {product.countInStock} Left
           </span>
         ) : savings > 0 ? (
-          <span className="absolute left-3 top-3 bg-[#df0029] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-white">
+          <span className="absolute left-3 top-3 bg-[#573B2D] px-2 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-[#FEFFEF]">
             Save {savings}%
           </span>
         ) : null}
         <button
           onClick={handleAddToCart}
           disabled={product.countInStock === 0}
-          className="absolute inset-x-0 bottom-0 hidden items-center justify-center gap-2 bg-[#1c1c1c] py-3 text-[12px] uppercase tracking-[0.18em] text-white opacity-0 transition-opacity disabled:bg-[#777] md:flex group-hover/card:opacity-100"
+          className="absolute inset-x-0 bottom-0 hidden items-center justify-center gap-2 bg-[#573B2D] py-3 text-[12px] uppercase tracking-[0.18em] text-[#FEFFEF] opacity-0 transition-opacity hover:bg-[#3d291f] disabled:bg-[#8c7365] md:flex group-hover/card:opacity-100"
         >
           <ShoppingBag size={14} />
           Choose options
@@ -171,9 +171,9 @@ const ProductCard = ({ product }: { product: Product }) => {
       </div>
 
       <div className="pt-4 text-left md:text-center">
-        <p className="text-[17px] leading-snug tracking-normal md:text-[13px] md:leading-5">{product.name}</p>
-        <p className="mt-2 text-[15px] text-[#777] md:text-[13px] md:text-[#df0029]">{formatINR(currentPrice)}</p>
-        {regularPrice && <p className="text-[12px] text-[#777] line-through">{formatINR(regularPrice)}</p>}
+        <p className="text-[17px] leading-snug tracking-normal md:text-[13px] md:leading-5 text-[#573B2D]">{product.name}</p>
+        <p className="mt-2 text-[15px] font-bold text-[#573B2D] md:text-[13px]">{formatINR(currentPrice)}</p>
+        {regularPrice && <p className="text-[12px] text-[#573B2D]/60 line-through">{formatINR(regularPrice)}</p>}
       </div>
     </Link>
   );

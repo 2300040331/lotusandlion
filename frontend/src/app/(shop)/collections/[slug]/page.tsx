@@ -144,22 +144,22 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
 
   if (loading && !collection) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Loading...</div>
+      <div className="flex items-center justify-center h-screen bg-[#FEFFEF]">
+        <div className="text-xl text-[#573B2D]">Loading...</div>
       </div>
     );
   }
 
   if (!collection) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Collection not found</div>
+      <div className="flex items-center justify-center h-screen bg-[#FEFFEF]">
+        <div className="text-xl text-[#573B2D]">Collection not found</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FEFFEF] text-[#573B2D]">
       {/* Hero Banner */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -227,7 +227,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
               >
                 <Link
                   href={collection.hero.ctaLink || `#products`}
-                  className="inline-block bg-white text-black px-6 py-2.5 md:px-8 md:py-3 rounded-lg text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors"
+                  className="inline-block bg-[#FEFFEF] text-[#573B2D] px-6 py-2.5 md:px-8 md:py-3 rounded-lg text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-[#FEFFEF]/90 transition-colors"
                 >
                   {collection.hero.ctaText}
                 </Link>
@@ -243,7 +243,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-12 hidden max-w-3xl text-lg text-gray-700 md:block"
+            className="mb-12 hidden max-w-3xl text-lg text-[#573B2D]/80 md:block"
           >
             {collection.description}
           </motion.p>
@@ -251,20 +251,20 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
 
         {/* Sub-Collections Tabs */}
         {subCollections.length > 1 && (
-          <div className="mb-12 flex justify-center gap-6 border-b border-gray-100 pb-4">
+          <div className="mb-12 flex justify-center gap-6 border-b border-[#573B2D]/20 pb-4">
             {subCollections.map((sub) => (
               <button
                 key={sub.id}
                 onClick={() => setSelectedSubSlug(sub.slug)}
                 className={`relative pb-3 text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${
-                  selectedSubSlug === sub.slug ? 'text-black' : 'text-gray-400 hover:text-gray-600'
+                  selectedSubSlug === sub.slug ? 'text-[#573B2D]' : 'text-[#573B2D]/50 hover:text-[#573B2D]'
                 }`}
               >
                 {sub.name}
                 {selectedSubSlug === sub.slug && (
                   <motion.div
                     layoutId="activeSubTab"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#B87333]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#573B2D]"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -275,7 +275,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
 
         {/* Products Grid */}
         <div id="products" className={`scroll-mt-16 transition-opacity duration-300 ${switching ? 'opacity-40 pointer-events-none' : 'opacity-100'}`}>
-          <h2 className="mb-6 text-2xl font-bold text-black md:mb-10 md:text-4xl">{collection.name}</h2>
+          <h2 className="mb-6 text-2xl font-bold text-[#573B2D] md:mb-10 md:text-4xl">{collection.name}</h2>
           <div className="grid grid-cols-2 gap-x-10 gap-y-14 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             {collection.products?.map((product, index) => (
               <motion.div
@@ -286,7 +286,7 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
                 className="group"
               >
                 <Link href={`/product/${product.slug}`}>
-                  <div className="relative mb-4 overflow-hidden bg-white md:mb-6" style={{ aspectRatio: '9/16' }}>
+                  <div className="relative mb-4 overflow-hidden bg-[#FEFFEF] md:mb-6" style={{ aspectRatio: '9/16' }}>
                     {product.images?.[0]?.image_url && (
                       <Image
                         src={product.images[0].image_url}
@@ -300,13 +300,13 @@ export default function CollectionPage({ params }: { params: Promise<{ slug: str
                       />
                     )}
                     {product.is_featured && (
-                      <div className="absolute right-2 top-2 bg-black px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-white md:right-3 md:top-3 md:px-4 md:py-2 md:text-sm">
+                      <div className="absolute right-2 top-2 bg-[#573B2D] px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-[#FEFFEF] md:right-3 md:top-3 md:px-4 md:py-2 md:text-sm">
                         Featured
                       </div>
                     )}
                   </div>
-                  <h3 className="mb-2 text-[17px] font-normal leading-snug text-black transition-colors group-hover:text-gray-700 md:text-lg md:font-bold">{product.name}</h3>
-                  <p className="text-[15px] text-[#777] md:text-xl md:font-bold md:text-black">{formatINR(product.price)}</p>
+                  <h3 className="mb-2 text-[17px] font-normal leading-snug text-[#573B2D] transition-colors group-hover:opacity-75 md:text-lg md:font-bold">{product.name}</h3>
+                  <p className="text-[15px] text-[#573B2D]/80 md:text-xl md:font-bold md:text-[#573B2D]">{formatINR(product.price)}</p>
                 </Link>
               </motion.div>
             ))}

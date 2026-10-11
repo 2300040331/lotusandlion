@@ -16,7 +16,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow bg-[#FEFFEF] text-[#573B2D]">{children}</main>
       <WhatsAppButton />
       <Footer />
     </>

@@ -61,10 +61,10 @@ export default function ContentPage({ params }: { params: Promise<{ slug: string
 
   if (!content) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
-        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#df0029] mb-4">Not Found</p>
-        <h1 className="brand-heading text-4xl md:text-6xl uppercase text-[#1c1c1c] mb-6">Page Unavailable</h1>
-        <Link href="/products" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1c1c1c] hover:text-[#df0029]">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center bg-[#FEFFEF] text-[#573B2D]">
+        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#573B2D] mb-4">Not Found</p>
+        <h1 className="brand-heading text-4xl md:text-6xl uppercase text-[#573B2D] mb-6">Page Unavailable</h1>
+        <Link href="/products" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#573B2D] hover:opacity-75">
           Return To Collection
         </Link>
       </div>
@@ -72,21 +72,21 @@ export default function ContentPage({ params }: { params: Promise<{ slug: string
   }
 
   return (
-    <section className="min-h-[70vh] bg-white px-6 py-24 text-[#1c1c1c]">
+    <section className="min-h-[70vh] bg-[#FEFFEF] px-6 py-24 text-[#573B2D]">
       <div className="max-w-3xl mx-auto">
-        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#df0029] mb-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#573B2D] mb-6">
           {content.eyebrow || content.metaTitle || 'Lotus & Lion'}
         </p>
-        <h1 className="brand-heading text-4xl md:text-6xl uppercase text-[#1c1c1c] mb-8">
+        <h1 className="brand-heading text-4xl md:text-6xl uppercase text-[#573B2D] mb-8">
           {content.title}
         </h1>
         {content.body?.startsWith('<') ? (
           <div
-            className="prose prose-sm max-w-none text-[#555]"
+            className="prose prose-sm max-w-none text-[#573B2D]/80"
             dangerouslySetInnerHTML={{ __html: content.body }}
           />
         ) : (
-          <p className="text-lg leading-8 text-[#555]">{content.body}</p>
+          <p className="text-lg leading-8 text-[#573B2D]/80">{content.body}</p>
         )}
       </div>
     </section>

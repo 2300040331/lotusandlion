@@ -96,24 +96,24 @@ export default function CartPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black py-24 flex items-center justify-center">
-        <div className="text-xs uppercase tracking-[0.2em] text-gray-500">Loading your bag...</div>
+      <div className="min-h-screen bg-[#FEFFEF] py-24 flex items-center justify-center">
+        <div className="text-xs uppercase tracking-[0.2em] text-[#573B2D]/70">Loading your bag...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white py-12 md:py-24">
+    <div className="min-h-screen bg-[#FEFFEF] text-[#573B2D] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold uppercase tracking-tight mb-12">Your Bag</h1>
+        <h1 className="text-4xl font-bold uppercase tracking-tight mb-12 text-[#573B2D]">Your Bag</h1>
 
         {safeCartItems.length === 0 ? (
-          <div className="text-center py-24 border border-dashed border-border">
-            <ShoppingBag className="w-12 h-12 mx-auto text-gray-300 mb-6" />
-            <p className="text-gray-500 uppercase tracking-widest mb-8">Your bag is empty.</p>
+          <div className="text-center py-24 border border-dashed border-[#573B2D]/20">
+            <ShoppingBag className="w-12 h-12 mx-auto text-[#573B2D]/40 mb-6" />
+            <p className="text-[#573B2D]/70 uppercase tracking-widest mb-8">Your bag is empty.</p>
             <Link
               href="/products"
-              className="inline-block bg-black dark:bg-white text-white dark:text-black px-10 py-4 text-xs font-bold uppercase tracking-widest hover:bg-primary dark:hover:bg-primary transition-all"
+              className="inline-block bg-[#573B2D] text-[#FEFFEF] px-10 py-4 text-xs font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 transition-all"
             >
               Continue Shopping
             </Link>
@@ -124,32 +124,32 @@ export default function CartPage() {
               {safeCartItems.map((item) => {
                 const availabilityKey = getAvailabilityKey(item);
                 return (
-                  <div key={availabilityKey} className={`flex gap-6 pb-8 border-b border-border ${availability[availabilityKey]?.available === false ? 'opacity-70' : ''}`}>
-                    <div className="w-24 h-32 md:w-32 md:h-44 bg-secondary flex-shrink-0">
+                  <div key={availabilityKey} className={`flex gap-6 pb-8 border-b border-[#573B2D]/15 ${availability[availabilityKey]?.available === false ? 'opacity-70' : ''}`}>
+                    <div className="w-24 h-32 md:w-32 md:h-44 bg-[#FEFFEF] border border-[#573B2D]/10 flex-shrink-0">
                       <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
                     </div>
                     <div className="flex-grow flex flex-col justify-between py-2">
                       <div>
                         <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-sm font-bold uppercase tracking-wide">{item.name}</h3>
+                          <h3 className="text-sm font-bold uppercase tracking-wide text-[#573B2D]">{item.name}</h3>
                           <button
                             onClick={() => removeFromCart(item.product, item.size, item.color)}
-                            className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                            className="text-[#573B2D]/40 hover:text-red-500 transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                         {item.size && (
-                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">
-                            Size: <span className="font-semibold text-black dark:text-white">{item.size}</span>
+                          <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-wider mb-0.5">
+                            Size: <span className="font-semibold text-[#573B2D]">{item.size}</span>
                           </p>
                         )}
                         {item.color && item.color !== 'Default' && (
-                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2">
-                            Color: <span className="font-semibold text-black dark:text-white">{item.color}</span>
+                          <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-wider mb-2">
+                            Color: <span className="font-semibold text-[#573B2D]">{item.color}</span>
                           </p>
                         )}
-                        <p className="text-xs text-primary dark:text-[#c8a45d] font-medium tracking-widest">{formatINR(item.price)}</p>
+                        <p className="text-xs text-[#573B2D] font-medium tracking-widest">{formatINR(item.price)}</p>
                         {availability[availabilityKey]?.available === false && (
                           <p className="mt-2 inline-block bg-red-50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-600">
                             {availability[availabilityKey]?.message || 'Out of stock'}
@@ -158,24 +158,24 @@ export default function CartPage() {
                       </div>
 
                       <div className="flex justify-between items-end">
-                        <div className="flex items-center border border-border">
+                        <div className="flex items-center border border-[#573B2D]/20">
                           <button
                             onClick={() => addToCart({ ...item, qty: Math.max(1, item.qty - 1) })}
                             disabled={availability[availabilityKey]?.available === false}
-                            className="px-3 py-1 hover:bg-secondary transition-colors border-r border-border text-xs cursor-pointer"
+                            className="px-3 py-1 hover:bg-[#573B2D]/10 transition-colors border-r border-[#573B2D]/20 text-xs cursor-pointer text-[#573B2D]"
                           >
                             -
                           </button>
-                          <span className="px-4 py-1 text-xs font-medium">{item.qty}</span>
+                          <span className="px-4 py-1 text-xs font-medium text-[#573B2D]">{item.qty}</span>
                           <button
                             onClick={() => addToCart({ ...item, countInStock: availability[availabilityKey]?.stock ?? item.countInStock, qty: Math.min(availability[availabilityKey]?.stock ?? item.countInStock, item.qty + 1) })}
                             disabled={availability[availabilityKey]?.available === false}
-                            className="px-3 py-1 hover:bg-secondary transition-colors border-l border-border text-xs cursor-pointer"
+                            className="px-3 py-1 hover:bg-[#573B2D]/10 transition-colors border-l border-[#573B2D]/20 text-xs cursor-pointer text-[#573B2D]"
                           >
                             +
                           </button>
                         </div>
-                        <p className="text-sm font-bold tracking-widest uppercase">
+                        <p className="text-sm font-bold tracking-widest uppercase text-[#573B2D]">
                           {formatINR(item.qty * item.price)}
                         </p>
                       </div>
@@ -185,20 +185,20 @@ export default function CartPage() {
               })}
             </div>
 
-            <div className="bg-secondary dark:bg-[#111] p-8 h-fit border border-border">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] mb-8">Summary</h2>
+            <div className="bg-[#FEFFEF] p-8 h-fit border border-[#573B2D]/20 shadow-sm">
+              <h2 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-[#573B2D]">Summary</h2>
               <div className="space-y-4 mb-8">
-                <div className="flex justify-between text-xs tracking-widest uppercase">
-                  <span className="text-gray-500">Subtotal</span>
+                <div className="flex justify-between text-xs tracking-widest uppercase text-[#573B2D]">
+                  <span className="text-[#573B2D]/70">Subtotal</span>
                   <span>{formatINR(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-xs tracking-widest uppercase">
-                  <span className="text-gray-500">Shipping</span>
-                  <span className="text-green-600">Complimentary</span>
+                <div className="flex justify-between text-xs tracking-widest uppercase text-[#573B2D]">
+                  <span className="text-[#573B2D]/70">Shipping</span>
+                  <span className="text-[#573B2D] font-medium">Complimentary</span>
                 </div>
-                <div className="pt-4 border-t border-border flex justify-between font-bold text-sm tracking-widest uppercase">
+                <div className="pt-4 border-t border-[#573B2D]/20 flex justify-between font-bold text-sm tracking-widest uppercase text-[#573B2D]">
                   <span>Total</span>
-                  <span className="text-primary dark:text-[#c8a45d]">{formatINR(subtotal)}</span>
+                  <span className="text-[#573B2D]">{formatINR(subtotal)}</span>
                 </div>
               </div>
               {unavailableItems.length > 0 && (
@@ -214,14 +214,14 @@ export default function CartPage() {
                 }}
                 className={`w-full py-4 text-xs font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
                   canCheckout
-                    ? 'bg-black dark:bg-white text-white dark:text-black hover:bg-primary dark:hover:bg-primary'
-                    : 'pointer-events-none bg-gray-300 text-gray-500'
+                    ? 'bg-[#573B2D] text-[#FEFFEF] hover:bg-[#573B2D]/90'
+                    : 'pointer-events-none bg-[#573B2D]/20 text-[#573B2D]/40'
                 }`}
               >
                 {checkingStock ? 'Checking Stock...' : 'Checkout'}
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <p className="mt-6 text-[10px] text-center text-gray-500 uppercase tracking-widest">
+              <p className="mt-6 text-[10px] text-center text-[#573B2D]/70 uppercase tracking-widest">
                 Prices include all applicable taxes and duties.
               </p>
             </div>

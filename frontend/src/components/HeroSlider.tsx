@@ -48,8 +48,8 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
 
   if (!slides || slides.length === 0) {
     return (
-      <section className="relative h-[72vh] min-h-[560px] overflow-hidden border-b border-[#dddddd] bg-[#f7f7f7] animate-pulse flex items-center justify-center">
-        <div className="text-[10px] uppercase tracking-[0.5em] text-gray-400">Lotus & Lion Archive Loading...</div>
+      <section className="relative h-[72vh] min-h-[560px] overflow-hidden border-b border-[#573B2D]/15 bg-[#FEFFEF] animate-pulse flex items-center justify-center">
+        <div className="text-[10px] uppercase tracking-[0.5em] text-[#573B2D]/50">Lotus & Lion Archive Loading...</div>
       </section>
     );
   }
@@ -85,7 +85,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
   );
 
   return (
-    <section className="relative h-[72vh] min-h-[620px] overflow-hidden border-b border-[#dddddd] bg-[#f7f7f7] sm:h-[72vh] sm:min-h-[560px]">
+    <section className="relative h-[72vh] min-h-[620px] overflow-hidden border-b border-[#573B2D]/15 bg-[#FEFFEF] sm:h-[72vh] sm:min-h-[560px]">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
@@ -127,15 +127,15 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
           ) : (
             <div className="hero-editorial absolute inset-0" />
           )}
-          <div className={`absolute inset-0 bg-[#1c1c1c]/25 ${isFlyer ? 'hidden sm:block' : ''}`} />
+          <div className={`absolute inset-0 bg-[#573B2D]/20 ${isFlyer ? 'hidden sm:block' : ''}`} />
           
-          <div className={`absolute inset-0 z-10 flex items-center justify-center px-8 text-center text-white sm:px-12 ${isFlyer ? 'hidden sm:flex' : ''}`}>
+          <div className={`absolute inset-0 z-10 flex items-center justify-center px-8 text-center text-[#FEFFEF] sm:px-12 ${isFlyer ? 'hidden sm:flex' : ''}`}>
             <div className="max-w-4xl">
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mb-3 text-[12px] uppercase tracking-[0.28em] sm:mb-4 sm:text-[13px] sm:tracking-[0.32em]"
+                className="mb-3 text-[12px] uppercase tracking-[0.28em] sm:mb-4 sm:text-[13px] sm:tracking-[0.32em] text-[#FEFFEF]/90"
               >
                 {slide.eyebrow}
               </motion.p>
@@ -143,7 +143,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="brand-heading text-5xl leading-none sm:text-6xl md:text-7xl"
+                className="brand-heading text-5xl leading-none sm:text-6xl md:text-7xl text-[#FEFFEF]"
               >
                 {slide.title}
               </motion.h1>
@@ -151,7 +151,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mx-auto mt-4 max-w-2xl text-[12px] leading-relaxed opacity-90 sm:mt-5 sm:text-sm sm:leading-7"
+                className="mx-auto mt-4 max-w-2xl text-[12px] leading-relaxed opacity-90 sm:mt-5 sm:text-sm sm:leading-7 text-[#FEFFEF]/90"
               >
                 {slide.subtitle}
               </motion.p>
@@ -162,7 +162,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
               >
                 <Link
                   href={slide.ctaLink || '/products'}
-                  className="mt-8 inline-flex rounded-full bg-[#B87333] px-10 py-4 text-[13px] uppercase tracking-[0.08em] text-white transition-colors hover:bg-white hover:text-[#B87333] sm:px-12 sm:text-[12px] sm:tracking-[0.18em]"
+                  className="mt-8 inline-flex rounded-full bg-[#573B2D] px-10 py-4 text-[13px] uppercase tracking-[0.08em] text-[#FEFFEF] transition-colors hover:bg-[#3d291f] sm:px-12 sm:text-[12px] sm:tracking-[0.18em]"
                 >
                   {slide.ctaText || 'Shop Now'}
                 </Link>
@@ -199,7 +199,7 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
                   setCurrent(idx);
                 }}
                 className={`h-1.5 transition-all duration-300 ${
-                  current === idx ? 'w-12 bg-white' : 'w-6 bg-white/40 hover:bg-white/60'
+                  current === idx ? 'w-12 bg-[#FEFFEF]' : 'w-6 bg-[#FEFFEF]/40 hover:bg-[#FEFFEF]/60'
                 }`}
               />
             ))}

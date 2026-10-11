@@ -35,7 +35,7 @@ const WhatsAppButton = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
-            className="bg-white text-[#1c1c1c] px-5 py-2.5 text-[11px] uppercase font-bold tracking-[0.25em] rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-gray-100 pointer-events-none"
+            className="bg-[#FEFFEF] text-[#573B2D] px-5 py-2.5 text-[11px] uppercase font-bold tracking-[0.25em] rounded-full shadow-[0_10px_30px_rgba(87,59,45,0.15)] border border-[#573B2D]/20 pointer-events-none"
           >
             Contact Support
           </motion.div>

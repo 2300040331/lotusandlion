@@ -1,17 +1,17 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Italiana&family=Cinzel:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1c1c1c;
-  --primary: #1c1c1c;
-  --primary-hover: #df0029;
-  --secondary: #f7f7f7;
-  --card: #ffffff;
-  --card-foreground: #1c1c1c;
-  --border: #dddddd;
-  --sale: #df0029;
-  --sale-alt: #e32c2b;
+  --background: #FEFFEF;
+  --foreground: #573B2D;
+  --primary: #573B2D;
+  --primary-hover: #3d291f;
+  --secondary: #FEFFEF;
+  --card: #FEFFEF;
+  --card-foreground: #573B2D;
+  --border: #dfd8ca;
+  --sale: #573B2D;
+  --sale-alt: #3d291f;
 }
 
 @theme inline {
@@ -30,31 +30,36 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
-    --foreground: #ffffff;
-    --primary: #c8a45d;
-    --primary-hover: #df0029;
-    --secondary: #111111;
-    --card: #111111;
-    --card-foreground: #ffffff;
-    --border: #333333;
+    --background: #FEFFEF;
+    --foreground: #573B2D;
+    --primary: #573B2D;
+    --primary-hover: #3d291f;
+    --secondary: #FEFFEF;
+    --card: #FEFFEF;
+    --card-foreground: #573B2D;
+    --border: #dfd8ca;
+    --sale: #573B2D;
+    --sale-alt: #3d291f;
   }
 }
 
 .dark {
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary: #c8a45d;
-  --primary-hover: #df0029;
-  --secondary: #111111;
-  --card: #111111;
-  --card-foreground: #ffffff;
-  --border: #333333;
+  --background: #FEFFEF;
+  --foreground: #573B2D;
+  --primary: #573B2D;
+  --primary-hover: #3d291f;
+  --secondary: #FEFFEF;
+  --card: #FEFFEF;
+  --card-foreground: #573B2D;
+  --border: #dfd8ca;
+  --sale: #573B2D;
+  --sale-alt: #3d291f;
 }
 
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: #FEFFEF;
+  color: #573B2D;
   font-family: var(--font-sans);
 }
 
@@ -76,19 +81,19 @@ textarea {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 20% 20%, rgba(223, 0, 41, 0.18), transparent 28%),
-    radial-gradient(circle at 78% 35%, rgba(28, 28, 28, 0.16), transparent 24%),
-    linear-gradient(135deg, #fbfbfb 0%, #ece7df 45%, #ffffff 100%);
+    radial-gradient(circle at 20% 20%, rgba(87, 59, 45, 0.12), transparent 28%),
+    radial-gradient(circle at 78% 35%, rgba(87, 59, 45, 0.08), transparent 24%),
+    linear-gradient(135deg, #FEFFEF 0%, #f4eee2 45%, #FEFFEF 100%);
 }
 
 .atelier-visual::before {
   content: "";
   position: absolute;
   inset: 8%;
-  border: 1px solid rgba(28, 28, 28, 0.18);
+  border: 1px solid rgba(87, 59, 45, 0.18);
   background:
-    repeating-linear-gradient(90deg, transparent 0 32px, rgba(28, 28, 28, 0.05) 32px 33px),
-    repeating-linear-gradient(0deg, transparent 0 32px, rgba(28, 28, 28, 0.04) 32px 33px);
+    repeating-linear-gradient(90deg, transparent 0 32px, rgba(87, 59, 45, 0.05) 32px 33px),
+    repeating-linear-gradient(0deg, transparent 0 32px, rgba(87, 59, 45, 0.04) 32px 33px);
 }
 
 .atelier-visual::after {
@@ -98,20 +103,20 @@ textarea {
   top: 50%;
   width: 42%;
   aspect-ratio: 1;
-  border: 1px solid rgba(28, 28, 28, 0.35);
+  border: 1px solid rgba(87, 59, 45, 0.35);
   transform: translate(-50%, -50%) rotate(45deg);
-  background: rgba(255, 255, 255, 0.48);
+  background: rgba(254, 255, 239, 0.6);
 }
 
 .hero-editorial {
   background:
-    radial-gradient(ellipse at 63% 34%, rgba(118, 20, 33, 0.9) 0 9%, transparent 9.4%),
-    radial-gradient(ellipse at 62% 43%, rgba(40, 34, 31, 0.96) 0 15%, transparent 15.4%),
-    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.32) 0 8%, transparent 8.5%),
-    linear-gradient(115deg, rgba(223, 0, 41, 0.95) 0 8%, transparent 8.5%),
-    linear-gradient(70deg, transparent 0 18%, rgba(28, 28, 28, 0.9) 18% 24%, transparent 24.5%),
-    linear-gradient(100deg, transparent 0 72%, rgba(28, 28, 28, 0.9) 72% 78%, transparent 78.5%),
-    linear-gradient(90deg, #b9baaf 0%, #d5d2c8 48%, #b9baaf 100%);
+    radial-gradient(ellipse at 63% 34%, rgba(87, 59, 45, 0.25) 0 9%, transparent 9.4%),
+    radial-gradient(ellipse at 62% 43%, rgba(61, 41, 31, 0.22) 0 15%, transparent 15.4%),
+    radial-gradient(ellipse at 50% 50%, rgba(254, 255, 239, 0.5) 0 8%, transparent 8.5%),
+    linear-gradient(115deg, rgba(87, 59, 45, 0.2) 0 8%, transparent 8.5%),
+    linear-gradient(70deg, transparent 0 18%, rgba(87, 59, 45, 0.12) 18% 24%, transparent 24.5%),
+    linear-gradient(100deg, transparent 0 72%, rgba(87, 59, 45, 0.12) 72% 78%, transparent 78.5%),
+    linear-gradient(90deg, #FEFFEF 0%, #f2ebdd 48%, #FEFFEF 100%);
 }
 
 .hero-editorial::before {
@@ -122,10 +127,10 @@ textarea {
   width: 30%;
   height: 30%;
   background:
-    linear-gradient(135deg, #df0029 0 35%, #ffffff 35% 64%, #1c1c1c 64% 100%);
+    linear-gradient(135deg, #573B2D 0 35%, #FEFFEF 35% 64%, #3d291f 64% 100%);
   clip-path: polygon(0 38%, 70% 0, 100% 70%, 15% 100%);
   transform: rotate(-8deg);
-  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.24));
+  filter: drop-shadow(0 18px 24px rgba(87, 59, 45, 0.18));
 }
 
 .hero-editorial::after {
@@ -136,10 +141,10 @@ textarea {
   width: 28%;
   height: 28%;
   background:
-    linear-gradient(135deg, #1c1c1c 0 36%, #ffffff 36% 62%, #df0029 62% 100%);
+    linear-gradient(135deg, #3d291f 0 36%, #FEFFEF 36% 62%, #573B2D 62% 100%);
   clip-path: polygon(12% 18%, 100% 0, 86% 100%, 0 78%);
   transform: rotate(10deg);
-  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.24));
+  filter: drop-shadow(0 18px 24px rgba(87, 59, 45, 0.18));
 }
 
 .product-rail {
@@ -157,7 +162,7 @@ textarea {
   width: 1.6rem;
   height: 1.6rem;
   border: 1px solid currentColor;
-  color: #1c1c1c;
+  color: #573B2D;
 }
 
 .lotus-symbol.hidden,
@@ -181,9 +186,9 @@ textarea {
 .admin-panel input,
 .admin-panel select,
 .admin-panel textarea {
-  background: #ffffff !important;
-  border-color: #e7dcc6 !important;
-  color: #1c1c1c !important;
+  background: #FEFFEF !important;
+  border-color: #dfd8ca !important;
+  color: #573B2D !important;
 }
 
 /* Mobile Alignment & Portview Fixes */
@@ -193,20 +198,17 @@ textarea {
     padding-right: 1rem !important;
   }
   
-  /* Ensure grids are 2 columns on mobile for better visibility */
   .grid-cols-mobile {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 
-  /* Prevent overlapping and force neat alignment */
   .mobile-text-tight {
     letter-spacing: 0.1em !important;
     line-height: 1.2 !important;
   }
 
-  /* Clear Picture Sizes */
   img {
     max-width: 100%;
   }
@@ -219,32 +221,32 @@ textarea {
 .admin-panel table,
 .admin-panel th,
 .admin-panel td {
-  color: #1c1c1c;
+  color: #573B2D;
 }
 
 .admin-panel [class*="bg-[#111]"],
 .admin-panel [class*="bg-[#0d0d0d]"] {
-  background: #ffffff !important;
+  background: #FEFFEF !important;
 }
 
 .admin-panel [class*="border-white/5"],
 .admin-panel [class*="border-white/10"],
 .admin-panel [class*="border-white/20"] {
-  border-color: #e7dcc6 !important;
+  border-color: #dfd8ca !important;
 }
 
 .admin-panel [class*="bg-white/5"],
 .admin-panel [class*="bg-white/10"] {
-  background: #fcf8ef !important;
+  background: #f7f3e8 !important;
 }
 
 .admin-panel [class*="text-white"] {
-  color: #1c1c1c !important;
+  color: #573B2D !important;
 }
 
 .admin-panel [class*="text-gray-400"],
 .admin-panel [class*="text-gray-500"],
 .admin-panel [class*="text-gray-600"],
 .admin-panel [class*="text-[#777]"] {
-  color: #746c60 !important;
+  color: #8c7365 !important;
 }

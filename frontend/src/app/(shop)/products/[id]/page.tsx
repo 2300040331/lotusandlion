@@ -81,37 +81,37 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   };
 
   if (loading) return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-      <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
-      <p className="uppercase tracking-[0.3em] text-[10px] font-bold text-gray-500">Preparing the piece</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#FEFFEF] text-[#573B2D]">
+      <div className="w-12 h-12 border-2 border-[#573B2D] border-t-transparent rounded-full animate-spin mb-4" />
+      <p className="uppercase tracking-[0.3em] text-[10px] font-bold text-[#573B2D]/70">Preparing the piece</p>
     </div>
   );
 
   if (!product) return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
-      <h2 className="brand-heading text-2xl uppercase mb-4">Piece Not Found</h2>
-      <p className="uppercase tracking-[0.2em] text-[10px] text-gray-500 mb-8">The requested item could not be retrieved from the collection.</p>
-      <Link href="/products" className="border-b border-black pb-1 text-[10px] uppercase font-bold tracking-widest">Return to Collection</Link>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#FEFFEF] text-[#573B2D] px-6 text-center">
+      <h2 className="brand-heading text-2xl uppercase mb-4 text-[#573B2D]">Piece Not Found</h2>
+      <p className="uppercase tracking-[0.2em] text-[10px] text-[#573B2D]/70 mb-8">The requested item could not be retrieved from the collection.</p>
+      <Link href="/products" className="border-b border-[#573B2D] pb-1 text-[10px] uppercase font-bold tracking-widest text-[#573B2D]">Return to Collection</Link>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-white py-12 text-[#1c1c1c] md:py-24">
+    <div className="min-h-screen bg-[#FEFFEF] py-12 text-[#573B2D] md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-12">
-          <Link href="/" className="hover:text-primary">Home</Link>
+        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#573B2D]/70 mb-12">
+          <Link href="/" className="hover:text-[#573B2D]">Home</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href="/products" className="hover:text-primary">Collection</Link>
+          <Link href="/products" className="hover:text-[#573B2D]">Collection</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-[#1c1c1c]">{product.name}</span>
+          <span className="text-[#573B2D]">{product.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Image Gallery */}
           <div className="space-y-6">
              <div
-               className="relative aspect-[9/16] overflow-hidden bg-white group cursor-pointer"
+               className="relative aspect-[9/16] overflow-hidden bg-[#FEFFEF] group cursor-pointer"
                onClick={() => setIsImageModalOpen(true)}
                onTouchStart={handleImageTouchStart}
                onTouchEnd={handleImageTouchEnd}
@@ -125,12 +125,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="h-full w-full object-contain hover:brightness-90 transition-all"
+                    className="h-full w-full object-contain hover:brightness-95 transition-all"
                   />
                 </AnimatePresence>
                 
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                  <div className="text-white text-center">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-[#573B2D]/20">
+                  <div className="text-[#FEFFEF] text-center">
                     <p className="text-sm font-bold uppercase tracking-widest">Click to expand</p>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         e.stopPropagation();
                         setActiveImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
                       }}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-[#FEFFEF]/80 hover:bg-[#FEFFEF] text-[#573B2D] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
@@ -151,7 +151,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         e.stopPropagation();
                         setActiveImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
                       }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-[#FEFFEF]/80 hover:bg-[#FEFFEF] text-[#573B2D] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <ChevronRight className="w-5 h-5" />
                     </button>
@@ -160,8 +160,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                 {!images[activeImageIdx] && (
                   <div className="atelier-visual h-full w-full">
-                    <div className="absolute inset-x-10 bottom-10 z-10 border border-[#1c1c1c] bg-white/80 p-5 text-center">
-                      <p className="brand-heading text-xl uppercase">{product.name}</p>
+                    <div className="absolute inset-x-10 bottom-10 z-10 border border-[#573B2D] bg-[#FEFFEF]/90 p-5 text-center">
+                      <p className="brand-heading text-xl uppercase text-[#573B2D]">{product.name}</p>
                     </div>
                   </div>
                 )}
@@ -175,7 +175,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                      key={idx}
                      onClick={() => setActiveImageIdx(idx)}
                      className={`relative flex-shrink-0 w-20 aspect-[9/16] border-2 transition-all ${
-                       activeImageIdx === idx ? 'border-[#1c1c1c]' : 'border-transparent hover:border-gray-200'
+                       activeImageIdx === idx ? 'border-[#573B2D]' : 'border-transparent hover:border-[#573B2D]/30'
                      }`}
                    >
                      <img src={img} alt="" className="w-full h-full object-contain" />
@@ -187,30 +187,30 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-primary uppercase tracking-[0.3em] mb-4">{product.category}</span>
-            <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-6">{product.name}</h1>
-            <p className="text-2xl font-medium tracking-widest text-primary mb-8">{formatINR(product.price)}</p>
+            <span className="text-xs font-bold text-[#573B2D] uppercase tracking-[0.3em] mb-4">{product.category}</span>
+            <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-6 text-[#573B2D]">{product.name}</h1>
+            <p className="text-2xl font-medium tracking-widest text-[#573B2D] mb-8">{formatINR(product.price)}</p>
             
             <div 
-              className="mb-12 max-w-lg text-sm leading-relaxed text-[#555] italic prose prose-sm"
+              className="mb-12 max-w-lg text-sm leading-relaxed text-[#573B2D]/80 italic prose prose-sm"
               dangerouslySetInnerHTML={{ __html: product.description }}
             />
 
             {/* Quantity Selector */}
             {product.countInStock > 0 && (
               <div className="mb-8">
-                <label className="block text-[10px] font-bold uppercase tracking-widest mb-4">Quantity</label>
-                <div className="flex items-center border border-border w-fit">
+                <label className="block text-[10px] font-bold uppercase tracking-widest mb-4 text-[#573B2D]">Quantity</label>
+                <div className="flex items-center border border-[#573B2D]/30 w-fit">
                   <button 
                     onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="px-4 py-2 hover:bg-secondary transition-colors border-r border-border"
+                    className="px-4 py-2 hover:bg-[#573B2D]/10 transition-colors border-r border-[#573B2D]/30 text-[#573B2D]"
                   >
                     -
                   </button>
-                  <span className="px-6 py-2 text-sm font-medium">{qty}</span>
+                  <span className="px-6 py-2 text-sm font-medium text-[#573B2D]">{qty}</span>
                   <button 
                     onClick={() => setQty(Math.min(product.countInStock, qty + 1))}
-                    className="px-4 py-2 hover:bg-secondary transition-colors border-l border-border"
+                    className="px-4 py-2 hover:bg-[#573B2D]/10 transition-colors border-l border-[#573B2D]/30 text-[#573B2D]"
                   >
                     +
                   </button>
@@ -222,7 +222,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <button
                 onClick={handleAddToCart}
                 disabled={product.countInStock === 0}
-                className="flex w-full items-center justify-center gap-3 bg-[#1c1c1c] py-5 text-xs font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#df0029] disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-3 bg-[#573B2D] py-5 text-xs font-bold uppercase tracking-[0.2em] text-[#FEFFEF] transition-all hover:bg-[#3d291f] disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
                 {product.countInStock > 0 ? 'Add to Bag' : 'Sold Out'}
@@ -230,26 +230,26 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Product Meta */}
-            <div className="border-t border-border pt-8 grid grid-cols-1 gap-6">
+            <div className="border-t border-[#573B2D]/15 pt-8 grid grid-cols-1 gap-6">
               <div className="flex items-center gap-4">
-                <Truck className="w-5 h-5 text-primary" />
+                <Truck className="w-5 h-5 text-[#573B2D]" />
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-widest">Complimentary Shipping</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">On all orders above {formatINR(500)}</p>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#573B2D]">Complimentary Shipping</h4>
+                  <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-widest">On all orders above {formatINR(500)}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <ShieldCheck className="w-5 h-5 text-primary" />
+                <ShieldCheck className="w-5 h-5 text-[#573B2D]" />
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-widest">Authenticity Guaranteed</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">Certificate included with every piece</p>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#573B2D]">Authenticity Guaranteed</h4>
+                  <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-widest">Certificate included with every piece</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <RefreshCw className="w-5 h-5 text-primary" />
+                <RefreshCw className="w-5 h-5 text-[#573B2D]" />
                 <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-widest">Returns</h4>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">14-day boutique returns policy</p>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#573B2D]">Returns</h4>
+                  <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-widest">14-day boutique returns policy</p>
                 </div>
               </div>
             </div>
@@ -266,7 +266,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsImageModalOpen(false)}
-              className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 z-40 bg-[#573B2D]/80 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -277,9 +277,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <div className="relative max-w-4xl max-h-screen w-full h-full flex items-center justify-center">
                 <button
                   onClick={() => setIsImageModalOpen(false)}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white/90 hover:bg-white transition-colors z-10"
+                  className="absolute top-4 right-4 p-2 rounded-full bg-[#FEFFEF]/90 hover:bg-[#FEFFEF] transition-colors z-10 text-[#573B2D]"
                 >
-                  <X className="w-6 h-6 text-black" />
+                  <X className="w-6 h-6" />
                 </button>
 
                 <div className="relative w-full h-full flex items-center justify-center">
@@ -296,7 +296,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                           e.stopPropagation();
                           setActiveImageIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
                         }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/90 hover:bg-white rounded-full transition-colors"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-[#FEFFEF]/90 hover:bg-[#FEFFEF] text-[#573B2D] rounded-full transition-colors"
                       >
                         <ChevronLeft className="w-6 h-6" />
                       </button>
@@ -305,18 +305,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                           e.stopPropagation();
                           setActiveImageIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
                         }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/90 hover:bg-white rounded-full transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-[#FEFFEF]/90 hover:bg-[#FEFFEF] text-[#573B2D] rounded-full transition-colors"
                       >
                         <ChevronRight className="w-6 h-6" />
                       </button>
 
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/50 rounded-full px-4 py-2">
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-[#573B2D]/70 rounded-full px-4 py-2">
                         {images.map((_, idx) => (
                           <button
                             key={idx}
                             onClick={() => setActiveImageIdx(idx)}
                             className={`h-2 rounded-full transition-all ${
-                              activeImageIdx === idx ? 'w-6 bg-white' : 'w-2 bg-white/50'
+                              activeImageIdx === idx ? 'w-6 bg-[#FEFFEF]' : 'w-2 bg-[#FEFFEF]/50'
                             }`}
                           />
                         ))}

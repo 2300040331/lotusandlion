@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import toast from 'react-hot-toast';
@@ -51,26 +52,34 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#8B6F47] text-white">
-      <div className="border-b border-white/20 px-4 py-10 sm:px-8">
+    <footer className="bg-[#FEFFEF] text-[#573B2D] border-t border-[#573B2D]/20">
+      <div className="border-b border-[#573B2D]/15 px-4 py-10 sm:px-8">
         <div className="mx-auto grid max-w-[1440px] gap-8 md:grid-cols-[1.2fr_1fr]">
           <div>
-            <h3 className="text-2xl uppercase tracking-[0.18em]">Lotus & Lion</h3>
-            <p className="mt-3 max-w-lg text-sm leading-7 text-white/80">
+            <Link href="/" className="inline-block mb-3">
+              <Image
+                src="/lotus-and-lion-wordmark.png"
+                alt="Lotus & Lion"
+                width={220}
+                height={21}
+                className="h-6 sm:h-7 w-auto object-contain"
+              />
+            </Link>
+            <p className="mt-3 max-w-lg text-sm leading-7 text-[#573B2D]/80">
               Premium everyday and occasion wear crafted with clean silhouettes, reliable fabrics, and timeless color.
             </p>
           </div>
           <form onSubmit={handleNewsletter} className="md:justify-self-end">
-            <label className="block text-[12px] uppercase tracking-[0.18em]">Newsletter</label>
-            <div className="mt-4 flex min-w-[300px] border-b border-white/50">
+            <label className="block text-[12px] uppercase tracking-[0.18em] text-[#573B2D]">Newsletter</label>
+            <div className="mt-4 flex min-w-[300px] border-b border-[#573B2D]/30">
               <input
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="E-mail"
-                className="w-full bg-transparent py-3 text-sm outline-none text-white placeholder-white/50"
+                className="w-full bg-transparent py-3 text-sm outline-none text-[#573B2D] placeholder-[#573B2D]/50"
               />
-              <button className="px-3 text-[12px] uppercase tracking-[0.18em] text-white hover:text-white/80">Subscribe</button>
+              <button className="px-3 text-[12px] uppercase tracking-[0.18em] text-[#573B2D] hover:opacity-75 transition-opacity">Subscribe</button>
             </div>
           </form>
         </div>
@@ -79,11 +88,11 @@ const Footer = () => {
       <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-12 sm:px-8 md:grid-cols-3">
         {footerGroups.map((group: any) => (
           <div key={group.heading || group.title}>
-            <h4 className="mb-5 text-[13px] uppercase tracking-[0.18em] text-white">{group.heading || group.title}</h4>
+            <h4 className="mb-5 text-[13px] uppercase tracking-[0.18em] text-[#573B2D] font-bold">{group.heading || group.title}</h4>
             <ul className="space-y-3">
               {(Array.isArray(group.links) ? group.links : []).map((link: any) => (
                 <li key={link.label || link}>
-                  <Link href={link.href || '/products'} className="text-sm text-white/70 hover:text-white transition-colors">
+                  <Link href={link.href || '/products'} className="text-sm text-[#573B2D]/75 hover:text-[#573B2D] transition-colors">
                     {link.label || link}
                   </Link>
                 </li>
@@ -93,13 +102,13 @@ const Footer = () => {
         ))}
       </div>
 
-      <div className="border-t border-white/20 px-4 py-5 sm:px-8">
-        <div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-3 text-[12px] text-white/70 md:flex-row md:items-center">
+      <div className="border-t border-[#573B2D]/15 px-4 py-5 sm:px-8">
+        <div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-3 text-[12px] text-[#573B2D]/70 md:flex-row md:items-center">
           <p>© 2026 - LOTUS & LION - Original Atelier Storefront</p>
           <div className="flex gap-5">
-            <Link href={settings?.instagram_url || "https://instagram.com"} target="_blank" className="hover:text-white transition-colors">Instagram</Link>
-            <Link href={settings?.twitter_url || "https://twitter.com"} target="_blank" className="hover:text-white transition-colors">Twitter</Link>
-            <Link href={settings?.pinterest_url || "https://pinterest.com"} target="_blank" className="hover:text-white transition-colors">Pinterest</Link>
+            <Link href={settings?.instagram_url || "https://instagram.com"} target="_blank" className="hover:text-[#573B2D] transition-colors">Instagram</Link>
+            <Link href={settings?.twitter_url || "https://twitter.com"} target="_blank" className="hover:text-[#573B2D] transition-colors">Twitter</Link>
+            <Link href={settings?.pinterest_url || "https://pinterest.com"} target="_blank" className="hover:text-[#573B2D] transition-colors">Pinterest</Link>
           </div>
         </div>
       </div>

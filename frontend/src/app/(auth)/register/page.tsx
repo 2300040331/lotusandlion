@@ -46,50 +46,50 @@ function RegisterContent() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-white dark:bg-black text-black dark:text-white px-4 py-12">
+    <div className="min-h-[80vh] flex items-center justify-center bg-[#FEFFEF] text-[#573B2D] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold uppercase tracking-widest mb-4">Register</h1>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.2em]">Join the Lotus & Lion community</p>
+          <h1 className="text-3xl font-bold uppercase tracking-widest mb-4 text-[#573B2D]">Register</h1>
+          <p className="text-[10px] text-[#573B2D]/70 uppercase tracking-[0.2em]">Join the Lotus & Lion community</p>
         </div>
 
         <form onSubmit={submitHandler} className="space-y-6">
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Full Name</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Full Name</label>
             <input
               type="text"
               required
-              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
+              className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors tracking-wide text-[#573B2D]"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Email Address</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Email Address</label>
             <input
               type="email"
               required
-              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
+              className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors tracking-wide text-[#573B2D]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Password</label>
             <input
               type="password"
               required
-              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
+              className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors tracking-wide text-[#573B2D]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Confirm Password</label>
+            <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Confirm Password</label>
             <input
               type="password"
               required
-              className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors tracking-wide text-black dark:text-white"
+              className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors tracking-wide text-[#573B2D]"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -98,18 +98,18 @@ function RegisterContent() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black dark:bg-white text-white dark:text-black py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary dark:hover:bg-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-[#573B2D] text-[#FEFFEF] py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#573B2D]/90 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? 'Creating Account...' : 'Register'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="mt-8 text-center pt-8 border-t border-border dark:border-white/10">
-          <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Already have an account?</p>
+        <div className="mt-8 text-center pt-8 border-t border-[#573B2D]/20">
+          <p className="text-[10px] text-[#573B2D]/60 uppercase tracking-widest mb-4">Already have an account?</p>
           <Link
             href={`/login?redirect=${redirect}`}
-            className="text-[10px] font-bold uppercase tracking-widest text-primary dark:text-[#c8a45d] hover:text-black dark:hover:text-white transition-colors border-b border-primary dark:border-[#c8a45d] pb-1"
+            className="text-[10px] font-bold uppercase tracking-widest text-[#573B2D] hover:opacity-80 transition-colors border-b border-[#573B2D] pb-1"
           >
             Sign In
           </Link>
@@ -121,7 +121,7 @@ function RegisterContent() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center uppercase tracking-widest text-xs">Preparing registration...</div>}>
+    <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center uppercase tracking-widest text-xs bg-[#FEFFEF] text-[#573B2D]/70">Preparing registration...</div>}>
       <RegisterContent />
     </Suspense>
   );

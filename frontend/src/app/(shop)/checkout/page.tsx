@@ -209,40 +209,40 @@ export default function CheckoutPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black py-24 flex items-center justify-center">
-        <div className="text-xs uppercase tracking-[0.2em] text-gray-500">Preparing checkout...</div>
+      <div className="min-h-screen bg-[#FEFFEF] py-24 flex items-center justify-center">
+        <div className="text-xs uppercase tracking-[0.2em] text-[#573B2D]/70">Preparing checkout...</div>
       </div>
     );
   }
 
   if (success && placedOrder) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black py-24 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FEFFEF] py-24 flex items-center justify-center text-[#573B2D]">
         <div className="max-w-2xl mx-auto px-6 text-center space-y-8">
-          <div className="w-16 h-16 rounded-full bg-green-50 dark:bg-green-950/30 flex items-center justify-center text-green-600 mx-auto">
+          <div className="w-16 h-16 rounded-full bg-[#573B2D]/10 flex items-center justify-center text-[#573B2D] mx-auto">
             <ShieldCheck className="w-10 h-10" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-4">Payment Confirmed</p>
-            <h1 className="brand-heading text-4xl md:text-5xl uppercase text-black dark:text-white">Thank You For Your Order</h1>
-            <p className="text-xs text-gray-500 uppercase tracking-widest mt-4">Order Number: <span className="font-bold text-black dark:text-white">{placedOrder.order_number || placedOrder.id}</span></p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#573B2D] mb-4">Payment Confirmed</p>
+            <h1 className="brand-heading text-4xl md:text-5xl uppercase text-[#573B2D]">Thank You For Your Order</h1>
+            <p className="text-xs text-[#573B2D]/70 uppercase tracking-widest mt-4">Order Number: <span className="font-bold text-[#573B2D]">{placedOrder.order_number || placedOrder.id}</span></p>
           </div>
-          <div className="border border-border p-8 text-left space-y-6 bg-secondary/5 dark:bg-[#111]/30">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] border-b border-border pb-4">Shipping Information</h3>
-            <div className="text-xs space-y-2 uppercase tracking-wider text-gray-600 dark:text-gray-400">
-              <p className="font-bold text-black dark:text-white">{userInfo?.name}</p>
+          <div className="border border-[#573B2D]/20 p-8 text-left space-y-6 bg-[#FEFFEF]">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] border-b border-[#573B2D]/20 pb-4 text-[#573B2D]">Shipping Information</h3>
+            <div className="text-xs space-y-2 uppercase tracking-wider text-[#573B2D]/80">
+              <p className="font-bold text-[#573B2D]">{userInfo?.name}</p>
               <p>{placedOrder.shipping_address?.address}</p>
               <p>{placedOrder.shipping_address?.city}, {placedOrder.shipping_address?.postalCode}</p>
               <p>{placedOrder.shipping_address?.country}</p>
             </div>
-            <div className="border-t border-border pt-4 flex justify-between text-xs font-bold uppercase tracking-widest">
+            <div className="border-t border-[#573B2D]/20 pt-4 flex justify-between text-xs font-bold uppercase tracking-widest text-[#573B2D]">
               <span>Amount Paid</span>
-              <span className="text-primary text-base">{formatINR(placedOrder.total_price || subtotal)}</span>
+              <span className="text-[#573B2D] text-base">{formatINR(placedOrder.total_price || subtotal)}</span>
             </div>
           </div>
           <button
             onClick={() => router.push('/products')}
-            className="w-full bg-black dark:bg-white text-white dark:text-black py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary dark:hover:bg-primary transition-all flex items-center justify-center gap-2"
+            className="w-full bg-[#573B2D] text-[#FEFFEF] py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#573B2D]/90 transition-all flex items-center justify-center gap-2"
           >
             Continue Shopping
             <ArrowRight className="w-4 h-4" />
@@ -253,9 +253,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white py-12 md:py-24">
+    <div className="min-h-screen bg-[#FEFFEF] text-[#573B2D] py-12 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold uppercase tracking-tight mb-12">Checkout</h1>
+        <h1 className="text-4xl font-bold uppercase tracking-tight mb-12 text-[#573B2D]">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           <div className="lg:col-span-2">
@@ -263,46 +263,46 @@ export default function CheckoutPage() {
               {/* Shipping section */}
               <section>
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-black font-bold text-xs">1</div>
-                  <h2 className="text-xl font-bold uppercase tracking-wider">Shipping Details</h2>
+                  <div className="w-8 h-8 rounded-full bg-[#573B2D] flex items-center justify-center text-[#FEFFEF] font-bold text-xs">1</div>
+                  <h2 className="text-xl font-bold uppercase tracking-wider text-[#573B2D]">Shipping Details</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Street Address</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Street Address</label>
                     <input
                       type="text"
                       required
-                      className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors text-black dark:text-white"
+                      className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors text-[#573B2D]"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">City</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">City</label>
                     <input
                       type="text"
                       required
-                      className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors text-black dark:text-white"
+                      className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors text-[#573B2D]"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Postal Code</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Postal Code</label>
                     <input
                       type="text"
                       required
-                      className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors text-black dark:text-white"
+                      className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors text-[#573B2D]"
                       value={postalCode}
                       onChange={(e) => setPostalCode(e.target.value)}
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-gray-700 dark:text-gray-300">Country</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 text-[#573B2D]/80">Country</label>
                     <input
                       type="text"
                       required
-                      className="w-full bg-transparent border border-border dark:border-white/20 px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-[#c8a45d] transition-colors text-black dark:text-white"
+                      className="w-full bg-transparent border border-[#573B2D]/30 px-4 py-3 text-sm focus:outline-none focus:border-[#573B2D] transition-colors text-[#573B2D]"
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
                     />
@@ -313,15 +313,15 @@ export default function CheckoutPage() {
               {/* Payment section */}
               <section>
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-black font-bold text-xs">2</div>
-                  <h2 className="text-xl font-bold uppercase tracking-wider">Payment Method</h2>
+                  <div className="w-8 h-8 rounded-full bg-[#573B2D] flex items-center justify-center text-[#FEFFEF] font-bold text-xs">2</div>
+                  <h2 className="text-xl font-bold uppercase tracking-wider text-[#573B2D]">Payment Method</h2>
                 </div>
-                <div className="border border-primary dark:border-[#c8a45d] bg-primary/5 dark:bg-[#c8a45d]/5 p-6 flex items-center justify-between">
+                <div className="border border-[#573B2D] bg-[#573B2D]/5 p-6 flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <CreditCard className="w-6 h-6 text-primary dark:text-[#c8a45d]" />
-                    <span className="text-sm font-bold uppercase tracking-widest">Razorpay UPI & Cards Payment</span>
+                    <CreditCard className="w-6 h-6 text-[#573B2D]" />
+                    <span className="text-sm font-bold uppercase tracking-widest text-[#573B2D]">Razorpay UPI & Cards Payment</span>
                   </div>
-                  <div className="flex gap-2 text-[10px] uppercase font-bold text-primary dark:text-[#c8a45d] tracking-widest">
+                  <div className="flex gap-2 text-[10px] uppercase font-bold text-[#573B2D] tracking-widest">
                      UPI, Cards, NetBanking
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={loading || !canPlaceOrder}
-                className="w-full bg-black dark:bg-white text-white dark:text-black py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary dark:hover:bg-primary transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full bg-[#573B2D] text-[#FEFFEF] py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#573B2D]/90 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {checkingStock ? 'Checking Stock...' : loading ? 'Processing...' : 'Pay & Place Order'}
                 <ArrowRight className="w-4 h-4" />
@@ -339,23 +339,23 @@ export default function CheckoutPage() {
           </div>
 
           <div className="space-y-8">
-            <div className="bg-secondary dark:bg-[#111] p-8 border border-border">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] mb-8">Order Review</h2>
+            <div className="bg-[#FEFFEF] p-8 border border-[#573B2D]/20 shadow-sm">
+              <h2 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-[#573B2D]">Order Review</h2>
               <div className="space-y-4 max-h-60 overflow-y-auto pr-2 mb-8">
                 {safeCartItems.map((item) => {
                   const availabilityKey = getAvailabilityKey(item);
                   return (
                     <div key={availabilityKey} className="flex gap-4">
-                      <img src={item.image} alt={item.name} className="w-12 h-20 object-contain bg-white" />
+                      <img src={item.image} alt={item.name} className="w-12 h-20 object-contain bg-[#FEFFEF] border border-[#573B2D]/10" />
                       <div className="flex-grow">
-                        <h4 className="text-[10px] font-bold uppercase tracking-wide truncate w-32">{item.name}</h4>
-                        {item.size && <p className="text-[9px] text-gray-500 uppercase">Size: {item.size}</p>}
-                        {item.color && item.color !== 'Default' && <p className="text-[9px] text-gray-500 uppercase">Color: {item.color}</p>}
-                        <p className="text-[10px] text-gray-500 uppercase">Qty: {item.qty}</p>
+                        <h4 className="text-[10px] font-bold uppercase tracking-wide truncate w-32 text-[#573B2D]">{item.name}</h4>
+                        {item.size && <p className="text-[9px] text-[#573B2D]/70 uppercase">Size: {item.size}</p>}
+                        {item.color && item.color !== 'Default' && <p className="text-[9px] text-[#573B2D]/70 uppercase">Color: {item.color}</p>}
+                        <p className="text-[10px] text-[#573B2D]/70 uppercase">Qty: {item.qty}</p>
                         {availability[availabilityKey]?.available === false && (
                           <p className="text-[10px] font-bold uppercase text-red-600">{availability[availabilityKey]?.message || 'Out of stock'}</p>
                         )}
-                        <p className="text-[10px] font-bold text-primary dark:text-[#c8a45d]">{formatINR(item.qty * item.price)}</p>
+                        <p className="text-[10px] font-bold text-[#573B2D]">{formatINR(item.qty * item.price)}</p>
                       </div>
                     </div>
                   );
@@ -366,21 +366,21 @@ export default function CheckoutPage() {
                   Some cart products are unavailable. Please return to cart and remove them.
                 </p>
               )}
-              <div className="pt-8 border-t border-border space-y-4">
-                <div className="flex justify-between text-xs tracking-widest uppercase font-bold">
+              <div className="pt-8 border-t border-[#573B2D]/20 space-y-4">
+                <div className="flex justify-between text-xs tracking-widest uppercase font-bold text-[#573B2D]">
                   <span>Total</span>
-                  <span className="text-primary dark:text-[#c8a45d] text-lg">{formatINR(subtotal)}</span>
+                  <span className="text-[#573B2D] text-lg">{formatINR(subtotal)}</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center gap-3 text-[10px] text-gray-500 uppercase tracking-widest">
+              <div className="flex items-center gap-3 text-[10px] text-[#573B2D]/70 uppercase tracking-widest">
                 <ShieldCheck className="w-4 h-4 text-green-600" />
                 SSL Encrypted Connection
               </div>
-              <div className="flex items-center gap-3 text-[10px] text-gray-500 uppercase tracking-widest">
-                <Truck className="w-4 h-4 text-primary dark:text-[#c8a45d]" />
+              <div className="flex items-center gap-3 text-[10px] text-[#573B2D]/70 uppercase tracking-widest">
+                <Truck className="w-4 h-4 text-[#573B2D]" />
                 Insured Global Shipping
               </div>
             </div>

@@ -30,8 +30,6 @@ const fallbackCollections = [
   },
 ];
 
-
-
 const collectionUrlByKey: Record<string, string> = {
   lotus: '/collections/lotus',
   lion: '/collections/lion',
@@ -75,6 +73,7 @@ type HomeCms = {
   lotusProducts?: HomeProduct[];
   lionProducts?: HomeProduct[];
   collections?: HomeCollection[];
+  sections?: any[];
 };
 
 function ProductRail({ title, href, products }: { title: string; href: string; products: HomeProduct[] }) {
@@ -95,18 +94,18 @@ function ProductRail({ title, href, products }: { title: string; href: string; p
         <button
           type="button"
           onClick={() => scrollRail('previous')}
-          className="grid h-12 w-12 place-items-center rounded-full border border-[#dddddd] bg-white transition hover:bg-[#f7f7f7]"
+          className="grid h-12 w-12 place-items-center rounded-full border border-[#573B2D]/20 bg-[#FEFFEF] text-[#573B2D] transition hover:bg-[#573B2D]/10"
           aria-label={`Previous ${title} products`}
         >
           <ChevronLeft size={19} />
         </button>
-        <Link href={href} className="brand-heading text-center text-2xl uppercase hover:underline sm:text-4xl">
+        <Link href={href} className="brand-heading text-center text-2xl uppercase hover:underline sm:text-4xl text-[#573B2D]">
           {title}
         </Link>
         <button
           type="button"
           onClick={() => scrollRail('next')}
-          className="grid h-12 w-12 place-items-center rounded-full border border-[#dddddd] bg-white transition hover:bg-[#f7f7f7]"
+          className="grid h-12 w-12 place-items-center rounded-full border border-[#573B2D]/20 bg-[#FEFFEF] text-[#573B2D] transition hover:bg-[#573B2D]/10"
           aria-label={`Next ${title} products`}
         >
           <ChevronRight size={19} />
@@ -148,11 +147,11 @@ function getCollectionHref(collection: HomeCollection) {
 function ArtPanel({ index = 0, label }: { index?: number; label: string }) {
   return (
     <div className="atelier-visual aspect-[3/4]">
-      <div className="absolute inset-x-8 bottom-8 z-10 border border-[#1c1c1c] bg-white/80 px-4 py-3 text-center">
-        <p className="brand-heading text-sm uppercase">{label}</p>
+      <div className="absolute inset-x-8 bottom-8 z-10 border border-[#573B2D] bg-[#FEFFEF]/90 px-4 py-3 text-center">
+        <p className="brand-heading text-sm uppercase text-[#573B2D]">{label}</p>
       </div>
       <div
-        className="absolute z-10 h-24 w-24 rounded-full border border-[#df0029]"
+        className="absolute z-10 h-24 w-24 rounded-full border border-[#573B2D]"
         style={{
           left: `${18 + index * 11}%`,
           top: `${16 + index * 8}%`,
@@ -172,7 +171,6 @@ function getDefaultCollectionImage(key: string) {
 export default function HomePageClient({ initialData }: { initialData: HomeCms | null }) {
   const [siteCms, setSiteCms] = useState<HomeCms>(initialData || {});
 
-  // Client-side fallback: if SSR didn't populate data, fetch it now
   useEffect(() => {
     if (siteCms?.lotusProducts?.length || siteCms?.lionProducts?.length) return;
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
@@ -199,7 +197,6 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
     }
   ];
 
-  // Prioritize user-uploaded slides. If empty, check homepage_sections. If still empty, use defaultSlides.
   const sliderSource = (siteCms?.home?.slides?.length)
     ? siteCms.home.slides
     : (siteCms?.sections?.find((s: any) => s.section_key === 'hero-slider')?.content?.slides || defaultSlides);
@@ -237,7 +234,6 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
 
   const collectionsToDisplay: HomeCollection[] = [];
   if (siteCms?.collections?.length) {
-    // Only show Lotus and Lion collections on the homepage
     const mainColls = siteCms.collections
       .filter(c => c.slug === 'lotus' || c.slug === 'lion')
       .sort((a, b) => {
@@ -247,12 +243,11 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
       });
     collectionsToDisplay.push(...mainColls);
   } else {
-    // Fallback only to Lotus and Lion
     collectionsToDisplay.push(fallbackCollections[0], fallbackCollections[1]);
   }
 
   return (
-    <div className="bg-white text-[#1c1c1c]">
+    <div className="bg-[#FEFFEF] text-[#573B2D]">
       <HeroSlider slides={homeContent.slides} />
 
       <ProductRail title="Lotus Collections" href="/collections/lotus" products={lotusRail.slice(0, 8)} />
@@ -268,7 +263,7 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
           const collectionDesc = collection.description || collection.body || collection.hero?.subtitle || fallbackDesc;
           
           return (
-            <div key={index} className={`grid items-center gap-8 border-y border-[#dddddd] py-10 md:grid-cols-2 ${index % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+            <div key={index} className={`grid items-center gap-8 border-y border-[#573B2D]/15 py-10 md:grid-cols-2 ${index % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
               <Link href={collectionHref} className="block">
                 {collectionImage ? (
                   <img 
@@ -284,10 +279,10 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
                 )}
               </Link>
               <div className="mx-auto max-w-xl text-center md:text-left">
-                {(collectionKey === 'lotus' ? <Flower2 className="mb-5 inline-block" size={28} /> : <Crown className="mb-5 inline-block" size={28} />)}
-                <h2 className="brand-heading text-3xl uppercase">{collectionName}</h2>
-                <p className="mt-5 text-[15px] leading-8 text-[#555]">{collectionDesc}</p>
-                <Link href={collectionHref} className="mt-7 inline-block border-b border-[#B87333] pb-1 text-[12px] uppercase tracking-[0.18em] text-[#B87333]">
+                {(collectionKey === 'lotus' ? <Flower2 className="mb-5 inline-block text-[#573B2D]" size={28} /> : <Crown className="mb-5 inline-block text-[#573B2D]" size={28} />)}
+                <h2 className="brand-heading text-3xl uppercase text-[#573B2D]">{collectionName}</h2>
+                <p className="mt-5 text-[15px] leading-8 text-[#573B2D]/80">{collectionDesc}</p>
+                <Link href={collectionHref} className="mt-7 inline-block border-b border-[#573B2D] pb-1 text-[12px] uppercase tracking-[0.18em] text-[#573B2D] hover:opacity-75 transition-opacity">
                   View collection
                 </Link>
               </div>
@@ -298,19 +293,17 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
 
       <ProductRail title="Lion Collections" href="/collections/lion" products={lionRail.slice(0, 8)} />
 
-
-      
-      <section className="mx-auto grid max-w-[1440px] grid-cols-2 gap-px border-b border-[#dddddd] bg-[#dddddd] md:grid-cols-4">
+      <section className="mx-auto grid max-w-[1440px] grid-cols-2 gap-px border-b border-[#573B2D]/15 bg-[#573B2D]/15 md:grid-cols-4">
         {[
           { icon: ShieldCheck, title: 'Original Design', body: 'Symbols, panels, and copy made for Lotus & Lion' },
           { icon: Truck, title: 'Delivery Ready', body: 'Shipping flows connect through checkout' },
           { icon: RefreshCcw, title: 'Easy Returns', body: 'Return-policy pages are live' },
           { icon: Headphones, title: 'Admin Support', body: 'Products, orders, users, CMS and settings stay wired' },
         ].map((item) => (
-          <div key={item.title} className="bg-white px-5 py-8 text-center">
-            <item.icon className="mx-auto mb-4" size={26} />
-            <h3 className="text-[13px] uppercase tracking-[0.18em]">{item.title}</h3>
-            <p className="mt-2 text-sm text-[#666]">{item.body}</p>
+          <div key={item.title} className="bg-[#FEFFEF] text-[#573B2D] px-5 py-8 text-center">
+            <item.icon className="mx-auto mb-4 text-[#573B2D]" size={26} />
+            <h3 className="text-[13px] uppercase tracking-[0.18em] font-bold">{item.title}</h3>
+            <p className="mt-2 text-sm text-[#573B2D]/75">{item.body}</p>
           </div>
         ))}
       </section>
