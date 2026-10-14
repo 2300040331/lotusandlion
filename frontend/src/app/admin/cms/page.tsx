@@ -128,23 +128,23 @@ export default function AdminCMS() {
           </div>
           <button
             onClick={saveHome}
-            className="bg-primary text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-primary-hover transition-all flex items-center gap-2"
+            className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 transition-all flex items-center gap-2 cursor-pointer shadow-sm"
           >
-            <Save size={16} /> Save Homepage
+            <Save size={16} className="text-[#FEFFEF]" /> Save Homepage
           </button>
         </div>
 
         <div className="space-y-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-bold uppercase tracking-widest text-white">Main Sliding Hero Archive</h3>
+            <h3 className="text-[10px] font-bold uppercase tracking-widest text-[#573B2D]">Main Sliding Hero Archive</h3>
             <button
               onClick={() => setHomeForm({ 
                 ...homeForm, 
                 slides: [...(homeForm?.slides || []), { title: '', subtitle: '', eyebrow: '', ctaText: 'Shop Now', ctaLink: '/shop', image: '', mobileImage: '', desktopObjectPosition: 'center center', mobileObjectPosition: 'center center' }] 
               })}
-              className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline flex items-center gap-1"
+              className="text-[10px] font-bold text-[#573B2D] uppercase tracking-widest hover:underline flex items-center gap-1 cursor-pointer"
             >
-              <Plus size={14} /> Add New Slide
+              <Plus size={14} className="text-[#573B2D]" /> Add New Slide
             </button>
           </div>
 
@@ -361,9 +361,9 @@ export default function AdminCMS() {
             <button 
               onClick={handleUpdateHero}
               disabled={savingHero}
-              className="w-full bg-primary text-black py-4 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-primary-hover transition-all flex items-center justify-center gap-2"
+              className="admin-btn-primary w-full bg-[#573B2D] text-[#FEFFEF] py-4 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#573B2D]/90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              {savingHero ? 'Syncing...' : <><Save size={16} /> Save Hero Config</>}
+              {savingHero ? 'Syncing...' : <><Save size={16} className="text-[#FEFFEF]" /> Save Hero Config</>}
             </button>
           </div>
         </section>
@@ -426,9 +426,9 @@ export default function AdminCMS() {
           </div>
           <button 
             onClick={() => setEditingPage({ title: '', slug: '', body: '', isPublished: true })}
-            className="bg-white/5 border border-white/10 text-white px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-white/10 transition-all"
+            className="bg-white border border-[#573B2D]/30 text-[#573B2D] px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/10 transition-all cursor-pointer shadow-sm"
           >
-            <Plus size={16} /> New Page
+            <Plus size={16} className="text-[#573B2D]" /> New Page
           </button>
         </div>
 
@@ -511,7 +511,7 @@ export default function AdminCMS() {
               </label>
               <button 
                 type="submit"
-                className="bg-primary text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-primary-hover transition-all"
+                className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 transition-all cursor-pointer shadow-sm"
               >
                 Save Page
               </button>
@@ -551,13 +551,13 @@ export default function AdminCMS() {
           <div className="flex justify-between pt-4">
             <button
               onClick={() => setNavForm([...(navForm || []), { label: '', href: '/', order: (navForm || []).length + 1 }])}
-              className="bg-white/5 border border-white/10 text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10"
+              className="bg-white border border-[#573B2D]/30 text-[#573B2D] px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/10 cursor-pointer shadow-sm transition-all"
             >
               Add Link
             </button>
             <button
               onClick={saveNavbar}
-              className="bg-primary text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-primary-hover"
+              className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 cursor-pointer shadow-sm transition-all"
             >
               Save Links
             </button>
@@ -637,13 +637,13 @@ export default function AdminCMS() {
           <div className="flex justify-between pt-2">
             <button
               onClick={() => setFooterForm([...(footerForm || []), { heading: '', links: [] }])}
-              className="bg-white/5 border border-white/10 text-white px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10"
+              className="bg-white border border-[#573B2D]/30 text-[#573B2D] px-5 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/10 cursor-pointer shadow-sm transition-all"
             >
               Add Group
             </button>
             <button
               onClick={saveFooter}
-              className="bg-primary text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-primary-hover"
+              className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 cursor-pointer shadow-sm transition-all"
             >
               Save Footer
             </button>

@@ -111,11 +111,11 @@ export default function AdminSettings() {
         <button 
           onClick={handleUpdate}
           disabled={saving || !isSuperAdmin}
-          className={`px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all ${
-            isSuperAdmin ? 'bg-primary text-black hover:bg-primary-hover' : 'bg-white/5 text-gray-600 cursor-not-allowed'
+          className={`px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all cursor-pointer shadow-sm ${
+            isSuperAdmin ? 'admin-btn-primary bg-[#573B2D] text-[#FEFFEF] hover:bg-[#573B2D]/90' : 'bg-[#573B2D]/20 text-[#573B2D]/50 cursor-not-allowed'
           }`}
         >
-          {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
+          {saving ? <Loader2 className="animate-spin text-[#FEFFEF]" size={16} /> : <Save className="text-[#FEFFEF]" size={16} />}
           Save Configuration
         </button>
       </div>

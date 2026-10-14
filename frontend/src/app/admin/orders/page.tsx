@@ -209,10 +209,10 @@ export default function AdminOrders() {
                     <button
                       key={s}
                       onClick={() => updateStatus(selectedOrder.id, s)}
-                      className={`px-3 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition-all cursor-pointer ${
                         selectedOrder.status === s 
-                          ? 'bg-primary text-black' 
-                          : 'bg-white/5 text-gray-500 hover:text-white'
+                          ? 'admin-btn-primary bg-[#573B2D] text-[#FEFFEF] shadow-sm' 
+                          : 'bg-white border border-[#573B2D]/20 text-[#573B2D] hover:bg-[#573B2D]/10'
                       }`}
                     >
                       {s}

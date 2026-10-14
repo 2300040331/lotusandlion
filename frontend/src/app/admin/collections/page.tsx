@@ -194,7 +194,7 @@ export default function CollectionsManagerPage() {
             <button 
               type="submit"
               disabled={isSaving}
-              className="bg-[#c8a45d] text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#b08e4d] transition-all disabled:opacity-50"
+              className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#573B2D]/90 transition-all disabled:opacity-50 cursor-pointer shadow-sm"
             >
               {isSaving ? 'Saving...' : 'Create'}
             </button>

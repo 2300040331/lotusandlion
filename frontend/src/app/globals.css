@@ -265,32 +265,37 @@ textarea {
 }
 
 /* Transform light gold and faded accents to sharp, readable dark brown on light surfaces */
-.admin-panel [class*="text-[#c8a45d]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#b87333]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#b08e4d]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#df0029]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-primary"]:not(.admin-nav-active *):not(.admin-btn-primary *) {
+.admin-panel [class*="text-[#c8a45d]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#b87333]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#b08e4d]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#df0029]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-primary"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *) {
   color: #573B2D !important;
   font-weight: 700 !important;
 }
 
-.admin-panel svg[class*="text-[#c8a45d]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel svg[class*="text-[#b87333]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel svg[class*="text-primary"]:not(.admin-nav-active *):not(.admin-btn-primary *) {
+.admin-panel svg[class*="text-[#c8a45d]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel svg[class*="text-[#b87333]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel svg[class*="text-primary"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *) {
   color: #573B2D !important;
 }
 
 /* Transform light gray and muted texts to high-contrast readable dark brown on light surfaces */
-.admin-panel [class*="text-gray-400"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-gray-500"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-gray-600"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#666]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#777]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#555]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#888]"]:not(.admin-nav-active *):not(.admin-btn-primary *),
-.admin-panel [class*="text-[#999]"]:not(.admin-nav-active *):not(.admin-btn-primary *) {
+.admin-panel [class*="text-gray-400"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-gray-500"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-gray-600"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#666]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#777]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#555]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#888]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *),
+.admin-panel [class*="text-[#999]"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([data-admin-primary-btn] *) {
   color: #573B2D !important;
   font-weight: 600 !important;
+}
+
+/* Transform legacy text-white on light surfaces to readable dark brown unless inside a dark button/badge */
+.admin-panel [class*="text-white"]:not(.admin-nav-active *):not(.admin-btn-primary *):not([class*="bg-[#573B2D]"] *):not([class*="bg-[#573b2d]"] *):not([class*="bg-primary"] *):not([class*="bg-[#c8a45d]"] *):not([class*="bg-[#3d291f]"] *):not([data-admin-primary-btn] *):not([class*="bg-red-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]):not([class*="bg-yellow-"]):not([class*="bg-purple-"]):not([class*="bg-orange-"]) {
+  color: #573B2D !important;
 }
 
 /* Sidebar Navigation Items - ALL items clearly visible in dark brown */
@@ -327,35 +332,21 @@ textarea {
   stroke: #FEFFEF !important;
 }
 
-/* Explicit Primary Buttons (Solid Brown) with Bright Ivory Text */
-.admin-panel .admin-btn-primary,
-.admin-panel .admin-btn-primary *,
-.admin-panel .admin-btn-primary span,
-.admin-panel button.bg-\[\#573B2D\],
-.admin-panel button.bg-\[\#573B2D\] *,
-.admin-panel a.bg-\[\#573B2D\],
-.admin-panel a.bg-\[\#573B2D\] * {
-  color: #FEFFEF !important;
+/* White / Light Surface Buttons & Outlines (Cancel, Bulk Import, Filters, Modals): MUST have visible deep brown text & icons */
+.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]),
+.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) {
+  color: #573B2D !important;
 }
 
-.admin-panel .admin-btn-primary svg,
-.admin-panel button.bg-\[\#573B2D\] svg,
-.admin-panel a.bg-\[\#573B2D\] svg {
-  color: #FEFFEF !important;
-  stroke: #FEFFEF !important;
+.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg,
+.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg {
+  color: #573B2D !important;
+  stroke: #573B2D !important;
 }
 
-/* Legacy Gold Buttons mapped to Solid Brown with Ivory Text */
-.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
-.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) {
-  background-color: #573B2D !important;
-  color: #FEFFEF !important;
-}
-
-.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) *,
-.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) * {
-  color: #FEFFEF !important;
-  stroke: #FEFFEF !important;
+.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span,
+.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span {
+  color: #573B2D !important;
 }
 
 .admin-panel button[class*="border-[#c8a45d]"],
@@ -365,20 +356,60 @@ textarea {
   font-weight: 700 !important;
 }
 
-/* White / Light Surface Buttons & Outlines (Cancel, Bulk Import, Filters, Modals): MUST have visible deep brown text & icons */
-.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]),
-.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) {
-  color: #573B2D !important;
+/* Master Rule: All Primary / Brown Action Buttons MUST have solid #573B2D background with bright #FEFFEF ivory text & icons */
+.admin-panel .admin-btn-primary,
+.admin-panel .admin-btn-primary *,
+.admin-panel [data-admin-primary-btn],
+.admin-panel [data-admin-primary-btn] *,
+.admin-panel button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
+.admin-panel button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
+.admin-panel a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
+.admin-panel a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
+.admin-panel button[class*="bg-[#573B2D]"],
+.admin-panel button[class*="bg-[#573B2D]"] *,
+.admin-panel button[class*="bg-[#573b2d]"],
+.admin-panel button[class*="bg-[#573b2d]"] *,
+.admin-panel a[class*="bg-[#573B2D]"],
+.admin-panel a[class*="bg-[#573B2D]"] *,
+.admin-panel a[class*="bg-[#573b2d]"],
+.admin-panel a[class*="bg-[#573b2d]"] *,
+.admin-panel button[class*="bg-[#3d291f]"],
+.admin-panel button[class*="bg-[#3d291f]"] *,
+.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
+.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) *,
+.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
+.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) * {
+  background-color: #573B2D !important;
+  color: #FEFFEF !important;
 }
 
-.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) svg,
-.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) svg {
-  color: #573B2D !important;
-  stroke: #573B2D !important;
+.admin-panel .admin-btn-primary svg,
+.admin-panel .admin-btn-primary svg path,
+.admin-panel [data-admin-primary-btn] svg,
+.admin-panel [data-admin-primary-btn] svg path,
+.admin-panel button[class*="bg-primary"] svg,
+.admin-panel button[class*="bg-primary"] svg path,
+.admin-panel a[class*="bg-primary"] svg,
+.admin-panel a[class*="bg-primary"] svg path,
+.admin-panel button[class*="bg-[#573B2D]"] svg,
+.admin-panel button[class*="bg-[#573B2D]"] svg path,
+.admin-panel button[class*="bg-[#573b2d]"] svg,
+.admin-panel button[class*="bg-[#573b2d]"] svg path,
+.admin-panel a[class*="bg-[#573B2D]"] svg,
+.admin-panel a[class*="bg-[#573B2D]"] svg path,
+.admin-panel button[class*="bg-[#3d291f]"] svg,
+.admin-panel button[class*="bg-[#3d291f]"] svg path,
+.admin-panel button[class*="bg-[#c8a45d]"] svg,
+.admin-panel button[class*="bg-[#c8a45d]"] svg path,
+.admin-panel a[class*="bg-[#c8a45d]"] svg,
+.admin-panel a[class*="bg-[#c8a45d]"] svg path {
+  color: #FEFFEF !important;
+  stroke: #FEFFEF !important;
 }
 
-.admin-panel button:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) span,
-.admin-panel a:not(.admin-btn-primary):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-red-"]):not([class*="text-red-"]) span {
+/* Rich text editor content */
+.admin-panel .ProseMirror,
+.admin-panel .ProseMirror * {
   color: #573B2D !important;
 }
 

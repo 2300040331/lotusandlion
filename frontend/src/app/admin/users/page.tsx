@@ -118,10 +118,10 @@ export default function AdminUsers() {
                   <button className="p-2 text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all">
                     <Shield size={14} />
                   </button>
-                  <div className="absolute right-0 bottom-full mb-2 hidden group-hover:block bg-[#1a1a1a] border border-white/10 rounded-lg p-1 z-50 shadow-2xl">
-                    <button onClick={() => changeRole(item.id, 'user')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-gray-400 hover:text-white hover:bg-white/5 rounded">User</button>
-                    <button onClick={() => changeRole(item.id, 'admin')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-primary hover:bg-primary/5 rounded">Admin</button>
-                    <button onClick={() => changeRole(item.id, 'super-admin')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-purple-500 hover:bg-purple-500/5 rounded">Super Admin</button>
+                  <div className="absolute right-0 bottom-full mb-2 hidden group-hover:block bg-white border border-[#573B2D]/20 rounded-lg p-1 z-50 shadow-2xl">
+                    <button onClick={() => changeRole(item.id, 'user')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-[#573B2D]/70 hover:text-[#573B2D] hover:bg-[#573B2D]/10 rounded">User</button>
+                    <button onClick={() => changeRole(item.id, 'admin')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-[#573B2D] hover:bg-[#573B2D]/10 rounded">Admin</button>
+                    <button onClick={() => changeRole(item.id, 'super-admin')} className="block w-full text-left px-3 py-2 text-[8px] uppercase font-bold text-purple-700 hover:bg-purple-500/10 rounded">Super Admin</button>
                   </div>
                 </div>
                 <button 

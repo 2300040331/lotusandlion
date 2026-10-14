@@ -289,16 +289,16 @@ export default function ProductFormPage({ params }: { params: Promise<{ id: stri
         <div className="flex gap-4">
            <button 
             onClick={() => router.back()}
-            className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:bg-white/5 transition-all animate-none cursor-pointer"
+            className="px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-[#573B2D]/30 text-[#573B2D] hover:bg-[#573B2D]/10 transition-all animate-none cursor-pointer"
            >
              Discard
            </button>
            <button 
             onClick={handleSubmit}
             disabled={saving}
-            className="bg-primary text-black px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-primary-hover transition-all cursor-pointer"
+            className="admin-btn-primary bg-[#573B2D] text-[#FEFFEF] px-8 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:bg-[#573B2D]/90 transition-all cursor-pointer shadow-sm"
            >
-             {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
+             {saving ? <Loader2 className="animate-spin text-[#FEFFEF]" size={16} /> : <Save className="text-[#FEFFEF]" size={16} />}
              {isNew ? 'Publish Piece' : 'Commit Changes'}
            </button>
         </div>
@@ -496,7 +496,7 @@ export default function ProductFormPage({ params }: { params: Promise<{ id: stri
                     <button
                       type="button"
                       onClick={handleAddColor}
-                      className="bg-[#c8a45d] hover:bg-[#b08e4d] text-[#1c1c1c] px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest h-fit cursor-pointer border-none"
+                      className="admin-btn-primary bg-[#573B2D] hover:bg-[#573B2D]/90 text-[#FEFFEF] px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest h-fit cursor-pointer border-none shadow-sm transition-all"
                     >
                       Add Color
                     </button>
@@ -519,7 +519,7 @@ export default function ProductFormPage({ params }: { params: Promise<{ id: stri
                 <button
                   type="button"
                   onClick={handleAddCustomSize}
-                  className="bg-[#c8a45d] hover:bg-[#b08e4d] text-[#1c1c1c] px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest h-fit cursor-pointer border-none"
+                  className="admin-btn-primary bg-[#573B2D] hover:bg-[#573B2D]/90 text-[#FEFFEF] px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest h-fit cursor-pointer border-none shadow-sm transition-all"
                 >
                   Add Size
                 </button>
