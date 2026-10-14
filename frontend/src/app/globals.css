@@ -298,111 +298,174 @@ textarea {
   color: #573B2D !important;
 }
 
-/* Sidebar Navigation Items - ALL items clearly visible in dark brown */
-.admin-panel .admin-nav-item {
+/* ==========================================================================
+   SIDEBAR NAVIGATION: CLEAN LUXURY "BEFORE" DESIGN
+   ========================================================================== */
+
+.admin-panel aside {
+  background-color: #FEFFEF !important;
+}
+
+/* Inactive Sidebar Navigation Items: Transparent background, dark brown text & icons */
+.admin-panel aside .admin-nav-item:not(.admin-nav-active) {
+  background-color: transparent !important;
   color: #573B2D !important;
 }
 
-.admin-panel .admin-nav-item span {
+.admin-panel aside .admin-nav-item:not(.admin-nav-active) span {
   color: #573B2D !important;
+  background-color: transparent !important;
 }
 
-.admin-panel .admin-nav-item svg {
+.admin-panel aside .admin-nav-item:not(.admin-nav-active) svg {
   color: #573B2D !important;
   stroke: #573B2D !important;
+  background-color: transparent !important;
 }
 
-.admin-panel .admin-nav-item:hover {
+.admin-panel aside .admin-nav-item:not(.admin-nav-active):hover {
   background-color: rgba(87, 59, 45, 0.08) !important;
   color: #573B2D !important;
 }
 
-/* ONLY the Active Tab gets dark brown background with bright ivory text */
-.admin-panel .admin-nav-item.admin-nav-active {
+.admin-panel aside .admin-nav-item:not(.admin-nav-active):hover span,
+.admin-panel aside .admin-nav-item:not(.admin-nav-active):hover svg {
+  background-color: transparent !important;
+}
+
+/* ONLY the Active Navigation Tab gets the solid dark brown pill with bright ivory text */
+.admin-panel aside .admin-nav-item.admin-nav-active {
   background-color: #573B2D !important;
   color: #FEFFEF !important;
 }
 
-.admin-panel .admin-nav-item.admin-nav-active span {
+.admin-panel aside .admin-nav-item.admin-nav-active span {
   color: #FEFFEF !important;
+  background-color: transparent !important;
 }
 
-.admin-panel .admin-nav-item.admin-nav-active svg {
+.admin-panel aside .admin-nav-item.admin-nav-active svg {
   color: #FEFFEF !important;
   stroke: #FEFFEF !important;
+  background-color: transparent !important;
 }
 
-/* White / Light Surface Buttons & Outlines (Cancel, Bulk Import, Filters, Modals): MUST have visible deep brown text & icons */
-.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]),
-.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) {
+/* Active indicator pill (the left white vertical line) */
+.admin-panel aside .admin-nav-item.admin-nav-active div {
+  background-color: #FEFFEF !important;
+}
+
+/* Sidebar action buttons (Collapse arrow toggle & Logout button) */
+.admin-panel aside button {
+  background-color: transparent !important;
   color: #573B2D !important;
 }
 
-.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg,
-.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg {
+.admin-panel aside button span {
+  color: #573B2D !important;
+  background-color: transparent !important;
+}
+
+.admin-panel aside button svg {
+  color: #573B2D !important;
+  stroke: #573B2D !important;
+  background-color: transparent !important;
+}
+
+.admin-panel aside button:hover {
+  background-color: rgba(87, 59, 45, 0.08) !important;
+  color: #573B2D !important;
+}
+
+/* Admin Profile Card in Sidebar */
+.admin-panel aside .bg-white {
+  background-color: #ffffff !important;
+  border-color: rgba(87, 59, 45, 0.2) !important;
+}
+
+.admin-panel aside .bg-white * {
+  background-color: transparent !important;
+}
+
+/* ==========================================================================
+   MAIN CONTENT ACTION BUTTONS & CONTROLS
+   ========================================================================== */
+
+/* White / Light Surface Buttons & Outlines in Main Content (Cancel, Bulk Import, Filters, Modals) */
+.admin-panel main button:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]),
+.admin-panel main a:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) {
+  color: #573B2D !important;
+}
+
+.admin-panel main button:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg,
+.admin-panel main a:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) svg {
   color: #573B2D !important;
   stroke: #573B2D !important;
 }
 
-.admin-panel button:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span,
-.admin-panel a:not(.admin-btn-primary):not([data-admin-primary-btn]):not(.admin-nav-active):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span {
+.admin-panel main button:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span,
+.admin-panel main a:not(.admin-btn-primary):not([data-admin-primary-btn]):not([class*="bg-[#573B2D]"]):not([class*="bg-[#573b2d]"]):not([class*="bg-primary"]):not([class*="bg-[#c8a45d]"]):not([class*="bg-[#3d291f]"]):not([class*="bg-red-"]):not([class*="text-red-"]):not([class*="bg-yellow-"]):not([class*="bg-green-"]):not([class*="bg-blue-"]) span {
   color: #573B2D !important;
 }
 
-.admin-panel button[class*="border-[#c8a45d]"],
-.admin-panel [class*="border-[#c8a45d]"] {
+.admin-panel main button[class*="border-[#c8a45d]"],
+.admin-panel main [class*="border-[#c8a45d]"] {
   border-color: #573B2D !important;
   color: #573B2D !important;
   font-weight: 700 !important;
 }
 
-/* Master Rule: All Primary / Brown Action Buttons MUST have solid #573B2D background with bright #FEFFEF ivory text & icons */
-.admin-panel .admin-btn-primary,
-.admin-panel .admin-btn-primary *,
-.admin-panel [data-admin-primary-btn],
-.admin-panel [data-admin-primary-btn] *,
-.admin-panel button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
-.admin-panel button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
-.admin-panel a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
-.admin-panel a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
-.admin-panel button[class*="bg-[#573B2D]"],
-.admin-panel button[class*="bg-[#573B2D]"] *,
-.admin-panel button[class*="bg-[#573b2d]"],
-.admin-panel button[class*="bg-[#573b2d]"] *,
-.admin-panel a[class*="bg-[#573B2D]"],
-.admin-panel a[class*="bg-[#573B2D]"] *,
-.admin-panel a[class*="bg-[#573b2d]"],
-.admin-panel a[class*="bg-[#573b2d]"] *,
-.admin-panel button[class*="bg-[#3d291f]"],
-.admin-panel button[class*="bg-[#3d291f]"] *,
-.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
-.admin-panel button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) *,
-.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
-.admin-panel a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) * {
+/* Master Rule: All Primary / Brown Action Buttons in Main MUST have solid #573B2D background with bright #FEFFEF ivory text & icons */
+.admin-panel main .admin-btn-primary,
+.admin-panel main [data-admin-primary-btn],
+.admin-panel main button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
+.admin-panel main a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]),
+.admin-panel main button[class*="bg-[#573B2D]"]:not([class*="bg-[#573B2D]/"]):not([class*="hover:bg-[#573B2D]"]),
+.admin-panel main button[class*="bg-[#573b2d]"]:not([class*="bg-[#573b2d]/"]):not([class*="hover:bg-[#573b2d]"]),
+.admin-panel main a[class*="bg-[#573B2D]"]:not([class*="bg-[#573B2D]/"]):not([class*="hover:bg-[#573B2D]"]),
+.admin-panel main a[class*="bg-[#573b2d]"]:not([class*="bg-[#573b2d]/"]):not([class*="hover:bg-[#573b2d]"]),
+.admin-panel main button[class*="bg-[#3d291f]"],
+.admin-panel main button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]),
+.admin-panel main a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) {
   background-color: #573B2D !important;
   color: #FEFFEF !important;
 }
 
-.admin-panel .admin-btn-primary svg,
-.admin-panel .admin-btn-primary svg path,
-.admin-panel [data-admin-primary-btn] svg,
-.admin-panel [data-admin-primary-btn] svg path,
-.admin-panel button[class*="bg-primary"] svg,
-.admin-panel button[class*="bg-primary"] svg path,
-.admin-panel a[class*="bg-primary"] svg,
-.admin-panel a[class*="bg-primary"] svg path,
-.admin-panel button[class*="bg-[#573B2D]"] svg,
-.admin-panel button[class*="bg-[#573B2D]"] svg path,
-.admin-panel button[class*="bg-[#573b2d]"] svg,
-.admin-panel button[class*="bg-[#573b2d]"] svg path,
-.admin-panel a[class*="bg-[#573B2D]"] svg,
-.admin-panel a[class*="bg-[#573B2D]"] svg path,
-.admin-panel button[class*="bg-[#3d291f]"] svg,
-.admin-panel button[class*="bg-[#3d291f]"] svg path,
-.admin-panel button[class*="bg-[#c8a45d]"] svg,
-.admin-panel button[class*="bg-[#c8a45d]"] svg path,
-.admin-panel a[class*="bg-[#c8a45d]"] svg,
-.admin-panel a[class*="bg-[#c8a45d]"] svg path {
+/* Children inside primary buttons get bright ivory text - without extra inner background boxes! */
+.admin-panel main .admin-btn-primary *,
+.admin-panel main [data-admin-primary-btn] *,
+.admin-panel main button[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
+.admin-panel main a[class*="bg-primary"]:not([class*="bg-primary/"]):not([class*="text-red-"]):not([class*="text-gray-"]) *,
+.admin-panel main button[class*="bg-[#573B2D]"]:not([class*="bg-[#573B2D]/"]):not([class*="hover:bg-[#573B2D]"]) *,
+.admin-panel main button[class*="bg-[#573b2d]"]:not([class*="bg-[#573b2d]/"]):not([class*="hover:bg-[#573b2d]"]) *,
+.admin-panel main a[class*="bg-[#573B2D]"]:not([class*="bg-[#573B2D]/"]):not([class*="hover:bg-[#573B2D]"]) *,
+.admin-panel main a[class*="bg-[#573b2d]"]:not([class*="bg-[#573b2d]/"]):not([class*="hover:bg-[#573b2d]"]) *,
+.admin-panel main button[class*="bg-[#3d291f]"] *,
+.admin-panel main button[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) *,
+.admin-panel main a[class*="bg-[#c8a45d]"]:not([class*="bg-[#c8a45d]/"]) * {
+  color: #FEFFEF !important;
+}
+
+.admin-panel main .admin-btn-primary svg,
+.admin-panel main .admin-btn-primary svg path,
+.admin-panel main [data-admin-primary-btn] svg,
+.admin-panel main [data-admin-primary-btn] svg path,
+.admin-panel main button[class*="bg-primary"] svg,
+.admin-panel main button[class*="bg-primary"] svg path,
+.admin-panel main a[class*="bg-primary"] svg,
+.admin-panel main a[class*="bg-primary"] svg path,
+.admin-panel main button[class*="bg-[#573B2D]"] svg,
+.admin-panel main button[class*="bg-[#573B2D]"] svg path,
+.admin-panel main button[class*="bg-[#573b2d]"] svg,
+.admin-panel main button[class*="bg-[#573b2d]"] svg path,
+.admin-panel main a[class*="bg-[#573B2D]"] svg,
+.admin-panel main a[class*="bg-[#573B2D]"] svg path,
+.admin-panel main button[class*="bg-[#3d291f]"] svg,
+.admin-panel main button[class*="bg-[#3d291f]"] svg path,
+.admin-panel main button[class*="bg-[#c8a45d]"] svg,
+.admin-panel main button[class*="bg-[#c8a45d]"] svg path,
+.admin-panel main a[class*="bg-[#c8a45d]"] svg,
+.admin-panel main a[class*="bg-[#c8a45d]"] svg path {
   color: #FEFFEF !important;
   stroke: #FEFFEF !important;
 }
