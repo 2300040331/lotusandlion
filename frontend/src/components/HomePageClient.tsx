@@ -69,6 +69,7 @@ type HomeProduct = {
 type HomeCms = {
   home?: {
     slides?: unknown[];
+    collections?: Record<string, { image?: string; showIcon?: boolean }>;
   };
   lotusProducts?: HomeProduct[];
   lionProducts?: HomeProduct[];
@@ -183,6 +184,7 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
   const defaultSlides = [
     {
       title: 'Lotus & Lion',
+      showTitle: false,
       subtitle: 'Original artist-led outfits for everyday and occasion wear.',
       eyebrow: 'ONLINE EXCLUSIVE',
       ctaText: 'Shop Now',
@@ -212,13 +214,18 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
 
   const processedSlides = finalSlidesSource.map((slide: any, index: number) => {
     const defaultSlide = defaultSlides[index] || defaultSlides[0];
+    const title = slide.title?.trim() ? slide.title : defaultSlide.title;
+    const isBrandTitle = title.trim() === 'Lotus & Lion';
     return {
       ...slide,
-      title: slide.title?.trim() ? slide.title : defaultSlide.title,
+      title,
       subtitle: slide.subtitle?.trim() ? slide.subtitle : defaultSlide.subtitle,
       eyebrow: slide.eyebrow?.trim() ? slide.eyebrow : defaultSlide.eyebrow,
       ctaText: slide.ctaText?.trim() ? slide.ctaText : defaultSlide.ctaText,
       ctaLink: slide.ctaLink?.trim() ? slide.ctaLink : defaultSlide.ctaLink,
+      showTitle: isBrandTitle
+        ? slide.brandTitleVisibilityOverridden === true && slide.showTitle === true
+        : slide.showTitle !== false,
     };
   });
 
@@ -279,7 +286,7 @@ export default function HomePageClient({ initialData }: { initialData: HomeCms |
                 )}
               </Link>
               <div className="mx-auto max-w-xl text-center md:text-left">
-                {(collectionKey === 'lotus' ? <Flower2 className="mb-5 inline-block text-[#573B2D]" size={28} /> : <Crown className="mb-5 inline-block text-[#573B2D]" size={28} />)}
+                {siteCms.home?.collections?.[collectionKey]?.showIcon === true && (collectionKey === 'lotus' ? <Flower2 className="mb-5 inline-block text-[#573B2D]" size={28} /> : <Crown className="mb-5 inline-block text-[#573B2D]" size={28} />)}
                 <h2 className="brand-heading text-3xl uppercase text-[#573B2D]">{collectionName}</h2>
                 <p className="mt-5 text-[15px] leading-8 text-[#573B2D]/80">{collectionDesc}</p>
                 <Link href={collectionHref} className="mt-7 inline-block border-b border-[#573B2D] pb-1 text-[12px] uppercase tracking-[0.18em] text-[#573B2D] hover:opacity-75 transition-opacity">

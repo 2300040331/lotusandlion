@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 interface Slide {
   title: string;
+  showTitle?: boolean;
   subtitle: string;
   eyebrow?: string;
   ctaText?: string;
@@ -139,14 +140,16 @@ const HeroSlider = ({ slides = [] }: HeroSliderProps) => {
               >
                 {slide.eyebrow}
               </motion.p>
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="brand-heading text-5xl leading-none sm:text-6xl md:text-7xl text-[#FEFFEF]"
-              >
-                {slide.title}
-              </motion.h1>
+              {slide.showTitle !== false && (
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="brand-heading text-5xl leading-none sm:text-6xl md:text-7xl text-[#FEFFEF]"
+                >
+                  {slide.title}
+                </motion.h1>
+              )}
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -162,7 +162,7 @@ export default function AdminCMS() {
                   <Trash2 size={16} />
                 </button>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                   <div className="md:col-span-1 space-y-5">
                     <label className="text-[8px] uppercase font-bold text-gray-500 mb-2 block">Slide Image</label>
                     <ImageUploader
@@ -192,7 +192,7 @@ export default function AdminCMS() {
                   </div>
                   
                   <div className="md:col-span-2 space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-[8px] uppercase font-bold text-gray-500">Eyebrow</label>
                         <input
@@ -218,6 +218,23 @@ export default function AdminCMS() {
                           placeholder="e.g. Lotus & Lion"
                           className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs focus:border-primary outline-none font-bold"
                         />
+                        <label className="flex min-h-10 items-center gap-2 pt-2 text-[10px] uppercase tracking-wider text-gray-400">
+                          <input
+                            type="checkbox"
+                            checked={slide.title?.trim() === 'Lotus & Lion'
+                              ? slide.brandTitleVisibilityOverridden === true && slide.showTitle === true
+                              : slide.showTitle !== false}
+                            onChange={(e) => {
+                              const next = [...homeForm.slides];
+                              next[index].showTitle = e.target.checked;
+                              if (next[index].title?.trim() === 'Lotus & Lion') {
+                                next[index].brandTitleVisibilityOverridden = true;
+                              }
+                              setHomeForm({ ...homeForm, slides: next });
+                            }}
+                          />
+                          Show title on banner
+                        </label>
                       </div>
                     </div>
 
@@ -235,7 +252,7 @@ export default function AdminCMS() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-[8px] uppercase font-bold text-gray-500">Button Text</label>
                         <input
@@ -316,6 +333,22 @@ export default function AdminCMS() {
                     },
                   })}
                 />
+                {(key === 'lotus' || key === 'lion') && (
+                  <label className="flex min-h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 text-[10px] uppercase tracking-wider text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={homeForm?.collections?.[key]?.showIcon === true}
+                      onChange={(e) => setHomeForm({
+                        ...homeForm,
+                        collections: {
+                          ...(homeForm?.collections || {}),
+                          [key]: { ...(homeForm?.collections?.[key] || {}), showIcon: e.target.checked },
+                        },
+                      })}
+                    />
+                    Show collection symbol
+                  </label>
+                )}
               </div>
             ))}
           </div>
