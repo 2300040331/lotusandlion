@@ -22,6 +22,7 @@ echo "==> Target branch: $BRANCH"
 echo "=================================================="
 
 cd "$APP_DIR"
+git config --global --add safe.directory "$APP_DIR" || true
 
 echo "==> Fetching latest changes from Git..."
 git fetch origin "$BRANCH"

@@ -47,6 +47,7 @@ ufw allow 'Nginx Full' || (ufw allow 80/tcp && ufw allow 443/tcp)
 echo "y" | ufw enable || true
 
 echo "==> [4/7] Cloning / Updating Repository in $APP_DIR..."
+git config --global --add safe.directory "$APP_DIR" || true
 mkdir -p /srv
 if [ ! -d "$APP_DIR/.git" ]; then
   echo "Cloning repository..."
