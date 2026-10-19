@@ -85,6 +85,12 @@ if [ ! -f "$APP_DIR/frontend/.env.local" ] && [ ! -f "$APP_DIR/frontend/.env.pro
 NODE_ENV=production
 NEXT_PUBLIC_API_URL=/api
 EOF
+  if [ -f "$APP_DIR/backend/.env" ]; then
+    SB_URL=$(grep "^SUPABASE_URL=" "$APP_DIR/backend/.env" | cut -d'=' -f2- | tr -d '"' | tr -d "'")
+    if [ -n "$SB_URL" ]; then
+      echo "NEXT_PUBLIC_SUPABASE_URL=$SB_URL" >> "$APP_DIR/frontend/.env.local"
+    fi
+  fi
 fi
 
 echo "==> [6/7] Configuring Nginx Reverse Proxy..."
