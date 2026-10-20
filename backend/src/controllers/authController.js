@@ -113,4 +113,5 @@ module.exports = {
   getMe,
   registerUser,
   getUserProfile: async (req, res) => res.json(req.user),
+  seedData: async (req, res) => res.json({ message: 'Use npm run seed:full for seeding' }),
 };
