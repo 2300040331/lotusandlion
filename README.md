@@ -1,47 +1,72 @@
 # 🌸 Lotus & Lion - Luxury Fashion E-Commerce Platform
 
-> A production-ready, scalable luxury clothing brand platform built with Next.js, Supabase, and modern web technologies.
+> A production-ready, scalable luxury clothing brand platform built with Next.js, Node.js/Express, PostgreSQL, and PM2.
 
 ## 🎯 Overview
 
 Lotus & Lion is a complete luxury fashion e-commerce platform featuring:
 
 - **Dynamic Collections**: Lotus and Lion collections with separate products and branding
-- **Full Admin Control**: CMS, product management, order tracking, blog system
-- **Advanced Features**: Scheduled drops, inventory management, rich content editing
-- **Premium Design**: Black, white, and gold luxury aesthetic with smooth animations
-- **Production Ready**: Real-world scalable architecture with best practices
+- **Full Admin Control**: CMS, product management, order tracking, and control center
+- **Advanced Features**: Inventory management, size/color variant tracking
+- **Premium Design**: Warm ivory and luxury aesthetic with smooth animations
+- **Production Ready**: Native PostgreSQL database, Redis caching, and PM2/Nginx deployment on KVM2 VPS
 
 ## 💻 Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| **Frontend** | Next.js 15, React 19, Tailwind CSS, Framer Motion |
-| **Backend** | Supabase (PostgreSQL), APIs |
-| **Authentication** | Supabase Auth with JWT |
+| **Frontend** | Next.js 16, React 19, Tailwind CSS 4, Framer Motion |
+| **Backend** | Express 5, Node.js |
+| **Database** | PostgreSQL (`pg` connection pool) |
+| **Authentication** | JWT + bcrypt authentication |
 | **Payments** | Razorpay (INR) |
-| **Images** | Cloudinary |
-| **State** | Zustand + localStorage |
-| **Hosting** | Vercel (Frontend), Supabase (Backend) |
+| **Media/Images** | Local Disk Storage (served via Express/Nginx `/uploads`) |
+| **Caching** | Redis (ioredis) |
+| **Hosting** | Hostinger KVM2 VPS (PM2 + Nginx) |
 
 ## 🚀 Quick Start
 
 ### 1️⃣ Prerequisites
-- Node.js 18+
-- Supabase account
-- Cloudinary account
+- Node.js 20+
+- PostgreSQL
+- Redis
 - Razorpay account (India)
 
 ### 2️⃣ Environment Setup
+**Backend (`backend/.env`):**
 ```bash
-cd frontend
-cp .env.example .env.local
-# Fill in your credentials from Supabase, Cloudinary, and Razorpay
+PORT=5000
+NODE_ENV=development
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=lotusandlion
+DATABASE_USER=postgres
+DATABASE_PASSWORD=your_password
+JWT_SECRET=your_jwt_secret
 ```
 
-### 3️⃣ Install & Run
+**Frontend (`frontend/.env.local`):**
 ```bash
-npm install
+NEXT_PUBLIC_API_URL=/api
+NEXT_PUBLIC_RAZORPAY_KEY_ID=your_razorpay_key
+```
+
+### 3️⃣ Initialize Database
+```bash
+cd backend
+npm run db:init     # Creates all PostgreSQL tables and indexes
+npm run seed:full   # Seeds initial collections, products, and admin
+```
+
+### 4️⃣ Install & Run
+```bash
+# Terminal 1 - Backend
+cd backend
+npm run dev
+
+# Terminal 2 - Frontend
+cd frontend
 npm run dev
 # Open http://localhost:3000
 ```

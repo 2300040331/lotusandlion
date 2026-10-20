@@ -163,7 +163,7 @@ function ArtPanel({ index = 0, label }: { index?: number; label: string }) {
 }
 
 function getDefaultCollectionImage(key: string) {
-  if (key === 'lotus') return 'https://mxwmpivtusrpktzptmqt.supabase.co/storage/v1/object/public/lotus-lion/products/1781967877380-media__1781967736031.jpg';
+  if (key === 'lotus') return 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80';
   if (key === 'lion') return 'https://images.unsplash.com/photo-1507679722338-958cf635959e?auto=format&fit=crop&w=800&q=80';
   if (key === 'artist') return 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80';
   return '';

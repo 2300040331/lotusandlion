@@ -1,83 +1,152 @@
-const supabase = require('../../config/supabase');
+const { query } = require('../../config/database');
 
 const mapUser = (u) => {
   if (!u) return null;
   return {
     ...u,
     _id: u.id,
-    isBlocked: u.is_blocked,
-    isAdmin: ['admin', 'super-admin'].includes(u.role)
+    isBlocked: Boolean(u.is_blocked),
+    isAdmin: ['admin', 'super-admin'].includes(u.role),
   };
 };
 
 const getAdminUsers = async (req, res, next) => {
   try {
     const { page = 1, limit = 20, search = '', role = '' } = req.query;
-    const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit) - 1;
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.max(1, Number(limit));
+    const offset = (pageNum - 1) * limitNum;
 
-    let query = supabase.from('profiles').select('*', { count: 'exact' });
+    const conditions = [];
+    const params = [];
+    let pIdx = 1;
 
-    if (search) query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
-    if (role) query = query.eq('role', role);
+    if (search) {
+      conditions.push(`(name ILIKE $${pIdx} OR email ILIKE $${pIdx})`);
+      params.push(`%${search}%`);
+      pIdx++;
+    }
+    if (role) {
+      conditions.push(`role = $${pIdx++}`);
+      params.push(role);
+    }
 
-    const { data, count, error } = await query.order('created_at', { ascending: false }).range(from, to);
-    if (error) throw error;
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const countRes = await query(`SELECT COUNT(*) FROM profiles ${whereClause}`, params);
+    const count = Number(countRes.rows[0]?.count || 0);
+
+    params.push(limitNum);
+    const limitParam = `$${pIdx++}`;
+    params.push(offset);
+    const offsetParam = `$${pIdx++}`;
+
+    const sql = `
+      SELECT id, name, email, role, is_blocked, last_login, created_at
+      FROM profiles
+      ${whereClause}
+      ORDER BY created_at DESC
+      LIMIT ${limitParam} OFFSET ${offsetParam}
+    `;
+
+    const { rows } = await query(sql, params);
 
     res.json({
-      users: data.map(mapUser),
-      page: Number(page),
-      pages: Math.ceil((count || 0) / limit),
-      total: count
+      users: rows.map(mapUser),
+      page: pageNum,
+      pages: Math.ceil(count / limitNum),
+      total: count,
     });
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getAdminUserById = async (req, res, next) => {
   try {
-    const { data, error } = await supabase.from('profiles').select('*').eq('id', req.params.id).single();
-    if (error || !data) { res.status(404); throw new Error('User not found'); }
-    res.json(mapUser(data));
-  } catch (error) { next(error); }
+    const { rows } = await query(
+      'SELECT id, name, email, role, is_blocked, last_login, created_at FROM profiles WHERE id = $1 LIMIT 1',
+      [req.params.id]
+    );
+
+    if (!rows.length) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+
+    res.json(mapUser(rows[0]));
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getUserOrders = async (req, res, next) => {
   try {
-    const { data, error } = await supabase.from('orders').select('*').eq('user_id', req.params.id).order('created_at', { ascending: false });
-    if (error) throw error;
-    res.json(data);
-  } catch (error) { next(error); }
+    const { rows } = await query(
+      'SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC',
+      [req.params.id]
+    );
+    res.json(rows);
+  } catch (error) {
+    next(error);
+  }
 };
 
 const updateAdminUser = async (req, res, next) => {
   try {
     const { isBlocked, is_blocked, role } = req.body;
     const blockValue = isBlocked !== undefined ? isBlocked : is_blocked;
-    
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({
-        is_blocked: blockValue !== undefined ? Boolean(blockValue) : undefined,
-        role: role || undefined
-      })
-      .eq('id', req.params.id)
-      .select()
-      .single();
 
-    if (error) throw error;
-    res.json({ message: 'User updated', user: mapUser(data) });
-  } catch (error) { next(error); }
+    const updateFields = [];
+    const params = [];
+    let pIdx = 1;
+
+    if (blockValue !== undefined) {
+      updateFields.push(`is_blocked = $${pIdx++}`);
+      params.push(Boolean(blockValue));
+    }
+    if (role !== undefined) {
+      updateFields.push(`role = $${pIdx++}`);
+      params.push(role);
+    }
+
+    if (!updateFields.length) {
+      return res.status(400).json({ message: 'No fields to update' });
+    }
+
+    params.push(req.params.id);
+    const sql = `UPDATE profiles SET ${updateFields.join(', ')} WHERE id = $${pIdx} RETURNING *`;
+    const { rows } = await query(sql, params);
+
+    if (!rows.length) {
+      res.status(404);
+      throw new Error('User not found');
+    }
+
+    res.json({ message: 'User updated', user: mapUser(rows[0]) });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const deleteAdminUser = async (req, res, next) => {
   try {
     if (req.user.id === req.params.id) {
-      res.status(400); throw new Error('Cannot delete your own account');
+      res.status(400);
+      throw new Error('Cannot delete your own account');
     }
-    const { error } = await supabase.from('profiles').delete().eq('id', req.params.id);
-    if (error) throw error;
+
+    await query('DELETE FROM profiles WHERE id = $1', [req.params.id]);
     res.json({ message: 'User removed' });
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = { getAdminUsers, getAdminUserById, getUserOrders, updateAdminUser, deleteAdminUser };
+module.exports = {
+  getAdminUsers,
+  getAdminUserById,
+  getUserOrders,
+  updateAdminUser,
+  deleteAdminUser,
+};

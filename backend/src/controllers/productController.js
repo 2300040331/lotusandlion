@@ -1,15 +1,16 @@
-const supabase = require('../config/supabase');
-const { remember, flush } = require('../services/cacheService');
+const { query } = require('../config/database');
+const { remember } = require('../services/cacheService');
 
 const mapToCamelCase = (p) => {
   if (!p) return null;
-  
-  // Handle joined images array - items can be objects {image_url: '...'} or plain strings
+
   let images = [];
   if (p.images && Array.isArray(p.images) && p.images.length > 0) {
     images = p.images
-      .map(img => (typeof img === 'string' ? img : img?.image_url))
+      .map((img) => (typeof img === 'string' ? img : img?.image_url))
       .filter(Boolean);
+  } else if (p.image_url) {
+    images = [p.image_url];
   }
   const mainImage = images[0] || null;
 
@@ -20,24 +21,23 @@ const mapToCamelCase = (p) => {
     slug: p.slug,
     description: p.description,
     richDescription: p.rich_description,
-    price: p.price,
-    discountPrice: p.discount_price,
+    price: Number(p.price) || 0,
+    discountPrice: p.discount_price !== null && p.discount_price !== undefined ? Number(p.discount_price) : null,
     category: p.category,
     collection: p.collection_id,
     collectionType: p.collection_id,
-    countInStock: p.stock_quantity,
-    isFeatured: p.is_featured,
-    isVisible: p.is_visible,
+    countInStock: Number(p.stock_quantity) || 0,
+    isFeatured: Boolean(p.is_featured),
+    isVisible: Boolean(p.is_visible),
     image: mainImage,
     images: images,
     variants: p.variants || [],
-    brand: 'Lotus & Lion'
+    brand: 'Lotus & Lion',
   };
 };
 
-// Helper: Create cache key for product queries
-const getProductsCacheKey = (query) => {
-  const { keyword, category, collectionType, page = 1, limit = 12 } = query;
+const getProductsCacheKey = (q) => {
+  const { keyword, category, collectionType, page = 1, limit = 12 } = q;
   return `products:list:${collectionType || 'all'}:${category || 'all'}:${keyword || 'all'}:p${page}:l${limit}`;
 };
 
@@ -46,35 +46,65 @@ const getProducts = async (req, res, next) => {
   try {
     const { keyword, category, collectionType, page = 1, limit = 12 } = req.query;
     const pageNum = Math.max(1, Number(page));
-    const limitNum = Math.min(100, Math.max(1, Number(limit))); // Cap at 100
-    const from = (pageNum - 1) * limitNum;
-    const to = from + limitNum - 1;
+    const limitNum = Math.min(100, Math.max(1, Number(limit)));
+    const offset = (pageNum - 1) * limitNum;
 
     const cacheKey = getProductsCacheKey(req.query);
-    
-    // Use longer cache TTL (10 min) since products change less frequently
+
     const data = await remember(cacheKey, async () => {
-      let query = supabase
-        .from('products')
-        .select('id, name, slug, price, discount_price, category, stock_quantity, is_featured, is_visible, collection_id, images:product_images(image_url)', { count: 'exact' })
-        .eq('is_visible', true);
+      const conditions = ['p.is_visible = true'];
+      const params = [];
+      let paramIdx = 1;
 
-      if (keyword) query = query.ilike('name', `%${keyword}%`);
-      if (category) query = query.eq('category', category);
-      if (collectionType) query = query.eq('collection_id', collectionType);
+      if (keyword) {
+        conditions.push(`p.name ILIKE $${paramIdx++}`);
+        params.push(`%${keyword}%`);
+      }
+      if (category) {
+        conditions.push(`p.category = $${paramIdx++}`);
+        params.push(category);
+      }
+      if (collectionType) {
+        // Support collection UUID or slug
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(collectionType);
+        if (isUuid) {
+          conditions.push(`p.collection_id = $${paramIdx++}`);
+          params.push(collectionType);
+        } else {
+          conditions.push(`p.collection_id IN (SELECT id FROM collections WHERE slug = $${paramIdx++})`);
+          params.push(collectionType.toLowerCase());
+        }
+      }
 
-      const { data: products, error } = await query
-        .order('created_at', { ascending: false })
-        .range(from, to);
+      const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+      params.push(limitNum);
+      const limitParam = `$${paramIdx++}`;
+      params.push(offset);
+      const offsetParam = `$${paramIdx++}`;
 
-      if (error) throw error;
-      return products.map(mapToCamelCase);
-    }, 600); // 10 min cache for better performance
+      const sql = `
+        SELECT p.id, p.name, p.slug, p.price, p.discount_price, p.category, p.stock_quantity,
+               p.is_featured, p.is_visible, p.collection_id, p.description, p.rich_description,
+               COALESCE(
+                 (SELECT json_agg(json_build_object('image_url', pi.image_url) ORDER BY pi.is_main DESC, pi.display_order ASC)
+                  FROM product_images pi WHERE pi.product_id = p.id),
+                 '[]'::json
+               ) AS images
+        FROM products p
+        ${whereClause}
+        ORDER BY p.created_at DESC
+        LIMIT ${limitParam} OFFSET ${offsetParam}
+      `;
 
-    // Browser cache: 60s, CDN stale-while-revalidate: 1200s (20 min)
+      const { rows } = await query(sql, params);
+      return rows.map(mapToCamelCase);
+    }, 600);
+
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=1200');
     res.json(data);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 // @route GET /api/products/:slug
@@ -83,55 +113,72 @@ const getProductBySlug = async (req, res, next) => {
     const identifier = req.params.slug.toLowerCase().trim();
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(identifier);
     const cacheKey = `product:${isUuid ? 'id' : 'slug'}:${identifier}`;
-    
+
     const data = await remember(cacheKey, async () => {
-      let query = supabase
-        .from('products')
-        .select('id, name, slug, description, rich_description, price, discount_price, category, stock_quantity, is_featured, is_visible, collection_id, images:product_images(image_url), variants:product_variants(*)')
-        .eq('is_visible', true);
+      const condition = isUuid ? 'p.id = $1' : 'p.slug = $1';
+      const sql = `
+        SELECT p.id, p.name, p.slug, p.description, p.rich_description, p.price, p.discount_price,
+               p.category, p.stock_quantity, p.is_featured, p.is_visible, p.collection_id,
+               COALESCE(
+                 (SELECT json_agg(json_build_object('image_url', pi.image_url) ORDER BY pi.is_main DESC, pi.display_order ASC)
+                  FROM product_images pi WHERE pi.product_id = p.id),
+                 '[]'::json
+               ) AS images,
+               COALESCE(
+                 (SELECT json_agg(pv.*) FROM product_variants pv WHERE pv.product_id = p.id),
+                 '[]'::json
+               ) AS variants
+        FROM products p
+        WHERE p.is_visible = true AND ${condition}
+        LIMIT 1
+      `;
 
-      query = isUuid ? query.eq('id', identifier) : query.eq('slug', identifier);
-
-      const { data: product, error } = await query.single();
-
-      if (error || !product) {
-        return null;
-      }
-      return mapToCamelCase(product);
-    }, 1800); // 30 min cache for individual product pages
+      const { rows } = await query(sql, [identifier]);
+      if (!rows.length) return null;
+      return mapToCamelCase(rows[0]);
+    }, 1800);
 
     if (!data) {
       res.status(404);
       throw new Error('Product not found');
     }
 
-    // Aggressive caching for product detail pages
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
     res.json(data);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 // @route GET /api/products/featured
 const getFeaturedProducts = async (req, res, next) => {
   try {
     const cacheKey = 'products:featured:latest';
-    
-    const data = await remember(cacheKey, async () => {
-      const { data: products, error } = await supabase
-        .from('products')
-        .select('id, name, slug, price, discount_price, stock_quantity, is_featured, is_visible, collection_id, images:product_images(image_url)')
-        .eq('is_featured', true)
-        .eq('is_visible', true)
-        .order('created_at', { ascending: false })
-        .limit(8);
 
-      if (error) throw error;
-      return products.map(mapToCamelCase);
-    }, 900); // 15 min cache for featured products
+    const data = await remember(cacheKey, async () => {
+      const sql = `
+        SELECT p.id, p.name, p.slug, p.price, p.discount_price, p.stock_quantity,
+               p.is_featured, p.is_visible, p.collection_id,
+               COALESCE(
+                 (SELECT json_agg(json_build_object('image_url', pi.image_url) ORDER BY pi.is_main DESC, pi.display_order ASC)
+                  FROM product_images pi WHERE pi.product_id = p.id),
+                 '[]'::json
+               ) AS images
+        FROM products p
+        WHERE p.is_featured = true AND p.is_visible = true
+        ORDER BY p.created_at DESC
+        LIMIT 8
+      `;
+
+      const { rows } = await query(sql);
+      return rows.map(mapToCamelCase);
+    }, 900);
 
     res.setHeader('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=1800');
     res.json(data);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

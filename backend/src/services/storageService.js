@@ -1,68 +1,71 @@
-const supabase = require('../config/supabase');
-const logger = require('../utils/logger');
+const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
-const BUCKET_NAME = process.env.SUPABASE_STORAGE_BUCKET || 'lotus-lion';
+const UPLOAD_ROOT = process.env.UPLOAD_DIR || path.join(__dirname, '../../uploads');
+
+// Ensure upload directory exists
+if (!fs.existsSync(UPLOAD_ROOT)) {
+  fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+}
 
 /**
- * Upload a buffer to Supabase Storage.
- * @param {Buffer} buffer - File buffer from multer
- * @param {string} folder - Folder path (e.g. 'products')
- * @returns {Promise<{ url: string, publicId: string }>}
+ * Upload single buffer to local storage
  */
-const uploadBuffer = async (buffer, folder = 'products') => {
-  try {
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.webp`;
-    const filePath = `${folder}/${filename}`;
-
-    const { data, error } = await supabase.storage
-      .from(BUCKET_NAME)
-      .upload(filePath, buffer, {
-        contentType: 'image/webp',
-        upsert: true
-      });
-
-    if (error) throw error;
-
-    const { data: { publicUrl } } = supabase.storage
-      .from(BUCKET_NAME)
-      .getPublicUrl(filePath);
-
-    return {
-      url: publicUrl,
-      publicId: filePath
-    };
-  } catch (error) {
-    logger.error(`[Supabase Storage] Upload failed: ${error.message}`);
-    throw error;
+const uploadBuffer = async (buffer, folder = 'general', originalName = '') => {
+  const ext = originalName ? path.extname(originalName) || '.jpg' : '.jpg';
+  const targetDir = path.join(UPLOAD_ROOT, folder);
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
   }
+
+  const filename = `${Date.now()}-${crypto.randomBytes(8).toString('hex')}${ext}`;
+  const filePath = path.join(targetDir, filename);
+
+  await fs.promises.writeFile(filePath, buffer);
+
+  const relativeUrl = `/uploads/${folder}/${filename}`.replace(/\\/g, '/');
+  return {
+    url: relativeUrl,
+    publicId: `${folder}/${filename}`,
+    filename,
+  };
 };
 
 /**
- * Upload multiple buffers to Supabase in parallel.
- * @param {Buffer[]} buffers
- * @param {string} folder
- * @returns {Promise<Array<{ url: string, publicId: string }>>}
+ * Upload multiple buffers to local storage
  */
-const uploadMultiple = async (buffers, folder = 'products') => {
-  return Promise.all(buffers.map((buf) => uploadBuffer(buf, folder)));
+const uploadMultiple = async (fileList, folder = 'general') => {
+  const results = [];
+  for (const item of fileList) {
+    const buffer = Buffer.isBuffer(item) ? item : item.buffer;
+    const originalName = item.originalname || '';
+    const res = await uploadBuffer(buffer, folder, originalName);
+    results.push(res);
+  }
+  return results;
 };
 
 /**
- * Delete an image from Supabase Storage by public_id (file path).
- * @param {string} publicId
+ * Delete a file from local storage
  */
-const deleteImage = async (publicId) => {
+const deleteFile = async (fileUrl) => {
   try {
-    const { error } = await supabase.storage
-      .from(BUCKET_NAME)
-      .remove([publicId]);
-
-    if (error) throw error;
-    logger.info(`[Supabase Storage] Deleted: ${publicId}`);
+    if (!fileUrl || !fileUrl.startsWith('/uploads/')) return false;
+    const relativePath = fileUrl.replace(/^\/uploads\//, '');
+    const fullPath = path.join(UPLOAD_ROOT, relativePath);
+    if (fs.existsSync(fullPath)) {
+      await fs.promises.unlink(fullPath);
+      return true;
+    }
   } catch (err) {
-    logger.warn(`[Supabase Storage] Delete failed for ${publicId}: ${err.message}`);
+    console.error('[StorageService] Error deleting file:', err);
   }
+  return false;
 };
 
-module.exports = { uploadBuffer, uploadMultiple, deleteImage };
+module.exports = {
+  uploadBuffer,
+  uploadMultiple,
+  deleteFile,
+};

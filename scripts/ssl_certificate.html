@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lotus & Lion - SSL Certificate of Security</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #2D241E;
+    background-color: #FEFFEF;
+    margin: 0;
+    padding: 30px;
+    box-sizing: border-box;
+  }
+  .cert-container {
+    border: 3px double #573B2D;
+    padding: 35px;
+    background: #FFFFFF;
+    box-shadow: 0 4px 15px rgba(87, 59, 45, 0.08);
+    position: relative;
+  }
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #573B2D;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+  }
+  .logo-title {
+    font-family: 'Times New Roman', Georgia, serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #573B2D;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+  }
+  .cert-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #8C6D58;
+    margin: 0;
+  }
+  .status-badge {
+    display: inline-block;
+    background: #E8F5E9;
+    color: #2E7D32;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 15px;
+    border: 1px solid #A5D6A7;
+  }
+  .section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #573B2D;
+    border-bottom: 1px solid #E0D6CE;
+    padding-bottom: 6px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  table.details {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  table.details td {
+    padding: 8px 10px;
+    font-size: 13px;
+    vertical-align: top;
+    border-bottom: 1px solid #F3EDE7;
+  }
+  table.details td.label {
+    width: 32%;
+    color: #7D6B5E;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  table.details td.value {
+    color: #1A1A1A;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    word-break: break-all;
+  }
+  .footer {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #E0D6CE;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #8C7B70;
+  }
+  .seal {
+    text-align: right;
+  }
+  .seal-box {
+    display: inline-block;
+    border: 2px solid #573B2D;
+    color: #573B2D;
+    padding: 8px 14px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cert-container">
+  <div class="header">
+    <div class="logo-title">LOTUS AND LION</div>
+    <div class="cert-title">Official SSL / TLS Production Security Certificate</div>
+    <div class="status-badge">✔ Security Status: Verified & Live Active</div>
+  </div>
+
+  <div class="section-title">Certificate Identification</div>
+  <table class="details">
+    <tr>
+      <td class="label">Primary Domain</td>
+      <td class="value"><strong>lotusandlion.in</strong></td>
+    </tr>
+    <tr>
+      <td class="label">Alternative Names (SAN)</td>
+      <td class="value">lotusandlion.in, www.lotusandlion.in</td>
+    </tr>
+    <tr>
+      <td class="label">Issuing Authority</td>
+      <td class="value">Let's Encrypt Authority (YE2) - Internet Security Research Group</td>
+    </tr>
+    <tr>
+      <td class="label">Serial Number</td>
+      <td class="value">05:02:05:C4:D3:DF:5C:F4:5B:E9:A1:9A:D4:25:E7:7D:DF:1D</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Cryptographic Details & Encryption</div>
+  <table class="details">
+    <tr>
+      <td class="label">Encryption Standard</td>
+      <td class="value">ECDSA (Elliptic Curve Cryptography) P-256 (256-bit High Security)</td>
+    </tr>
+    <tr>
+      <td class="label">Signature Algorithm</td>
+      <td class="value">ecdsa-with-SHA384</td>
+    </tr>
+    <tr>
+      <td class="label">Transport Security</td>
+      <td class="value">TLS 1.2 / TLS 1.3 End-to-End Encrypted</td>
+    </tr>
+    <tr>
+      <td class="label">Certificate Usage</td>
+      <td class="value">TLS Web Server Authentication, Digital Signature</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Host Server & Deployment Environment</div>
+  <table class="details">
+    <tr>
+      <td class="label">Host Server Platform</td>
+      <td class="value">Hostinger KVM 2 Cloud VPS</td>
+    </tr>
+    <tr>
+      <td class="label">Public Server IP</td>
+      <td class="value">200.141.6.161</td>
+    </tr>
+    <tr>
+      <td class="label">Web Server Reverse Proxy</td>
+      <td class="value">Nginx 1.28 (Ubuntu)</td>
+    </tr>
+    <tr>
+      <td class="label">Active Validity Period</td>
+      <td class="value">October 19, 2026 to January 17, 2027 (Auto-Renewing)</td>
+    </tr>
+    <tr>
+      <td class="label">Auto-Renewal Service</td>
+      <td class="value">Certbot systemd automated daemon (Scheduled Background Renewal)</td>
+    </tr>
+  </table>
+
+  <div class="footer">
+    <div>
+      <strong>Verification URL:</strong> https://lotusandlion.in<br>
+      Generated automatically for Lotus & Lion records.
+    </div>
+    <div class="seal">
+      <div class="seal-box">
+        🔒 SECURE SSL / TLS<br>
+        256-BIT ENCRYPTED
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

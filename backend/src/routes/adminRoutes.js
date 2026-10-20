@@ -6,23 +6,47 @@ const { upload, uploadFields, handleSingleUpload, handleMultipleUpload } = requi
 
 // Controllers
 const { getDashboardStats } = require('../controllers/admin/dashboardController');
-const { 
-  getAdminProducts, getAdminProductById, createProduct, updateProduct, deleteProduct, 
-  toggleFeatured, toggleVisibility, applyBulkDiscount 
+const {
+  getAdminProducts,
+  getAdminProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  toggleFeatured,
+  toggleVisibility,
+  applyBulkDiscount,
 } = require('../controllers/admin/productAdminController');
 const { getAdminOrders, getAdminOrderById, updateOrderStatus } = require('../controllers/admin/orderAdminController');
 const { getAdminUsers, getAdminUserById, getUserOrders, updateAdminUser, deleteAdminUser } = require('../controllers/admin/userAdminController');
-const { 
-  getHero, updateHero, getHome, updateHome, getNavbar, updateNavbar, getFooter, updateFooter, 
-  getPages, createPage, updatePage, deletePage 
+const {
+  getHero,
+  updateHero,
+  getHome,
+  updateHome,
+  getNavbar,
+  updateNavbar,
+  getFooter,
+  updateFooter,
+  getPages,
+  createPage,
+  updatePage,
+  deletePage,
 } = require('../controllers/admin/contentController');
 const { getSettings, updateSetting, updateSettings } = require('../controllers/admin/settingsController');
 const {
-  listCollections, getCollection, updateCollection, upsertCollection, deleteCollection,
-  listBlogs, upsertBlog, deleteBlog,
-  listSections, upsertSection, deleteSection,
-  listAnnouncements, upsertAnnouncement,
-  getTheme, updateTheme, getControlCenter,
+  listCollections,
+  getCollection,
+  updateCollection,
+  upsertCollection,
+  deleteCollection,
+  listSections,
+  upsertSection,
+  deleteSection,
+  listAnnouncements,
+  upsertAnnouncement,
+  getTheme,
+  updateTheme,
+  getControlCenter,
 } = require('../controllers/admin/superCmsController');
 
 // ─── Dashboard ───────────────────────────────────────────────────────────────
@@ -45,11 +69,6 @@ router.post('/collections', protect, admin, upsertCollection);
 router.get('/collections/:key', protect, admin, getCollection);
 router.put('/collections/:key', protect, admin, updateCollection);
 router.delete('/collections/:id', protect, superAdmin, deleteCollection);
-
-router.get('/blogs', protect, admin, listBlogs);
-router.post('/blogs', protect, admin, upsertBlog);
-router.put('/blogs/:id', protect, admin, upsertBlog);
-router.delete('/blogs/:id', protect, superAdmin, deleteBlog);
 
 router.get('/homepage/sections', protect, admin, listSections);
 router.post('/homepage/sections', protect, admin, upsertSection);
@@ -75,15 +94,15 @@ router.put('/users/:id', protect, superAdmin, updateAdminUser);
 router.delete('/users/:id', protect, superAdmin, deleteAdminUser);
 
 // ─── Content (CMS) ────────────────────────────────────────────────────────────
-router.get('/content/hero', getHero); // Publicly accessible
+router.get('/content/hero', getHero);
 router.put('/content/hero', protect, admin, updateHero);
-router.get('/content/home', getHome); // Publicly accessible
+router.get('/content/home', getHome);
 router.put('/content/home', protect, admin, updateHome);
-router.get('/content/navbar', getNavbar); // Publicly accessible
+router.get('/content/navbar', getNavbar);
 router.put('/content/navbar', protect, admin, updateNavbar);
-router.get('/content/footer', getFooter); // Publicly accessible
+router.get('/content/footer', getFooter);
 router.put('/content/footer', protect, admin, updateFooter);
-router.get('/content/pages', getPages); // Publicly accessible
+router.get('/content/pages', getPages);
 router.post('/content/pages', protect, admin, createPage);
 router.put('/content/pages/:id', protect, admin, updatePage);
 router.delete('/content/pages/:id', protect, admin, deletePage);

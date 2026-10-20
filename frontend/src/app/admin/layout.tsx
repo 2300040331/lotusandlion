@@ -17,7 +17,6 @@ import {
   Menu as MenuIcon,
   Crown,
   Flower2,
-  PenLine,
   Layers3,
   Megaphone,
   FolderTree
@@ -33,7 +32,6 @@ const navItems = [
   { name: 'Homepage Builder', href: '/admin/homepage', icon: Layers3 },
   { name: 'Collections Manager', href: '/admin/collections', icon: FolderTree },
   { name: 'Products', href: '/admin/products', icon: Package },
-  { name: 'Blog Studio', href: '/admin/blogs', icon: PenLine },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingBag },
   { name: 'Users', href: '/admin/users', icon: Users },
   { name: 'CMS Control', href: '/admin/cms', icon: Layout },

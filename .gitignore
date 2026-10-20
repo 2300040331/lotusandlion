@@ -20,10 +20,6 @@ push-env.js
 # OS files
 .DS_Store
 
-# Vercel
-.vercel/
-.vercel
-
 # Archives & Personal/Unrelated
 *.zip
 *.tex

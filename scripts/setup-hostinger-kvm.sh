@@ -19,14 +19,16 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-echo "==> [1/7] Updating system packages..."
+echo "==> [1/7] Updating system packages & database..."
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
-apt-get install -y curl wget git build-essential ufw nginx certbot python3-certbot-nginx redis-server
+apt-get install -y curl wget git build-essential ufw nginx certbot python3-certbot-nginx redis-server postgresql postgresql-contrib
 
-# Ensure Redis is running
+# Ensure Redis & PostgreSQL are running
 systemctl enable redis-server || systemctl enable redis
 systemctl start redis-server || systemctl start redis
+systemctl enable postgresql
+systemctl start postgresql
 
 echo "==> [2/7] Installing Node.js 20 LTS & PM2..."
 if ! command -v node >/dev/null 2>&1 || [ "$(node -v | cut -d'.' -f1 | tr -d 'v')" -lt 20 ]; then
@@ -66,17 +68,18 @@ chmod +x "$APP_DIR/deploy.sh"
 echo "==> [5/7] Preparing Environment Variables..."
 # Backend environment setup
 if [ ! -f "$APP_DIR/backend/.env" ]; then
-  if [ -f "$APP_DIR/backend/.env.vercel.prod" ]; then
-    echo "Creating backend/.env from .env.vercel.prod..."
-    cp "$APP_DIR/backend/.env.vercel.prod" "$APP_DIR/backend/.env"
-  else
-    echo "Creating default backend/.env..."
-    cat << 'EOF' > "$APP_DIR/backend/.env"
+  echo "Creating default backend/.env..."
+  cat << 'EOF' > "$APP_DIR/backend/.env"
 NODE_ENV=production
 PORT=5000
 CLIENT_URL=http://localhost:3000
+DATABASE_HOST=127.0.0.1
+DATABASE_PORT=5432
+DATABASE_NAME=lotusandlion
+DATABASE_USER=postgres
+DATABASE_PASSWORD=
+JWT_SECRET=supersecretlotusandlionjwtkey2026
 EOF
-  fi
 fi
 
 # Frontend environment setup
@@ -86,12 +89,6 @@ if [ ! -f "$APP_DIR/frontend/.env.local" ] && [ ! -f "$APP_DIR/frontend/.env.pro
 NODE_ENV=production
 NEXT_PUBLIC_API_URL=/api
 EOF
-  if [ -f "$APP_DIR/backend/.env" ]; then
-    SB_URL=$(grep "^SUPABASE_URL=" "$APP_DIR/backend/.env" | cut -d'=' -f2- | tr -d '"' | tr -d "'")
-    if [ -n "$SB_URL" ]; then
-      echo "NEXT_PUBLIC_SUPABASE_URL=$SB_URL" >> "$APP_DIR/frontend/.env.local"
-    fi
-  fi
 fi
 
 echo "==> [6/7] Configuring Nginx Reverse Proxy..."

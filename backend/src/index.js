@@ -11,22 +11,18 @@ const { apiLimiter } = require('./middleware/rateLimiter');
 
 dotenv.config();
 
-if (!process.env.VERCEL) {
-  connectRedis();
-}
+connectRedis();
 
 const app = express();
 
-// Trust proxy for Vercel
 app.set('trust proxy', 1);
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+
 const allowedOrigins = [
   process.env.CLIENT_URL || 'http://localhost:3000',
-  'https://frontend-beta-pink-8l4h9umjb7.vercel.app',
-  'https://frontend-fujd6aa09-mk0081709-6527s-projects.vercel.app',
   'https://lotusandlion.in',
   'https://www.lotusandlion.in',
   'http://localhost:3000',
@@ -37,20 +33,23 @@ const allowedOrigins = [
   'http://127.0.0.1:3002',
 ];
 
-// Also allow any Vercel preview/production URLs
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return callback(null, true);
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+  })
+);
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) return callback(null, true);
-    if (origin.endsWith('.vercel.app')) return callback(null, true);
-    return callback(new Error(`CORS blocked for origin: ${origin}`));
-  },
-  credentials: true,
-}));
-app.use(helmet({
-  crossOriginResourcePolicy: false,
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 if (process.env.NODE_ENV === 'development') {
@@ -58,9 +57,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Rate Limiting
-if (!process.env.VERCEL) {
-  app.use('/api', apiLimiter);
-}
+app.use('/api', apiLimiter);
 
 app.use((req, res, next) => {
   console.log(`[API Request] ${req.method} ${req.url}`);
@@ -83,17 +80,12 @@ app.use('/api/cms', require('./routes/cmsRoutes'));
 app.use(notFound);
 app.use(errorHandler);
 
-// Scheduled Drop System — temporarily disabled during migration to Supabase
-if (require.main === module) {
-  // Cron logic will be updated to Supabase in a follow-up step
-}
-
 module.exports = app;
 
 const PORT = process.env.PORT || 5000;
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`[SERVER] Running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-    console.log(`[DB] Supabase connected (Unified)`);
+    console.log(`[SERVER] Running in ${process.env.NODE_ENV || 'production'} mode on port ${PORT}`);
+    console.log('[DB] PostgreSQL connected');
   });
 }

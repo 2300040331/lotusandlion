@@ -1,15 +1,13 @@
 import HomePageClient from '@/components/HomePageClient';
 
 function getServerApiUrl() {
-  // On Vercel, VERCEL_URL is auto-set (e.g. "my-app.vercel.app")
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}/api`;
-  }
-  // Fallback: use NEXT_PUBLIC_API_URL only if it's absolute
+  const internal = process.env.INTERNAL_API_URL || '';
+  if (internal.startsWith('http')) return internal;
+
   const pub = process.env.NEXT_PUBLIC_API_URL || '';
   if (pub.startsWith('http')) return pub;
-  // Local dev
-  return 'http://localhost:5001/api';
+
+  return 'http://127.0.0.1:5000/api';
 }
 
 export default async function Home() {

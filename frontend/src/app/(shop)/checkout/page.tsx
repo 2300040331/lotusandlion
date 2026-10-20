@@ -172,7 +172,7 @@ export default function CheckoutPage() {
             );
 
             if (verification && verification.success) {
-              // 5. Update database order to paid (directly in Supabase)
+              // 5. Update database order to paid via API
               const updatedOrder = await ordersService.updateOrderToPaid(
                 dbOrder.id,
                 response.razorpay_payment_id,

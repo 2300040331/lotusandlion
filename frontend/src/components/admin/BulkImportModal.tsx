@@ -262,7 +262,7 @@ export default function BulkImportModal({ isOpen, onClose, onSuccess, lockCollec
         reader.readAsText(file);
       }
 
-      // Process image files (upload to Cloudinary)
+      // Process image files (upload to storage)
       if (imageFiles.length > 0) {
         // Create skeleton drafts immediately so user sees uploading state
         const initialTempDrafts = imageFiles.map((file) => {

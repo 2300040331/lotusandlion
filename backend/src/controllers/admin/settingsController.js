@@ -1,88 +1,79 @@
-const supabase = require('../../config/supabase');
+const { query } = require('../../config/database');
 const { flush, get, set } = require('../../services/cacheService');
 
 const getSettings = async (req, res, next) => {
   try {
     const cacheKey = 'settings:all';
-    
-    // Try cache first
+
     let formatted = await get(cacheKey);
     if (formatted) {
       return res.json(formatted);
     }
 
-    const { data, error } = await supabase.from('content').select('*').eq('key', 'settings').single();
-    if (error && error.code !== 'PGRST116') throw error;
-    
-    const settingsData = data?.data || {};
-    
-    // Map to frontend expectation
+    const { rows } = await query("SELECT * FROM content WHERE key = 'settings' LIMIT 1");
+    const settingsData = rows[0]?.data || {};
+
     formatted = {
-      siteMeta: { value: { 
-        name: settingsData.site_name || 'Lotus & Lion', 
-        tagline: settingsData.site_description || '', 
-        whatsapp: settingsData.whatsapp_number || '',
-        instagram: settingsData.instagram_url || '',
-        twitter: settingsData.twitter_url || '',
-        pinterest: settingsData.pinterest_url || ''
-      } },
+      siteMeta: {
+        value: {
+          name: settingsData.site_name || 'Lotus & Lion',
+          tagline: settingsData.site_description || '',
+          whatsapp: settingsData.whatsapp_number || '',
+          instagram: settingsData.instagram_url || '',
+          twitter: settingsData.twitter_url || '',
+          pinterest: settingsData.pinterest_url || '',
+        },
+      },
     };
-    
-    // Cache for 10 minutes
+
     await set(cacheKey, formatted, 600);
     res.json(formatted);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 const updateSettings = async (req, res, next) => {
   try {
     const { siteMeta } = req.body;
     const metaValue = siteMeta?.value || siteMeta || {};
-    
+
     const settingsData = {
       site_name: metaValue.name || 'Lotus & Lion',
       site_description: metaValue.tagline || '',
       whatsapp_number: metaValue.whatsapp || '',
       instagram_url: metaValue.instagram || '',
       twitter_url: metaValue.twitter || '',
-      pinterest_url: metaValue.pinterest || ''
+      pinterest_url: metaValue.pinterest || '',
     };
 
-    // Use explicit upsert with better error handling
-    const { data, error } = await supabase.from('content').upsert({
-      key: 'settings',
-      type: 'settings',
-      data: settingsData
-    }, { 
-      onConflict: 'key',
-      ignoreDuplicates: false
-    }).select().single();
+    await query(
+      `INSERT INTO content (key, type, data, updated_at)
+       VALUES ('settings', 'settings', $1, NOW())
+       ON CONFLICT (key) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [JSON.stringify(settingsData)]
+    );
 
-    if (error) {
-      console.error('[Settings] Update error:', error);
-      throw error;
-    }
-
-    // Invalidate cache after successful update
     await flush('settings:*');
     await flush('content:*');
-    
-    // Return the updated formatted settings
+
     const formatted = {
-      siteMeta: { value: {
-        name: settingsData.site_name || 'Lotus & Lion',
-        tagline: settingsData.site_description || '',
-        whatsapp: settingsData.whatsapp_number || '',
-        instagram: settingsData.instagram_url || '',
-        twitter: settingsData.twitter_url || '',
-        pinterest: settingsData.pinterest_url || ''
-      } }
+      siteMeta: {
+        value: {
+          name: settingsData.site_name || 'Lotus & Lion',
+          tagline: settingsData.site_description || '',
+          whatsapp: settingsData.whatsapp_number || '',
+          instagram: settingsData.instagram_url || '',
+          twitter: settingsData.twitter_url || '',
+          pinterest: settingsData.pinterest_url || '',
+        },
+      },
     };
-    
+
     res.json(formatted);
-  } catch (error) { 
+  } catch (error) {
     console.error('[Settings] Controller error:', error);
-    next(error); 
+    next(error);
   }
 };
 

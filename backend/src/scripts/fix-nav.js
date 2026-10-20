@@ -1,43 +1,42 @@
 require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-const bcrypt = require('bcryptjs');
+const { query, pool } = require('../config/database');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-async function cleanAndSeed() {
-  console.log('🚀 Cleaning and Reseeding Navbar...');
+async function cleanAndSeedNav() {
+  console.log('🚀 Updating and Reseeding Navbar (No Blog)...');
 
   const NAVBAR_DATA = [
     { label: 'Lotus Collections', href: '/collections/lotus' },
     { label: 'Lion Collections', href: '/collections/lion' },
     { label: 'Shop All', href: '/products' },
-    { label: 'Journal', href: '/blog' }
   ];
 
-  const { error } = await supabase.from('content').upsert({
-    key: 'navbar',
-    type: 'config',
-    data: NAVBAR_DATA
-  }, { onConflict: 'key' });
+  try {
+    await query(
+      `INSERT INTO content (key, type, data, updated_at)
+       VALUES ('navbar', 'config', $1, NOW())
+       ON CONFLICT (key) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [JSON.stringify(NAVBAR_DATA)]
+    );
+    console.log('✅ Navbar updated successfully without blog.');
 
-  if (error) console.error('Error seeding navbar:', error);
-  else console.log('✅ Navbar seeded successfully.');
+    await query(
+      `INSERT INTO collections (name, slug, is_active, display_order)
+       VALUES ('Lotus Collections', 'lotus', true, 1)
+       ON CONFLICT (slug) DO UPDATE SET is_active = true, display_order = 1`
+    );
 
-  // Also ensure collections exist with these slugs
-  await supabase.from('collections').upsert([
-    { name: 'Lotus Collections', slug: 'lotus', is_active: true, display_order: 1 },
-    { name: 'Lion Collections', slug: 'lion', is_active: true, display_order: 2 }
-  ], { onConflict: 'slug' });
+    await query(
+      `INSERT INTO collections (name, slug, is_active, display_order)
+       VALUES ('Lion Collections', 'lion', true, 2)
+       ON CONFLICT (slug) DO UPDATE SET is_active = true, display_order = 2`
+    );
 
-  console.log('✨ Clean seed finished.');
+    console.log('✅ Collections seeded.');
+  } catch (err) {
+    console.error('Error in fix-nav:', err.message);
+  } finally {
+    await pool.end();
+  }
 }
 
-cleanAndSeed();
+cleanAndSeedNav();

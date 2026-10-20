@@ -1,7 +1,7 @@
 const multer = require('multer');
-const { uploadBuffer, uploadMultiple } = require('../../services/cloudinaryService');
+const { uploadBuffer, uploadMultiple } = require('../../services/storageService');
 
-// Use memory storage so we can stream to Cloudinary
+// Memory storage for incoming multipart requests
 const storage = multer.memoryStorage();
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image/')) {
@@ -17,7 +17,6 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 }, // 50MB per file
 });
 
-// Single image upload handler
 const uploadSingle = upload.single('image');
 const uploadFields = upload.array('images', 10);
 
@@ -29,8 +28,8 @@ const handleSingleUpload = async (req, res, next) => {
       throw new Error('No file uploaded');
     }
 
-    const folder = req.query.folder || 'lotus-lion/products';
-    const result = await uploadBuffer(req.file.buffer, folder);
+    const folder = req.query.folder || 'products';
+    const result = await uploadBuffer(req.file.buffer, folder, req.file.originalname);
 
     res.json({
       url: result.url,
@@ -50,8 +49,8 @@ const handleMultipleUpload = async (req, res, next) => {
       throw new Error('No files uploaded');
     }
 
-    const folder = req.query.folder || 'lotus-lion/products';
-    const results = await uploadMultiple(req.files.map(f => f.buffer), folder);
+    const folder = req.query.folder || 'products';
+    const results = await uploadMultiple(req.files, folder);
 
     res.json({
       images: results,

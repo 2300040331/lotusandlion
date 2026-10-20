@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const supabase = require('../config/supabase');
+const { query } = require('../config/database');
 
 const extractToken = (req) => {
   if (req.cookies && req.cookies.token) {
@@ -22,13 +22,14 @@ const protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const { data: user, error } = await supabase
-      .from('profiles')
-      .select('id, name, email, role, is_blocked')
-      .eq('id', decoded.id)
-      .single();
+    const { rows } = await query(
+      'SELECT id, name, email, role, is_blocked FROM profiles WHERE id = $1 LIMIT 1',
+      [decoded.id]
+    );
 
-    if (!user || error) {
+    const user = rows[0];
+
+    if (!user) {
       res.status(401);
       return next(new Error('Not authorized, user not found'));
     }
@@ -41,7 +42,7 @@ const protect = async (req, res, next) => {
     req.user = {
       ...user,
       is_active: !user.is_blocked,
-      isAdmin: ['admin', 'super-admin', 'editor'].includes(user.role)
+      isAdmin: ['admin', 'super-admin', 'editor'].includes(user.role),
     };
     next();
   } catch (error) {

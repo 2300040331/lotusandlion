@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Crown, Flower2, Layers3, Megaphone, PenLine, Settings, ShoppingBag, Users } from 'lucide-react';
+import { ArrowUpRight, Crown, Flower2, Layers3, Megaphone, Settings, ShoppingBag, Users } from 'lucide-react';
 import { useAdminData } from '@/hooks/useAdminData';
 import AdminHeader from '@/components/admin/AdminHeader';
 
@@ -11,8 +11,7 @@ const modules = [
   { title: 'Lotus Collection', href: '/admin/collections/lotus', icon: Flower2, body: 'Manage Lotus products, banners, categories, drops, and collection hero.' },
   { title: 'Lion Collection', href: '/admin/collections/lion', icon: Crown, body: 'Manage Lion products, banners, categories, drops, and collection hero.' },
   { title: 'Product Control', href: '/admin/products', icon: ShoppingBag, body: 'Edit pricing, media, SEO, stock, visibility, flags, and drop dates.' },
-  { title: 'Blog Studio', href: '/admin/blogs', icon: PenLine, body: 'Publish editorial posts with categories, authors, scheduling, and SEO.' },
-  { title: 'Website Settings', href: '/admin/settings', icon: Settings, body: 'Brand settings, integrations, Cloudinary, Stripe, and website preferences.' },
+  { title: 'Website Settings', href: '/admin/settings', icon: Settings, body: 'Brand settings, integrations, Stripe, and website preferences.' },
 ];
 
 export default function ControlCenterPage() {
@@ -21,7 +20,6 @@ export default function ControlCenterPage() {
   const stats = [
     { label: 'Products synced', value: data?.products?.length || 0 },
     { label: 'CMS sections', value: data?.sections?.length || 0 },
-    { label: 'Blogs', value: data?.blogs?.length || 0 },
     { label: 'Static pages', value: data?.pages?.length || 0 },
   ];
 

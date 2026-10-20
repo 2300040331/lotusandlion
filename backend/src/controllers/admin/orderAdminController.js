@@ -1,4 +1,4 @@
-const supabase = require('../../config/supabase');
+const { query } = require('../../config/database');
 
 const mapOrder = (o) => {
   if (!o) return null;
@@ -10,14 +10,14 @@ const mapOrder = (o) => {
     shippingAddress: o.shipping_address || {},
     paymentMethod: o.payment_method,
     paymentResult: o.payment_result || {},
-    taxPrice: o.tax_price,
-    shippingPrice: o.shipping_price,
-    totalPrice: o.total_price,
-    isPaid: o.is_paid,
+    taxPrice: Number(o.tax_price) || 0,
+    shippingPrice: Number(o.shipping_price) || 0,
+    totalPrice: Number(o.total_price) || 0,
+    isPaid: Boolean(o.is_paid),
     paidAt: o.paid_at,
-    isDelivered: o.is_delivered,
+    isDelivered: Boolean(o.is_delivered),
     deliveredAt: o.delivered_at,
-    status: o.status || 'Pending'
+    status: o.status || 'Pending',
   };
 };
 
@@ -25,52 +25,95 @@ const mapOrder = (o) => {
 const getAdminOrders = async (req, res, next) => {
   try {
     const { page = 1, limit = 20, status = '' } = req.query;
-    const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit) - 1;
+    const pageNum = Math.max(1, Number(page));
+    const limitNum = Math.max(1, Number(limit));
+    const offset = (pageNum - 1) * limitNum;
 
-    let query = supabase.from('orders').select('*, profile:profiles(name, email)', { count: 'exact' });
+    const conditions = [];
+    const params = [];
+    let pIdx = 1;
 
     if (status) {
-      query = query.eq('status', status);
+      conditions.push(`o.status = $${pIdx++}`);
+      params.push(status);
     }
 
-    const { data, count, error } = await query.order('created_at', { ascending: false }).range(from, to);
-    if (error) throw error;
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const countRes = await query(`SELECT COUNT(*) FROM orders o ${whereClause}`, params);
+    const count = Number(countRes.rows[0]?.count || 0);
+
+    params.push(limitNum);
+    const limitParam = `$${pIdx++}`;
+    params.push(offset);
+    const offsetParam = `$${pIdx++}`;
+
+    const sql = `
+      SELECT o.*, json_build_object('name', p.name, 'email', p.email) AS profile
+      FROM orders o
+      LEFT JOIN profiles p ON p.id = o.user_id
+      ${whereClause}
+      ORDER BY o.created_at DESC
+      LIMIT ${limitParam} OFFSET ${offsetParam}
+    `;
+
+    const { rows } = await query(sql, params);
 
     res.json({
-      orders: data.map(mapOrder),
-      page: Number(page),
-      pages: Math.ceil((count || 0) / limit),
-      total: count
+      orders: rows.map(mapOrder),
+      page: pageNum,
+      pages: Math.ceil(count / limitNum),
+      total: count,
     });
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 // @route GET /api/admin/orders/:id
 const getAdminOrderById = async (req, res, next) => {
   try {
-    const { data, error } = await supabase
-      .from('orders')
-      .select('*, profile:profiles(*)')
-      .eq('id', req.params.id)
-      .single();
+    const sql = `
+      SELECT o.*, to_jsonb(p.*) AS profile
+      FROM orders o
+      LEFT JOIN profiles p ON p.id = o.user_id
+      WHERE o.id = $1
+      LIMIT 1
+    `;
 
-    if (error || !data) {
+    const { rows } = await query(sql, [req.params.id]);
+    if (!rows.length) {
       res.status(404);
       throw new Error('Order not found');
     }
-    res.json(mapOrder(data));
-  } catch (error) { next(error); }
+
+    res.json(mapOrder(rows[0]));
+  } catch (error) {
+    next(error);
+  }
 };
 
 // @route PUT /api/admin/orders/:id/status
 const updateOrderStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
-    const { data, error } = await supabase.from('orders').update({ status }).eq('id', req.params.id).select().single();
-    if (error) throw error;
-    res.json({ message: `Order status updated to "${status}"`, order: mapOrder(data) });
-  } catch (error) { next(error); }
+    const { rows } = await query(
+      'UPDATE orders SET status = $1, updated_at = NOW() WHERE id = $2 RETURNING *',
+      [status, req.params.id]
+    );
+
+    if (!rows.length) {
+      res.status(404);
+      throw new Error('Order not found');
+    }
+
+    res.json({
+      message: `Order status updated to "${status}"`,
+      order: mapOrder(rows[0]),
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { getAdminOrders, getAdminOrderById, updateOrderStatus };

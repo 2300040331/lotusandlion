@@ -1,7 +1,7 @@
 const products = [
   {
     name: 'Classic Black Tee',
-    image: 'https://res.cloudinary.com/placeholder/image/upload/v1/samples/tee-black.jpg',
+    image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
     description: 'A premium quality cotton t-shirt in classic black. Minimal and elegant.',
     brand: 'Lotus & Lion',
     category: 'T-Shirts',
@@ -12,7 +12,7 @@ const products = [
   },
   {
     name: 'White Linen Shirt',
-    image: 'https://res.cloudinary.com/placeholder/image/upload/v1/samples/shirt-white.jpg',
+    image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80',
     description: 'Breathable white linen shirt perfect for summer evenings.',
     brand: 'Lotus & Lion',
     category: 'Shirts',
@@ -23,7 +23,7 @@ const products = [
   },
   {
     name: 'Gold Emblem Hoodie',
-    image: 'https://res.cloudinary.com/placeholder/image/upload/v1/samples/hoodie-gold.jpg',
+    image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80',
     description: 'Black hoodie with a signature gold Lotus & Lion emblem.',
     brand: 'Lotus & Lion',
     category: 'Hoodies',

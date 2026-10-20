@@ -1,5 +1,5 @@
-const supabase = require('../config/supabase');
 const bcrypt = require('bcryptjs');
+const { query } = require('../config/database');
 const generateToken = require('../utils/generateToken');
 
 // @desc    Auth user & get token
@@ -8,13 +8,10 @@ const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const { data: user, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('email', email)
-      .single();
+    const { rows } = await query('SELECT * FROM profiles WHERE email = $1 LIMIT 1', [email]);
+    const user = rows[0];
 
-    if (!user || error) {
+    if (!user) {
       res.status(401);
       throw new Error('Invalid email or password');
     }
@@ -31,14 +28,14 @@ const authUser = async (req, res, next) => {
     }
 
     // Update last login
-    await supabase.from('profiles').update({ last_login: new Date().toISOString() }).eq('id', user.id);
+    await query('UPDATE profiles SET last_login = NOW() WHERE id = $1', [user.id]);
 
     const token = generateToken(user.id);
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -61,39 +58,28 @@ const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    const { data: existingUser } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('email', email)
-      .maybeSingle();
-
-    if (existingUser) {
+    const { rows: existingRows } = await query('SELECT id FROM profiles WHERE email = $1 LIMIT 1', [email]);
+    if (existingRows.length > 0) {
       res.status(400);
       throw new Error('User already exists');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const { data: user, error } = await supabase
-      .from('profiles')
-      .insert({
-        name,
-        email,
-        password: hashedPassword,
-        role: 'customer',
-        is_blocked: false
-      })
-      .select()
-      .single();
+    const { rows } = await query(
+      `INSERT INTO profiles (name, email, password, role, is_blocked)
+       VALUES ($1, $2, $3, 'customer', false)
+       RETURNING *`,
+      [name, email, hashedPassword]
+    );
 
-    if (error) throw error;
-
+    const user = rows[0];
     const token = generateToken(user.id);
-    
+
     res.cookie('token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -127,5 +113,4 @@ module.exports = {
   getMe,
   registerUser,
   getUserProfile: async (req, res) => res.json(req.user),
-  seedData: async (req, res) => res.status(501).json({ message: 'Seeding not yet implemented for Supabase' })
 };

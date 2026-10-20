@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "db:init": "node src/scripts/init-db.js",
     "seed:full": "node src/scripts/full-seed.js",
     "seed:admin": "node src/scripts/create-admin.js"
   },
@@ -14,9 +15,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@supabase/supabase-js": "^2.105.4",
     "bcryptjs": "^3.0.3",
-    "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -28,6 +27,7 @@
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
     "node-cron": "^4.2.1",
+    "pg": "^8.23.1",
     "stripe": "^22.1.0",
     "winston": "^3.19.0",
     "zod": "^4.3.6"

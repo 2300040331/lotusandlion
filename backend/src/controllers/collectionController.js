@@ -1,14 +1,16 @@
-const supabase = require('../config/supabase');
+const { query } = require('../config/database');
 const { remember, flush } = require('../services/cacheService');
 
 const mapProductToCamelCase = (p) => {
   if (!p) return null;
-  
+
   let images = [];
   if (p.images && Array.isArray(p.images) && p.images.length > 0) {
     images = p.images
-      .map(img => (typeof img === 'string' ? img : img?.image_url))
+      .map((img) => (typeof img === 'string' ? img : img?.image_url))
       .filter(Boolean);
+  } else if (p.image_url) {
+    images = [p.image_url];
   }
   const mainImage = images[0] || null;
 
@@ -19,74 +21,81 @@ const mapProductToCamelCase = (p) => {
     slug: p.slug,
     description: p.description,
     richDescription: p.rich_description,
-    price: p.price,
-    discountPrice: p.discount_price,
+    price: Number(p.price) || 0,
+    discountPrice: p.discount_price !== null && p.discount_price !== undefined ? Number(p.discount_price) : null,
     category: p.category,
     collection: p.collection_id,
     collectionType: p.collection_id,
-    countInStock: p.stock_quantity,
-    isFeatured: p.is_featured,
-    isVisible: p.is_visible,
+    countInStock: Number(p.stock_quantity) || 0,
+    isFeatured: Boolean(p.is_featured),
+    isVisible: Boolean(p.is_visible),
     image: mainImage,
     images: images,
     variants: p.variants || [],
-    brand: 'Lotus & Lion'
+    brand: 'Lotus & Lion',
   };
 };
 
 /**
  * @route GET /api/collections/:slug/products
- * @desc Get all products for a specific collection (for Men's/Women's pages)
  */
 const getCollectionProducts = async (req, res, next) => {
   try {
     const { slug } = req.params;
     const { page = 1, limit = 12, sort = '-created_at' } = req.query;
-    
+
     const pageNum = Math.max(1, Number(page));
     const limitNum = Math.min(100, Math.max(1, Number(limit)));
-    const from = (pageNum - 1) * limitNum;
-    const to = from + limitNum - 1;
+    const offset = (pageNum - 1) * limitNum;
 
     const cacheKey = `collection:${slug}:products:p${pageNum}:l${limitNum}`;
 
     const data = await remember(cacheKey, async () => {
-      // First, get the collection by slug
-      const { data: collection, error: collError } = await supabase
-        .from('collections')
-        .select('id, name, description, slug, is_active')
-        .eq('slug', slug.toLowerCase())
-        .eq('is_active', true)
-        .single();
+      const { rows: collRows } = await query(
+        'SELECT id, name, description, slug, is_active FROM collections WHERE LOWER(slug) = LOWER($1) AND is_active = true LIMIT 1',
+        [slug]
+      );
+      const collection = collRows[0];
 
-      if (collError || !collection) {
+      if (!collection) {
         return { collection: null, products: [], total: 0 };
       }
-      
+
       collection.is_visible = collection.is_active;
 
-      // Then get products for this collection
-      let query = supabase
-        .from('products')
-        .select('id, name, slug, price, discount_price, category, stock_quantity, is_featured, is_visible, collection_id, images:product_images(image_url)', { count: 'exact' })
-        .eq('collection_id', collection.id)
-        .eq('is_visible', true);
-
-      // Handle sorting
       const orderField = sort.startsWith('-') ? sort.substring(1) : sort;
-      const ascending = !sort.startsWith('-');
-      query = query.order(orderField, { ascending });
+      const validSortFields = ['created_at', 'price', 'name', 'stock_quantity'];
+      const safeOrderField = validSortFields.includes(orderField) ? orderField : 'created_at';
+      const orderDirection = sort.startsWith('-') ? 'DESC' : 'ASC';
 
-      const { data: products, count, error: prodError } = await query.range(from, to);
+      const countRes = await query(
+        'SELECT COUNT(*) FROM products WHERE collection_id = $1 AND is_visible = true',
+        [collection.id]
+      );
+      const total = Number(countRes.rows[0]?.count || 0);
 
-      if (prodError) throw prodError;
+      const prodSql = `
+        SELECT p.id, p.name, p.slug, p.price, p.discount_price, p.category, p.stock_quantity,
+               p.is_featured, p.is_visible, p.collection_id,
+               COALESCE(
+                 (SELECT json_agg(json_build_object('image_url', pi.image_url) ORDER BY pi.is_main DESC, pi.display_order ASC)
+                  FROM product_images pi WHERE pi.product_id = p.id),
+                 '[]'::json
+               ) AS images
+        FROM products p
+        WHERE p.collection_id = $1 AND p.is_visible = true
+        ORDER BY p.${safeOrderField} ${orderDirection}
+        LIMIT $2 OFFSET $3
+      `;
+
+      const { rows: products } = await query(prodSql, [collection.id, limitNum, offset]);
 
       return {
         collection,
         products: products.map(mapProductToCamelCase),
-        total: count || 0
+        total,
       };
-    }, 900); // 15 min cache
+    }, 900);
 
     if (!data.collection) {
       res.status(404);
@@ -101,43 +110,40 @@ const getCollectionProducts = async (req, res, next) => {
         page: pageNum,
         limit: limitNum,
         total: data.total,
-        pages: Math.ceil(data.total / limitNum)
-      }
+        pages: Math.ceil(data.total / limitNum),
+      },
     });
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
  * @route GET /api/collections
- * @desc Get all visible collections
  */
 const getCollections = async (req, res, next) => {
   try {
     const cacheKey = 'collections:all:visible';
 
     const data = await remember(cacheKey, async () => {
-      const { data: collections, error } = await supabase
-        .from('collections')
-        .select('id, name, description, slug, is_active, created_at')
-        .eq('is_active', true)
-        .order('created_at', { ascending: true });
-
-      if (error) throw error;
-      
-      return (collections || []).map(c => ({
+      const { rows } = await query(
+        'SELECT id, name, description, slug, is_active, created_at, hero, banner_url, display_order FROM collections WHERE is_active = true ORDER BY display_order ASC, created_at ASC'
+      );
+      return rows.map((c) => ({
         ...c,
-        is_visible: c.is_active
+        is_visible: c.is_active,
       }));
-    }, 1800); // 30 min cache
+    }, 1800);
 
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
     res.json(data);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
  * @route GET /api/collections/:slug
- * @desc Get a single collection by slug
  */
 const getCollectionBySlug = async (req, res, next) => {
   try {
@@ -145,19 +151,15 @@ const getCollectionBySlug = async (req, res, next) => {
     const cacheKey = `collection:${slug.toLowerCase()}:details`;
 
     const data = await remember(cacheKey, async () => {
-      const { data: collection, error } = await supabase
-        .from('collections')
-        .select('*')
-        .eq('slug', slug.toLowerCase())
-        .eq('is_active', true)
-        .single();
-
-      if (error || !collection) {
-        return null;
-      }
+      const { rows } = await query(
+        'SELECT * FROM collections WHERE LOWER(slug) = LOWER($1) AND is_active = true LIMIT 1',
+        [slug]
+      );
+      const collection = rows[0];
+      if (!collection) return null;
       collection.is_visible = collection.is_active;
       return collection;
-    }, 1800); // 30 min cache
+    }, 1800);
 
     if (!data) {
       res.status(404);
@@ -166,12 +168,11 @@ const getCollectionBySlug = async (req, res, next) => {
 
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
     res.json(data);
-  } catch (error) { next(error); }
+  } catch (error) {
+    next(error);
+  }
 };
 
-/**
- * Invalidate collection-related caches (for admin updates)
- */
 const invalidateCollectionCache = async (slug = null) => {
   if (slug) {
     await flush(`collection:${slug}:*`);
@@ -185,5 +186,5 @@ module.exports = {
   getCollections,
   getCollectionBySlug,
   getCollectionProducts,
-  invalidateCollectionCache
+  invalidateCollectionCache,
 };

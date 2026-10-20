@@ -1,46 +1,33 @@
 require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
 const bcrypt = require('bcryptjs');
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const { query, pool } = require('../config/database');
 
 async function createAdmin() {
-  const email = 'admin@example.com';
-  const password = 'Password123!';
-  const name = 'Admin User';
+  const email = process.env.ADMIN_EMAIL || 'admin@lotusandlion.com';
+  const password = process.env.ADMIN_PASSWORD || 'Password123!';
+  const name = process.env.ADMIN_NAME || 'Super Admin';
 
-  console.log(`Creating admin user: ${email}...`);
+  console.log(`Creating/updating admin user: ${email}...`);
 
-  // 1. Create Auth User (if using Supabase Auth)
-  // Note: For now we use the public.profiles table as per my authController refactor
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const { data: user, error } = await supabase
-    .from('profiles')
-    .upsert({
-      email,
-      password: hashedPassword,
-      name,
-      role: 'super-admin',
-      is_blocked: false
-    }, { onConflict: 'email' })
-    .select()
-    .single();
+    const { rows } = await query(
+      `INSERT INTO profiles (email, password, name, role, is_blocked)
+       VALUES ($1, $2, $3, 'super-admin', false)
+       ON CONFLICT (email)
+       DO UPDATE SET password = EXCLUDED.password, name = EXCLUDED.name, role = 'super-admin', is_blocked = false
+       RETURNING id, name, email, role`,
+      [email, hashedPassword, name]
+    );
 
-  if (error) {
-    console.error('Error creating admin profile:', error.message);
-  } else {
-    console.log('Admin profile created successfully!');
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log('✅ Admin user ready:');
+    console.log('   Email:', rows[0].email);
+    console.log('   Role:', rows[0].role);
+  } catch (err) {
+    console.error('Error creating admin:', err.message);
+  } finally {
+    await pool.end();
   }
 }
 
